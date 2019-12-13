@@ -1,0 +1,30 @@
+// Colors
+$color-black: #000000;
+$color-white: #ffffff;
+$color-success: green;
+$color-error: red;
+$color-warning: yellow;
+
+// Metrics
+$padding-default: 16px;
+$padding-small: 8px;
+$padding-min: 4px;
+$padding-big: 24px;
+$padding-max: 32px;
+$margin-default: 16px;
+$margin-small: 8px;
+$margin-min: 4px;
+$margin-big: 24px;
+$margin-max: 32px;
+
+// Fonts
+$text-scale: 1.25;
+$paragraph: 16px;
+$text-small: $paragraph / $text-scale;
+$h5: $paragraph * $text-scale;
+$h4: $h5 * $text-scale;
+$h3: $h4 * $text-scale;
+$h2: $h3 * $text-scale;
+$h1: $h2 * $text-scale;
+
+

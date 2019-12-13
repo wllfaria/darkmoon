@@ -1,0 +1,9 @@
+<div class="my--max">
+  <div class="container">
+    <h2 class="text--center mb--big">Novos Drops</h2>
+    <div class="d--grid grid--6col">
+      <app-product-card *ngFor="let product of products" [id]="product.id" [name]="product.name" [price]="product.price" [images]="product.images"></app-product-card>
+    </div>
+  </div>
+
+</div>
