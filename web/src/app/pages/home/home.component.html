@@ -1,5 +1,70 @@
-<app-header></app-header>
 <main>
   <app-banner></app-banner>
-  <app-arrival></app-arrival>
+  <div class="my--max">
+    <div class="container">
+      <h2 class="mb--big">Tops</h2>
+      <div class="d--grid grid--6col">
+        <app-product-card
+          *ngFor="let top of tops"
+          [id]="top.id"
+          [name]="top.name"
+          [price]="top.price"
+          [images]="top.images"
+          [url]="top.url"
+          [gender]="top.gender"
+          [category]="top.category"
+        ></app-product-card>
+        <app-product-card
+          *ngFor="let top of tops"
+          [id]="top.id"
+          [name]="top.name"
+          [price]="top.price"
+          [images]="top.images"
+          [url]="top.url"
+          [gender]="top.gender"
+          [category]="top.category"
+        ></app-product-card>
+        <app-product-card
+          *ngFor="let top of tops"
+          [id]="top.id"
+          [name]="top.name"
+          [price]="top.price"
+          [images]="top.images"
+          [url]="top.url"
+          [gender]="top.gender"
+          [category]="top.category"
+        ></app-product-card>
+        <app-product-card
+          *ngFor="let top of tops"
+          [id]="top.id"
+          [name]="top.name"
+          [price]="top.price"
+          [images]="top.images"
+          [url]="top.url"
+          [gender]="top.gender"
+          [category]="top.category"
+        ></app-product-card>
+        <app-product-card
+          *ngFor="let top of tops"
+          [id]="top.id"
+          [name]="top.name"
+          [price]="top.price"
+          [images]="top.images"
+          [url]="top.url"
+          [gender]="top.gender"
+          [category]="top.category"
+        ></app-product-card>
+        <app-product-card
+          *ngFor="let top of tops"
+          [id]="top.id"
+          [name]="top.name"
+          [price]="top.price"
+          [images]="top.images"
+          [url]="top.url"
+          [gender]="top.gender"
+          [category]="top.category"
+        ></app-product-card>
+      </div>
+    </div>
+  </div>
 </main>

@@ -1,19 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
+import { TopImages } from "src/app/models/topImages";
 
 @Component({
-  selector: 'app-product-card',
-  templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.scss']
+  selector: "app-product-card",
+  templateUrl: "./product-card.component.html",
+  styleUrls: ["./product-card.component.scss"]
 })
 export class ProductCardComponent implements OnInit {
-  @Input() public id: Number;
-  @Input() public name: String;
-  @Input() public price: Number;
-  @Input() public images: Array<String>;
+  @Input() id: number;
+  @Input() name: string;
+  @Input() url: string;
+  @Input() price: number;
+  @Input() gender: string;
+  @Input() category: string;
+  @Input() images: Array<TopImages>;
+  loading: boolean = false;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
