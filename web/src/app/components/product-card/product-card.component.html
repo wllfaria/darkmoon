@@ -1,9 +1,15 @@
 <div *ngIf="loading">
   <p>teste</p>
 </div>
-<div *ngIf="!loading" class="product-card">
-  <a [routerLink]="[category, gender | genders, url]" routerLinkActive="active">
-    <div class="product__image"></div>
+<div *ngIf="!loading" class="product__card">
+  <a
+    [routerLink]="[model, category, gender | genders, url]"
+    routerLinkActive="active"
+  >
+    <div class="product__preview">
+      <img [src]="images[0].url" [alt]="name" />
+      <img [src]="images[1].url" [alt]="name" />
+    </div>
     <div class="product__description">
       <h3 class="text--center paragraph text--bold">{{ name }}</h3>
       <p class="text--center text--muted text--small text--bold">

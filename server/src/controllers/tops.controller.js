@@ -27,10 +27,21 @@ module.exports = {
   },
   getById: () => {},
   getArrivals: () => {},
+  getByUrl: async (req, res) => {
+    try {
+      const data = await TopsModel.getByUrl(req.params.url);
+      const response = ResponseValidator.successResponse(
+        HttpStatus.success.success,
+        data
+      );
+      res.status(response.status).json(response);
+    } catch (error) {}
+  },
   update: () => {},
   disable: () => {},
   getImages: async (req, res) => {
     try {
+      console.log("images");
       const data = await TopsModel.getImages();
       const response = ResponseValidator.successResponse(
         HttpStatus.success.success,
@@ -45,5 +56,18 @@ module.exports = {
       res.status(validatedError.status).json(validatedError);
     }
   },
-  getArrivalsImages: () => {}
+  getArrivalsImages: () => {},
+  getImagesByTopId: async (req, res) => {
+    try {
+      console.log(req);
+      const data = await TopsModel.getImagesByTopId(req.params.id);
+      const response = ResponseValidator.successResponse(
+        HttpStatus.success.success,
+        data
+      );
+      res.status(response.status).json(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };

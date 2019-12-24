@@ -14,29 +14,27 @@ import { ProductCardComponent } from "./components/product-card/product-card.com
 import { TemplateComponent } from "./template/template.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from "./components/footer/footer.component";
-import { ProductComponent } from './pages/product/product.component';
-import { GendersPipe } from './pipes/genders.pipe';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ProductComponent } from "./pages/product/product.component";
+import { GendersPipe } from "./pipes/genders.pipe";
+import { NotFoundComponent } from "./pages/not-found/not-found.component";
+import { ProductListComponent } from "./pages/product-list/product-list.component";
+import { LoadingContentDirective } from "./core/directives/loading-content.directive";
+import { ComponentsModule } from "./components/components.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     HomeComponent,
-    NavbarComponent,
-    TopbarComponent,
-    BannerComponent,
-    ProductCardComponent,
     TemplateComponent,
-    FooterComponent,
     ProductComponent,
-    GendersPipe,
-    NotFoundComponent
+    NotFoundComponent,
+    ProductListComponent,
+    LoadingContentDirective
   ],
   imports: [
+    ComponentsModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTER, {
-      // enableTracing: true,
       useHash: false
     }),
     BrowserModule

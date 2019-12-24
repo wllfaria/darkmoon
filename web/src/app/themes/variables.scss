@@ -4,6 +4,8 @@ $color-white: #ffffff;
 $color-success: green;
 $color-error: red;
 $color-warning: yellow;
+$color-gray-light: #e8e8e8;
+$color-gray-dark: #0e0e0e;
 
 // Metrics
 $padding-default: 16px;
@@ -16,6 +18,11 @@ $margin-small: 8px;
 $margin-min: 4px;
 $margin-big: 24px;
 $margin-max: 32px;
+$border-default: 16px;
+$border-small: 8px;
+$border-min: 4px;
+$border-big: 24px;
+$border-max: 32px;
 
 // Fonts
 $text-scale: 1.25;
@@ -26,5 +33,3 @@ $h4: $h5 * $text-scale;
 $h3: $h4 * $text-scale;
 $h2: $h3 * $text-scale;
 $h1: $h2 * $text-scale;
-
-

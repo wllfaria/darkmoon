@@ -1,1 +1,100 @@
-<p>product works!</p>
+<div *ngIf="loading">loading</div>
+<div *ngIf="!loading">
+  <div class="container--small">
+    <div class="product__inner">
+      <div class="d--grid grid--2col--left-big">
+        <div class="py--big pl--big d--flex jc--center">
+          <div class="d--grid grid--2col">
+            <div
+              *ngFor="let image of product.images"
+              class="product__inner__previews"
+            >
+              <img
+                class="product__inner__previews__image"
+                [src]="image.url"
+                (click)="changePreview(image.url)"
+              />
+            </div>
+          </div>
+          <img [src]="productPreview" class="w--half mx--auto mb--big" />
+        </div>
+        <div class="py--big pr--big">
+          <h1 class="text--normal">{{ product.name }}</h1>
+          <p class="text--small text--muted text--bold mb--big">
+            {{ product.code }}
+          </p>
+          <h2 class="text--h2 text--normal mb--big">R$ {{ product.price }}</h2>
+          <h2 class="text--small text--bold text--uppercase mb--small">
+            Tamanhos
+          </h2>
+          <div *ngIf="esgotado">
+            <h2>esgotado</h2>
+          </div>
+          <div *ngIf="!esgotado" class="mb--big">
+            <div *ngIf="product.size_pp >= 0" class="d--flex text--center">
+              <div
+                (click)="chooseSize('PP')"
+                [ngClass]="{
+                  size__label: true,
+                  'size__label--unavaliable': true
+                }"
+              >
+                PP
+              </div>
+              <div
+                (click)="chooseSize('P')"
+                [ngClass]="{
+                  size__label: true,
+                  'size__label--unavaliable': product.size_p === 0
+                }"
+              >
+                P
+              </div>
+              <div
+                (click)="chooseSize('M')"
+                [ngClass]="{
+                  size__label: true,
+                  'size__label--unavaliable': product.size_m === 0
+                }"
+              >
+                M
+              </div>
+              <div
+                (click)="chooseSize('G')"
+                [ngClass]="{
+                  size__label: true,
+                  'size__label--unavaliable': product.size_g === 0
+                }"
+              >
+                G
+              </div>
+              <div
+                (click)="chooseSize('GG')"
+                [ngClass]="{
+                  size__label: true,
+                  'size__label--unavaliable': product.size_gg === 0
+                }"
+              >
+                GG
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!esgotado" class="mb--small">
+            <h2 class="text--small text--bold mb--small text--uppercase">
+              Quantidade
+            </h2>
+            <input type="number" class="product__input--quantity" value="1" />
+          </div>
+          <div *ngIf="!esgotado">
+            <button (click)="addToCart()" class="btn btn--primary btn--full">
+              ADD TO CART
+            </button>
+            <button (click)="buyNow()" class="btn btn--secondary btn--full">
+              BUY NOW
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

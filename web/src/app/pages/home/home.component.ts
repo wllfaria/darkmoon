@@ -10,31 +10,35 @@ import { TopsService } from "../../core/services/tops.service";
 export class HomeComponent implements OnInit {
   constructor(private topsService: TopsService) {}
 
-  tops: Array<Tops> = [];
+  tops: Tops[];
+  loading: boolean = true;
 
   ngOnInit() {
     this.getAllProducts();
-    this.getAllProductsImages();
   }
 
   getAllProducts() {
+    console.log("oi");
     let response: any;
-    this.topsService.getAll().subscribe(products => {
-      response = products;
-      if (response.ok) {
-        this.tops.push(<Tops>response.data[0]);
-      }
-    });
+    this.topsService.getAll().subscribe(
+      products => {
+        response = products;
+        if (response.ok) {
+          this.tops = response.data;
+        }
+      },
+      error => {},
+      () => this.getAllProductsImages()
+    );
   }
 
   getAllProductsImages() {
-    let response: any;
     this.topsService.getImages().subscribe(
-      images => {
-        response = images;
+      response => {
         if (response.ok) {
           //! If product has no images it becomes a new array and then pushes every image that matched the id of the product to it.
           response.data.forEach(image => {
+            console.log(image)
             for (let i = 0; i < this.tops.length; i++) {
               if (!this.tops[i].images) {
                 this.tops[i].images = [];
@@ -47,7 +51,11 @@ export class HomeComponent implements OnInit {
         }
       },
       error => {},
-      () => {}
+      () => {
+        this.loading = false;
+        console.log(this.tops);
+        console.log("teste");
+      }
     );
   }
 }

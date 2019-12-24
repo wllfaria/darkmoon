@@ -15,5 +15,6 @@ export interface Tops {
   size_g: number;
   size_gg: number;
   category: string;
+  model: string;
   gender: string;
 }

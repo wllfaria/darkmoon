@@ -1,4 +1,5 @@
-<main>
+<main *ngIf="loading">Carregando</main>
+<main *ngIf="!loading">
   <app-banner></app-banner>
   <div class="my--max">
     <div class="container">
@@ -13,56 +14,7 @@
           [url]="top.url"
           [gender]="top.gender"
           [category]="top.category"
-        ></app-product-card>
-        <app-product-card
-          *ngFor="let top of tops"
-          [id]="top.id"
-          [name]="top.name"
-          [price]="top.price"
-          [images]="top.images"
-          [url]="top.url"
-          [gender]="top.gender"
-          [category]="top.category"
-        ></app-product-card>
-        <app-product-card
-          *ngFor="let top of tops"
-          [id]="top.id"
-          [name]="top.name"
-          [price]="top.price"
-          [images]="top.images"
-          [url]="top.url"
-          [gender]="top.gender"
-          [category]="top.category"
-        ></app-product-card>
-        <app-product-card
-          *ngFor="let top of tops"
-          [id]="top.id"
-          [name]="top.name"
-          [price]="top.price"
-          [images]="top.images"
-          [url]="top.url"
-          [gender]="top.gender"
-          [category]="top.category"
-        ></app-product-card>
-        <app-product-card
-          *ngFor="let top of tops"
-          [id]="top.id"
-          [name]="top.name"
-          [price]="top.price"
-          [images]="top.images"
-          [url]="top.url"
-          [gender]="top.gender"
-          [category]="top.category"
-        ></app-product-card>
-        <app-product-card
-          *ngFor="let top of tops"
-          [id]="top.id"
-          [name]="top.name"
-          [price]="top.price"
-          [images]="top.images"
-          [url]="top.url"
-          [gender]="top.gender"
-          [category]="top.category"
+          [model]="top.model"
         ></app-product-card>
       </div>
     </div>

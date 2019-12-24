@@ -14,7 +14,10 @@ export class ProductCardComponent implements OnInit {
   @Input() gender: string;
   @Input() category: string;
   @Input() images: Array<TopImages>;
+  @Input() model: string;
+
   loading: boolean = false;
+
   constructor() {}
 
   ngOnInit() {}
