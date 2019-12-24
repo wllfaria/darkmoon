@@ -8,6 +8,7 @@ import { ProductCardComponent } from "./product-card/product-card.component";
 import { TopbarComponent } from "./header/topbar/topbar.component";
 import { PipesModule } from "../pipes/pipes.module";
 import { RouterModule } from "@angular/router";
+import { LoaderComponent } from "./loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RouterModule } from "@angular/router";
     HeaderComponent,
     TopbarComponent,
     NavbarComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    LoaderComponent
   ],
   imports: [CommonModule, PipesModule, RouterModule],
   exports: [
@@ -25,6 +27,7 @@ import { RouterModule } from "@angular/router";
     HeaderComponent,
     NavbarComponent,
     ProductCardComponent
-  ]
+  ],
+  entryComponents: [LoaderComponent]
 })
 export class ComponentsModule {}

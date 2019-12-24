@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { TopsService } from "src/app/core/services/tops.service";
 
 @Component({
@@ -27,10 +27,8 @@ export class ProductComponent implements OnInit {
     if (urlArray.length === 5 && urlArray[4].indexOf("-") !== -1) {
       this.topsService.getByUrl(urlArray[4]).subscribe(
         response => {
-          if (response.ok) {
-            this.product = response.data;
-            this.product.price.toFixed(2)
-          }
+          this.product = response.data;
+          this.product.price.toFixed(2);
         },
         error => {},
         () => {
@@ -41,7 +39,7 @@ export class ProductComponent implements OnInit {
   }
 
   getCurrentProductImages(): void {
-    this.topsService.getImagesByTopId(1).subscribe(
+    this.topsService.getImagesByTopId(this.product.id).subscribe(
       response => {
         if (response.ok) {
           this.product.images = [];
@@ -68,7 +66,7 @@ export class ProductComponent implements OnInit {
       window.localStorage.removeItem("DARKMOONCART");
       actualCart.cart.push(this.product);
       actualCart.expires = expires;
-      window.localStorage.setItem("DARKMOONCART", actualCart);
+      window.localStorage.setItem("DARKMOONCART", JSON.stringify(actualCart));
     } else {
       actualCart = {
         cart: [],
@@ -77,6 +75,5 @@ export class ProductComponent implements OnInit {
       actualCart.cart.push(this.product);
       window.localStorage.setItem("DARKMOONCART", JSON.stringify(actualCart));
     }
-    console.log(JSON.parse(window.localStorage.getItem("DARKMOONCART")));
   }
 }
