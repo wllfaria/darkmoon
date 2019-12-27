@@ -7,14 +7,14 @@ import {
   ComponentRef,
   Input
 } from "@angular/core";
-import { LoaderComponent } from "src/app/components/loader/loader.component";
+import { ProductLoaderComponent } from "src/app/components/loaders/product-loader/product-loader.component";
 
 @Directive({
   selector: "[contentLoading]"
 })
 export class LoadingContentDirective {
-  loadingFactory: ComponentFactory<LoaderComponent>;
-  loadingComponent: ComponentRef<LoaderComponent>;
+  loadingFactory: ComponentFactory<ProductLoaderComponent>;
+  loadingComponent: ComponentRef<ProductLoaderComponent>;
 
   @Input()
   set contentLoading(loading: boolean) {
@@ -32,7 +32,7 @@ export class LoadingContentDirective {
     private componentFactoryResolver: ComponentFactoryResolver
   ) {
     this.loadingFactory = this.componentFactoryResolver.resolveComponentFactory(
-      LoaderComponent
+      ProductLoaderComponent
     );
   }
 }

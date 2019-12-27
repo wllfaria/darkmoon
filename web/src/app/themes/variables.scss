@@ -5,7 +5,10 @@ $color-success: green;
 $color-error: red;
 $color-warning: yellow;
 $color-gray-light: #e8e8e8;
-$color-gray-dark: #0e0e0e;
+$color-gray-dark: red;
+$color-dark-gray: #a3a3a3;
+$color-light-gray: #fafafa;
+$color-text: #242424;
 
 // Metrics
 $padding-default: 16px;
@@ -25,7 +28,7 @@ $border-big: 24px;
 $border-max: 32px;
 
 // Fonts
-$text-scale: 1.25;
+$text-scale: 1.333;
 $paragraph: 16px;
 $text-small: $paragraph / $text-scale;
 $h5: $paragraph * $text-scale;

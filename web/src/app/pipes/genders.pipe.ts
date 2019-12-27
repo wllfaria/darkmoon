@@ -12,7 +12,6 @@ export class GendersPipe implements PipeTransform {
         return "feminino";
       case "U":
         return "unisex";
-
       default:
         break;
     }

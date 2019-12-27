@@ -13,16 +13,34 @@ export const ROUTER: Routes = [
     children: [
       { path: "home", pathMatch: "full", redirectTo: "" },
       { path: "", pathMatch: "full", component: HomeComponent },
-      { path: ":model", pathMatch: "full", redirectTo: ":model/unisex" },
+      { path: "camisetas/unisex", pathMatch: "full", redirectTo: "camisetas" },
+      { path: "camisetas", component: ProductListComponent },
+      { path: "camisetas/masculino", component: ProductListComponent },
+      { path: "camisetas/feminino", component: ProductListComponent },
       {
-        path: ":model/:category",
+        path: "camisetas/longsleeve/unisex",
         pathMatch: "full",
-        redirectTo: ":model/:category/unisex"
+        redirectTo: "camisetas/longsleeve"
       },
-      { path: ":model/:gender", component: ProductListComponent },
-      { path: ":model/:category/:gender", component: ProductListComponent },
+      { path: "camisetas/longsleeve", component: ProductListComponent },
       {
-        path: ":model/:category/:gender/:product",
+        path: "camisetas/longsleeve/masculino",
+        component: ProductListComponent
+      },
+      {
+        path: "camisetas/longsleeve/feminino",
+        component: ProductListComponent
+      },
+      {
+        path: "camisetas/longsleeve/unisex/:product",
+        component: ProductComponent
+      },
+      {
+        path: "camisetas/longsleeve/feminino/:product",
+        component: ProductComponent
+      },
+      {
+        path: "camisetas/longsleeve/masculino/:product",
         component: ProductComponent
       },
       { path: "**", component: NotFoundComponent }

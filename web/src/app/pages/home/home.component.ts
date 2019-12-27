@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
   }
 
   getAllProducts() {
-    console.log("oi");
     let response: any;
     this.topsService.getAll().subscribe(
       products => {
@@ -38,7 +37,6 @@ export class HomeComponent implements OnInit {
         if (response.ok) {
           //! If product has no images it becomes a new array and then pushes every image that matched the id of the product to it.
           response.data.forEach(image => {
-            console.log(image)
             for (let i = 0; i < this.tops.length; i++) {
               if (!this.tops[i].images) {
                 this.tops[i].images = [];
@@ -53,8 +51,6 @@ export class HomeComponent implements OnInit {
       error => {},
       () => {
         this.loading = false;
-        console.log(this.tops);
-        console.log("teste");
       }
     );
   }

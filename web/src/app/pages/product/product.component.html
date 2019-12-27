@@ -1,97 +1,66 @@
-<div *contentLoading="loading">
-  <div class="container--small">
-    <div class="product__inner">
-      <div class="d--grid grid--2col--left-big">
-        <div class="py--big pl--big d--flex jc--center">
-          <div class="d--grid grid--2col">
-            <div
-              *ngFor="let image of product.images"
-              class="product__inner__previews"
-            >
-              <img
-                class="product__inner__previews__image"
-                [src]="image.url"
-                (click)="changePreview(image.url)"
-              />
-            </div>
-          </div>
-          <img [src]="productPreview" class="w--half mx--auto mb--big" />
-        </div>
-        <div class="py--big pr--big">
-          <h1 class="text--normal">{{ product.name }}</h1>
-          <p class="text--small text--muted text--bold mb--big">
-            {{ product.code }}
-          </p>
-          <h2 class="text--h2 text--normal mb--big">R$ {{ product.price }}</h2>
-          <h2 class="text--small text--bold text--uppercase mb--small">
-            Tamanhos
+<div class="product" *contentLoading="loading">
+  <div class="product__inner">
+    <div class="product__inner--left">
+      <div class="product__inner__title">
+        <h1>{{ product.name }}</h1>
+      </div>
+      <div class="product__inner__info"></div>
+    </div>
+    <div class="product__inner--middle">
+      <div class="product__inner__image">
+        <img [src]="productPreview" />
+      </div>
+    </div>
+    <div class="product__inner--right">
+      <div class="product__inner__previews">
+        <div
+          *ngFor="let image of product.images"
+          [ngClass]="{
+            product__inner__previews__circle: true,
+            active: productPreview === image.url
+          }"
+          (click)="changePreview(image.url)"
+        ></div>
+      </div>
+      <div class="product__inner__details">
+        <h2 class="product__inner__details__price">R${{ product.price }}</h2>
+        <p class="product__inner__details__description">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
+          vitae recusandae nobis magni veritatis.
+        </p>
+        <div class="product__inner__details__sizes"></div>
+        <button class="product__inner__details__cart">
+          Adicionar ao carrinho +
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="product__suggestions">
+    <div class="product__suggestions__title">
+      <h2>Veja também</h2>
+    </div>
+    <div class="product__suggestions__cards">
+      <div
+        class="product__suggestions__cards__card"
+        *ngFor="let suggestion of suggestions"
+        [routerLink]="[
+          '/',
+          suggestion.model | models,
+          suggestion.category,
+          suggestion.gender | genders,
+          suggestion.url
+        ]"
+      >
+        <div class="product__suggestion__cards__card--left">
+          <h2 class="product__suggestion__cards__card--left__title">
+            {{ suggestion.name }}
           </h2>
-          <div *ngIf="esgotado">
-            <h2>esgotado</h2>
-          </div>
-          <div *ngIf="!esgotado" class="mb--big">
-            <div *ngIf="product.size_pp >= 0" class="d--flex text--center">
-              <div
-                (click)="chooseSize('PP')"
-                [ngClass]="{
-                  size__label: true,
-                  'size__label--unavaliable': true
-                }"
-              >
-                PP
-              </div>
-              <div
-                (click)="chooseSize('P')"
-                [ngClass]="{
-                  size__label: true,
-                  'size__label--unavaliable': product.size_p === 0
-                }"
-              >
-                P
-              </div>
-              <div
-                (click)="chooseSize('M')"
-                [ngClass]="{
-                  size__label: true,
-                  'size__label--unavaliable': product.size_m === 0
-                }"
-              >
-                M
-              </div>
-              <div
-                (click)="chooseSize('G')"
-                [ngClass]="{
-                  size__label: true,
-                  'size__label--unavaliable': product.size_g === 0
-                }"
-              >
-                G
-              </div>
-              <div
-                (click)="chooseSize('GG')"
-                [ngClass]="{
-                  size__label: true,
-                  'size__label--unavaliable': product.size_gg === 0
-                }"
-              >
-                GG
-              </div>
-            </div>
-          </div>
-          <div *ngIf="!esgotado" class="mb--small">
-            <h2 class="text--small text--bold mb--small text--uppercase">
-              Quantidade
-            </h2>
-            <input type="number" class="product__input--quantity" value="1" />
-          </div>
-          <div *ngIf="!esgotado">
-            <button (click)="addToCart()" class="btn btn--primary btn--full">
-              ADD TO CART
-            </button>
-            <button (click)="buyNow()" class="btn btn--secondary btn--full">
-              BUY NOW
-            </button>
-          </div>
+          <h3 class="product__suggestion__cards__card--left__price">
+            R${{ suggestion.price }}
+          </h3>
+        </div>
+        <div class="product__suggestion__cards__card--right">
+          <img [src]="suggestion.images[0].url" />
         </div>
       </div>
     </div>

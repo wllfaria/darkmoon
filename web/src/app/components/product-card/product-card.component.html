@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="!loading" class="product__card">
   <a
-    [routerLink]="[model, category, gender | genders, url]"
+    [routerLink]="['/', model | models, category, gender | genders, url]"
     routerLinkActive="active"
   >
     <div class="product__preview">

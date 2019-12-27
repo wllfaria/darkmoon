@@ -1,33 +1,42 @@
-<footer class="bg--black py--big">
-  <div class="container">
-    <div class="d--grid grid--4col">
-      <div>
-        <h2
-          class="text--small text--bold text--uppercase mb--small color--white"
-        >
-          DARKMOON
-        </h2>
+<footer>
+  <div class="footer">
+    <div class="footer__left">
+      <h2 class="footer__left__title">Darkmoon</h2>
+      <p class="footer__left__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium
+        quos expedita sed. Cum aspernatur modi, eaque, quasi, cumque aliquid
+        veritatis non optio nobis quae officia tempore. Dolorum atque libero
+        sed!
+      </p>
+    </div>
+    <div class="footer__middle">
+      <h2 class="footer__middle__title">Menu</h2>
+      <ul class="footer__middle__menu">
+        <li [routerLink]="['/', 'compras-pagamentos']">Compras e pagamentos</li>
+        <li [routerLink]="['/', 'trocas-devolucoes']">Trocas e devoluções</li>
+        <li [routerLink]="['/', 'rastreie-seu-pedido']">Rastreie seu pedido</li>
+        <li [routerLink]="['/', 'fale-conosco']">Fale conosco</li>
+        <li [routerLink]="['/', 'faq']">FAQ</li>
+        <li [routerLink]="['/', 'politica-privacidade']">
+          Política de privacidade
+        </li>
+        <li [routerLink]="['/', 'politica-cookies']">Política de cookies</li>
+      </ul>
+    </div>
+    <div class="footer__right">
+      <h2 class="footer__right__title">Participe do culto</h2>
+      <p class="footer__right__description">E receba as últimas novidades</p>
+      <div class="footer__right__newsletter">
+        <input
+          type="text"
+          class="footer__right__newsletter__input"
+          placeholder="Digite seu melhor e-mail"
+        />
+        <button class="footer__right__newsletter__button">Entrar</button>
       </div>
-      <div>
-        <h2
-          class="text--small text--bold text--uppercase mb--small color--white"
-        >
-          MENU2
-        </h2>
-      </div>
-      <div>
-        <h2
-          class="text--small text--bold text--uppercase mb--small color--white"
-        >
-          MENU3
-        </h2>
-      </div>
-      <div>
-        <h2
-          class="text--small text--bold text--uppercase mb--small color--white"
-        >
-          MENU4
-        </h2>
+      <div class="footer__right__social">
+        <p class="footer__right__social__title">Persiga-nos</p>
+        <div class="footer__right__social__icons"></div>
       </div>
     </div>
   </div>

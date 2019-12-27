@@ -12,19 +12,18 @@ export class TopsService {
   private API_URL: string = environment.api;
 
   getAll(): Observable<any> {
-    return this.http.get(`${this.API_URL}/tops`);
+    return this.http.get<any>(`${this.API_URL}/tops`);
   }
 
   getImages(): Observable<any> {
-    return this.http.get(`${this.API_URL}/tops/images/all`);
+    return this.http.get<any>(`${this.API_URL}/tops/images/all`);
   }
 
   getByUrl(url: string): Observable<any> {
-    return this.http.get(`${this.API_URL}/tops/url/${url}`);
+    return this.http.get<any>(`${this.API_URL}/tops/url/${url}`);
   }
 
   getImagesByTopId(id: number): Observable<any> {
-    console.log("entered4");
-    return this.http.get(`${this.API_URL}/tops/images/${id}`);
+    return this.http.get<any>(`${this.API_URL}/tops/images/${id}`);
   }
 }

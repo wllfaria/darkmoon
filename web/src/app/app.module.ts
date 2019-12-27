@@ -20,6 +20,7 @@ import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { ProductListComponent } from "./pages/product-list/product-list.component";
 import { LoadingContentDirective } from "./core/directives/loading-content.directive";
 import { ComponentsModule } from "./components/components.module";
+import { PipesModule } from "./pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ComponentsModule } from "./components/components.module";
   imports: [
     ComponentsModule,
     HttpClientModule,
+    PipesModule,
     RouterModule.forRoot(ROUTER, {
       useHash: false
     }),
