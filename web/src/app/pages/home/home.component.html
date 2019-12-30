@@ -6,15 +6,18 @@
       <h2 class="mb--big">Tops</h2>
       <div class="d--grid grid--6col">
         <app-product-card
-          *ngFor="let top of tops"
-          [id]="top.id"
-          [name]="top.name"
-          [price]="top.price"
-          [images]="top.images"
-          [url]="top.url"
-          [gender]="top.gender"
-          [category]="top.category"
-          [model]="top.model"
+          *ngFor="let product of products"
+          [id]="product.id"
+          [name]="product.product_name"
+          [url]="product.product_url"
+          [sku]="product.sku"
+          [color]="product.color"
+          [price]="product.price"
+          [size]="product.size"
+          [productType]="product.product_type"
+          [model]="product.model"
+          [gender]="product.gender"
+          [images]="product.images"
         ></app-product-card>
       </div>
     </div>

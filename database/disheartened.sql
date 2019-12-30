@@ -18,62 +18,88 @@ create table persons(
   primary key (id)
 );
 
-create table sizes (
+create table product_types (
 	id int not null unique auto_increment,
-  size varchar(3) not null unique,
-  created_at datetime not null default current_timestamp,
+  name varchar(255) not null unique,
+	created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
   primary key (id)
 );
 
-create table categories(
+create table models (
 	id int not null unique auto_increment,
-  name varchar(140) not null unique,
+  product_type int not null,
+  name varchar(100) not null,
 	created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
-  primary key (id)
+  primary key(id),
+  foreign key (product_type) references product_types(id)
 );
 
 create table genders (
 	id int not null unique auto_increment,
-  gender varchar(40) not null unique,
+  name varchar(30) not null unique,
   created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
-  primary key (id)
+  primary key(id)
 );
 
-create table products (
+create table skus (
 	id int not null unique auto_increment,
-  code varchar(8) not null,
-  name varchar(140) not null,
-  url varchar(140) not null,
-  price numeric(14,2) not null,
-  sale_price numeric(14,2) default null,
-  sale_date datetime default null,
-  size_id int not null,
-  category_id int not null,
-  gender_id int not null,
   created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
-  primary key (id),
-  foreign key (size_id) references sizes(id),
-  foreign key (category_id) references categories(id),
-  foreign key (gender_id) references genders(id)
+  primary key(id)
+);
+
+create table base_product (
+	id int not null unique auto_increment,
+  product_id int not null,
+  product_type int not null,
+  avaliable boolean not null,
+  created_at datetime not null default current_timestamp,
+  updated_at datetime not null default current_timestamp,
+  deleted_at datetime default null,
+  primary key(id),
+  foreign key (product_type) references product_types (id)
+);
+
+create table shirts (
+	id int not null unique auto_increment,
+  name varchar(255) not null,
+  url varchar(255) not null,
+  sku int not null,
+  color varchar(30) not null,
+  price numeric(14,2) not null,
+  sile_price numeric(14,2) default null,
+  sale_date datetime default null,
+  size enum("PP","P","M","G","GG") not null,
+  product_type int not null,
+  model int not null,
+  gender int not null,
+  created_at datetime not null default current_timestamp,
+  updated_at datetime not null default current_timestamp,
+  deleted_at datetime default null,
+  primary key(id),
+  foreign key (sku) references skus(id),
+  foreign key (product_type) references product_types(id),
+  foreign key (model) references models(id),
+  foreign key (gender) references genders(id)
 );
 
 create table product_images (
-	id int not null unique auto_increment,
+  id int not null unique auto_increment,
   url varchar(255) not null unique,
-  product_id int not null,
-	created_at datetime not null default current_timestamp,
+  product_sku int not null,
+  alt varchar(140) not null,
+  created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
   primary key (id),
-  foreign key (product_id) references products(id)
+  foreign key (product_sku) references skus(id)
 );
 
 create table addresses(
@@ -93,5 +119,3 @@ create table addresses(
   primary key (id),
   foreign key (person_id) references persons(id)
 );
-
-insert into addresses (person_id, zip_code, public_place, neighborhood, city, state, number, complement, reference) values (3, "04326080", "Vila Fachini", "Avenida Euclides", "São Paulo", "SP", "432", "Casa 11", "bombeiros");

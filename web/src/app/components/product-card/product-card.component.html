@@ -3,12 +3,12 @@
 </div>
 <div *ngIf="!loading" class="product__card">
   <a
-    [routerLink]="['/', model | models, category, gender | genders, url]"
+    [routerLink]="['/', productType.name | models, model.name, gender.name | genders, url]"
     routerLinkActive="active"
   >
     <div class="product__preview">
-      <img [src]="images[0].url" [alt]="name" />
-      <img [src]="images[1].url" [alt]="name" />
+      <img [src]="images[0].url" [alt]="images[0].alt" />
+      <img [src]="images[1].url" [alt]="images[1].alt" />
     </div>
     <div class="product__description">
       <h3 class="text--center paragraph text--bold">{{ name }}</h3>

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class ModelsPipe implements PipeTransform {
   transform(value: any): any {
     switch (value) {
-      case "tshirt":
+      case "shirt":
         return "camisetas";
     }
   }

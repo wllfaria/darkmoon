@@ -10,11 +10,14 @@ export class ProductCardComponent implements OnInit {
   @Input() id: number;
   @Input() name: string;
   @Input() url: string;
+  @Input() sku: number;
+  @Input() color: string;
   @Input() price: number;
-  @Input() gender: string;
-  @Input() category: string;
-  @Input() images: Array<TopImages>;
-  @Input() model: string;
+  @Input() size: string;
+  @Input() productType: any;
+  @Input() model: any;
+  @Input() gender: any;
+  @Input() images: any[];
 
   loading: boolean = false;
 
