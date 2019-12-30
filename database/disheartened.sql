@@ -1,5 +1,6 @@
-create database db_disheartened;
-use db_disheartened;
+create database db_darkmoon;
+use db_darkmoon;
+#drop database db_darkmoon;
 
 create table persons(
 	id int not null unique auto_increment,
@@ -49,35 +50,25 @@ create table genders (
 
 create table skus (
 	id int not null unique auto_increment,
-  created_at datetime not null default current_timestamp,
-  updated_at datetime not null default current_timestamp,
-  deleted_at datetime default null,
-  primary key(id)
-);
-
-create table base_product (
-	id int not null unique auto_increment,
-  product_id int not null,
+  product_name varchar(255) not null unique,
+  product_url varchar(255) not null unique,
   product_type int not null,
   avaliable boolean not null,
   created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
   primary key(id),
-  foreign key (product_type) references product_types (id)
+  foreign key (product_type) references product_types(id)
 );
 
 create table shirts (
 	id int not null unique auto_increment,
-  name varchar(255) not null,
-  url varchar(255) not null,
   sku int not null,
   color varchar(30) not null,
   price numeric(14,2) not null,
-  sile_price numeric(14,2) default null,
+  sale_price numeric(14,2) default null,
   sale_date datetime default null,
   size enum("PP","P","M","G","GG") not null,
-  product_type int not null,
   model int not null,
   gender int not null,
   created_at datetime not null default current_timestamp,
@@ -85,7 +76,6 @@ create table shirts (
   deleted_at datetime default null,
   primary key(id),
   foreign key (sku) references skus(id),
-  foreign key (product_type) references product_types(id),
   foreign key (model) references models(id),
   foreign key (gender) references genders(id)
 );
@@ -119,3 +109,15 @@ create table addresses(
   primary key (id),
   foreign key (person_id) references persons(id)
 );
+
+insert into product_types (name) values ("shirt");
+insert into models (product_type, name) values (1, "longsleeve");
+insert into genders (name) values ("male");
+insert into genders (name) values ("female");
+insert into genders (name) values ("unisex");
+insert into skus (product_name, product_url, product_type, avaliable) values ("Phoebe Ribbed Top", "phoebe-ribbed-top", 1, true);
+insert into shirts (sku, color, price, size, model, gender) values (1,"white", 123.99, "P", 1, 2);
+insert into product_images (url, product_sku, alt) values ("https://cdn.shopify.com/s/files/1/1014/6323/products/PHOEBE-RIBBEDTOP-WHITE-C_1024x1024.jpg", 1, "Women wearing the Phoebe Ribbed Top size P");
+insert into product_images (url, product_sku, alt) values ("https://cdn.shopify.com/s/files/1/1014/6323/products/PHOEBE-RIBBEDTOP-WHITE-D_1024x1024.jpg", 1, "Women wearing the Phoebe Ribbed Top size P");
+insert into product_images (url, product_sku, alt) values ("https://cdn.shopify.com/s/files/1/1014/6323/products/PHOEBE-RIBBEDTOP-WHITE-B_1024x1024.jpg", 1, "Women wearing the Phoebe Ribbed Top size P");
+insert into product_images (url, product_sku, alt) values ("https://cdn.shopify.com/s/files/1/1014/6323/products/PHOEBE-RIBBEDTOP-WHITE_1024x1024.jpg", 1, "Women wearing the Phoebe Ribbed Top size P");
