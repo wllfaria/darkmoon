@@ -18,6 +18,7 @@ export class ProductComponent implements OnInit {
   product: any;
   productPreview: string;
   suggestions: any[];
+  choosenSize = "M";
 
   ngOnInit() {
     this.loading = true;
@@ -72,27 +73,35 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(): void {
-    let actualCart: any = JSON.parse(
+    let currentCart: any = JSON.parse(
       window.localStorage.getItem("DARKMOONCART")
     );
-    let now: any = new Date();
-    let expires = now.setDate(now.getDate() + 3);
-    if (actualCart !== null) {
+    if (currentCart) {
       window.localStorage.removeItem("DARKMOONCART");
-      actualCart.cart.push(this.product);
-      actualCart.expires = expires;
-      window.localStorage.setItem("DARKMOONCART", JSON.stringify(actualCart));
-    } else {
-      actualCart = {
-        cart: [],
-        expires: expires
+      let product = {
+        id: this.product.id,
+        name: this.product.name,
+        url: this.product.url,
+        size: this.choosenSize
       };
-      actualCart.cart.push(this.product);
-      window.localStorage.setItem("DARKMOONCART", JSON.stringify(actualCart));
+      currentCart.cart.push(product);
+      window.localStorage.setItem("DARKMOONCART", JSON.stringify(currentCart));
+    } else {
+      currentCart = {
+        cart: [
+          {
+            id: this.product.id,
+            name: this.product.name,
+            url: this.product.url,
+            size: this.choosenSize
+          }
+        ]
+      };
+      window.localStorage.setItem("DARKMOONCART", JSON.stringify(currentCart));
     }
   }
 
-  getSuggestions() {
+  getSuggestions(): void {
     this.topsService.getAll().subscribe(
       response => {
         this.suggestions = [];
@@ -106,7 +115,7 @@ export class ProductComponent implements OnInit {
     );
   }
 
-  getSuggestionsImages() {
+  getSuggestionsImages(): void {
     this.suggestions.forEach(product => {
       this.topsService.getImagesByTopId(product.id).subscribe(
         response => {

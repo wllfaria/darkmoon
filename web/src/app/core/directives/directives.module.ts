@@ -1,11 +1,12 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { LoadingContentDirective } from "./loading-content.directive";
+import { LoadingProductDirective } from "./loading-product.directive";
 import { ComponentsModule } from "src/app/components/components.module";
+import { LoadingCartDirective } from "./loading-cart.directive";
 
 @NgModule({
-  declarations: [LoadingContentDirective],
+  declarations: [LoadingProductDirective, LoadingCartDirective],
   imports: [CommonModule, ComponentsModule],
-  exports: [LoadingContentDirective]
+  exports: [LoadingProductDirective, LoadingCartDirective]
 })
 export class DirectivesModule {}

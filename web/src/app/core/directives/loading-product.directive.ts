@@ -10,14 +10,14 @@ import {
 import { ProductLoaderComponent } from "src/app/components/loaders/product-loader/product-loader.component";
 
 @Directive({
-  selector: "[contentLoading]"
+  selector: "[productLoading]"
 })
-export class LoadingContentDirective {
+export class LoadingProductDirective {
   loadingFactory: ComponentFactory<ProductLoaderComponent>;
   loadingComponent: ComponentRef<ProductLoaderComponent>;
 
   @Input()
-  set contentLoading(loading: boolean) {
+  set productLoading(loading: boolean) {
     this.vcRef.clear();
     if (loading) {
       this.loadingComponent = this.vcRef.createComponent(this.loadingFactory);

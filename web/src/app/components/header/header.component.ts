@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { CartComponent } from "../cart/cart.component";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  @ViewChild(CartComponent, { static: false })
+  cartComponent: CartComponent;
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  toggleCart(): void {
+    this.cartComponent.toggleCart();
   }
-
 }

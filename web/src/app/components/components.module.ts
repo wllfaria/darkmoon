@@ -5,20 +5,24 @@ import { FooterComponent } from "./footer/footer.component";
 import { HeaderComponent } from "./header/header.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ProductCardComponent } from "./product-card/product-card.component";
-import { TopbarComponent } from "./header/topbar/topbar.component";
 import { PipesModule } from "../pipes/pipes.module";
 import { RouterModule } from "@angular/router";
 import { ProductLoaderComponent } from "./loaders/product-loader/product-loader.component";
+import { CartComponent } from "./cart/cart.component";
+import { CartLoaderComponent } from "./loaders/cart-loader/cart-loader.component";
+import { DirectivesModule } from "../core/directives/directives.module";
+import { LoadingCartDirective } from "../core/directives/loading-cart.directive";
 
 @NgModule({
   declarations: [
     BannerComponent,
     FooterComponent,
     HeaderComponent,
-    TopbarComponent,
     NavbarComponent,
     ProductCardComponent,
-    ProductLoaderComponent
+    ProductLoaderComponent,
+    CartComponent,
+    CartLoaderComponent
   ],
   imports: [CommonModule, PipesModule, RouterModule],
   exports: [
@@ -28,6 +32,6 @@ import { ProductLoaderComponent } from "./loaders/product-loader/product-loader.
     NavbarComponent,
     ProductCardComponent
   ],
-  entryComponents: [ProductLoaderComponent]
+  entryComponents: [ProductLoaderComponent, CartLoaderComponent]
 })
 export class ComponentsModule {}

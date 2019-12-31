@@ -1,4 +1,4 @@
-<div class="product" *contentLoading="loading">
+<div class="product" *productLoading="loading">
   <div class="product__inner">
     <div class="product__inner--left">
       <div class="product__inner__title">
@@ -29,7 +29,7 @@
           vitae recusandae nobis magni veritatis.
         </p>
         <div class="product__inner__details__sizes"></div>
-        <button class="product__inner__details__cart">
+        <button class="product__inner__details__cart" (click)="addToCart()">
           Adicionar ao carrinho +
         </button>
       </div>

@@ -4,23 +4,16 @@ import { RouterModule } from "@angular/router";
 
 import { ROUTER } from "./app-routing";
 import { AppComponent } from "./app.component";
-import { HeaderComponent } from "./components/header/header.component";
 import { HomeComponent } from "./pages/home/home.component";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { TopbarComponent } from "./components/header/topbar/topbar.component";
-import { BannerComponent } from "./components/banner/banner.component";
-import { ProductCardComponent } from "./components/product-card/product-card.component";
-
 import { TemplateComponent } from "./template/template.component";
-import { HttpClientModule } from "@angular/common/http";
-import { FooterComponent } from "./components/footer/footer.component";
-import { ProductComponent } from "./pages/product/product.component";
-import { GendersPipe } from "./pipes/genders.pipe";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
+import { ProductComponent } from "./pages/product/product.component";
 import { ProductListComponent } from "./pages/product-list/product-list.component";
-import { LoadingContentDirective } from "./core/directives/loading-content.directive";
+
+import { HttpClientModule } from "@angular/common/http";
 import { ComponentsModule } from "./components/components.module";
 import { PipesModule } from "./pipes/pipes.module";
+import { DirectivesModule } from "./core/directives/directives.module";
 
 @NgModule({
   declarations: [
@@ -29,13 +22,13 @@ import { PipesModule } from "./pipes/pipes.module";
     TemplateComponent,
     ProductComponent,
     NotFoundComponent,
-    ProductListComponent,
-    LoadingContentDirective
+    ProductListComponent
   ],
   imports: [
     ComponentsModule,
     HttpClientModule,
     PipesModule,
+    DirectivesModule,
     RouterModule.forRoot(ROUTER, {
       useHash: false
     }),
