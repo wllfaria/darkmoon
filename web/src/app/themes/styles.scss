@@ -705,6 +705,7 @@ header {
       .header__left__logo {
         h2 {
           font-size: $h4;
+          cursor: pointer;
         }
       }
 
@@ -725,6 +726,7 @@ header {
     }
   }
 }
+
 .product {
   width: calc(100vw - 157px);
   margin: 0 auto;
@@ -839,6 +841,7 @@ header {
     }
   }
 }
+
 footer {
   background: $color-text;
 

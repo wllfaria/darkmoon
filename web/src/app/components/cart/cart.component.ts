@@ -10,13 +10,14 @@ export class CartComponent implements OnInit {
   constructor(private topsService: TopsService) {}
 
   private loading: boolean;
-  private isCartOpen: boolean = false;
+  private isCartOpen: boolean;
   private isCartEmpty: boolean;
   private products: any[];
   private cartHasError: boolean;
   private suggestion: any;
 
   ngOnInit() {
+    this.isCartOpen = false;
     this.loading = true;
   }
 
@@ -28,15 +29,17 @@ export class CartComponent implements OnInit {
 
   getCurrentCart(): void {
     let currentCart = JSON.parse(window.localStorage.getItem("DARKMOONCART"));
-    if (!currentCart) {
+    if (!currentCart || !currentCart.cart.length) {
       this.isCartEmpty = true;
+      // this.cartHasError = true;
       this.loading = false;
-      this.getSuggestion();
+      // this.getSuggestion();
       return;
     }
     this.products = currentCart.cart;
+    this.loading = false;
     this.isCartEmpty = false;
-    this.getProductsData();
+    // this.getProductsData();
   }
 
   getProductsData(): void {

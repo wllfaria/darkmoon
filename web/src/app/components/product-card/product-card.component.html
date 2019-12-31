@@ -7,8 +7,8 @@
     routerLinkActive="active"
   >
     <div class="product__preview">
-      <img [src]="images[0].url" [alt]="images[0].alt" />
-      <img [src]="images[1].url" [alt]="images[1].alt" />
+      <img [src]="images[0].url" [alt]="images[0].alt" [title]="images[0].alt" />
+      <img [src]="images[1].url" [alt]="images[1].alt" [title]="images[1].alt"/>
     </div>
     <div class="product__description">
       <h3 class="text--center paragraph text--bold">{{ name }}</h3>

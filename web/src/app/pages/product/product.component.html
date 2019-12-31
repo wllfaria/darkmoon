@@ -2,13 +2,13 @@
   <div class="product__inner">
     <div class="product__inner--left">
       <div class="product__inner__title">
-        <h1>{{ product.name }}</h1>
+        <h1>{{ product.product_name }}</h1>
       </div>
       <div class="product__inner__info"></div>
     </div>
     <div class="product__inner--middle">
       <div class="product__inner__image">
-        <img [src]="productPreview" />
+        <img [src]="productPreview.url" [alt]="productPreview.alt" [title]="productPreview.alt"/>
       </div>
     </div>
     <div class="product__inner--right">
@@ -19,7 +19,7 @@
             product__inner__previews__circle: true,
             active: productPreview === image.url
           }"
-          (click)="changePreview(image.url)"
+          (click)="changePreview(image)"
         ></div>
       </div>
       <div class="product__inner__details">

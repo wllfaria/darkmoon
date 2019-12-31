@@ -8,19 +8,21 @@ module.exports = {
   getAll: async (req, res) => {
     try {
       let data = await TopsModel.getAll();
-      data.forEach(async (product, index, array) => {
-        product['product_type'] = await TopsModel.getProductType(product.product_type)
-        product['model'] = await TopsModel.getProductModel(product.model);
-        product['gender'] = await TopsModel.getProductGender(product.gender);
-        product['images'] = await TopsModel.getImagesBySku(product.sku);
-        if(index === array.length - 1) {
+      await data.forEach(async (product, index, array) => {
+        product["product_type"] = await TopsModel.getProductType(
+          product.product_type
+        );
+        product["model"] = await TopsModel.getProductModel(product.model);
+        product["gender"] = await TopsModel.getProductGender(product.gender);
+        product["images"] = await TopsModel.getImagesBySku(product.sku);    
+        if (index === array.length - 1) {
           const response = ResponseValidator.successResponse(
             HttpStatus.success.success,
             data
           );
           res.status(response.status).json(response);
         }
-      })
+      });
     } catch (error) {
       const validatedError = ResponseValidator.errorResponse(
         HttpStatus.serverError.internalError,
@@ -32,11 +34,21 @@ module.exports = {
   getByUrl: async (req, res) => {
     try {
       const data = await TopsModel.getByUrl(req.params.url);
-      const response = ResponseValidator.successResponse(
-        HttpStatus.success.success,
-        data
-      );
-      res.status(response.status).json(response);
+      data.forEach(async (product, index, array) => {
+        product["product_type"] = await TopsModel.getProductType(
+          product.product_type
+        );
+        product["model"] = await TopsModel.getProductModel(product.model);
+        product["gender"] = await TopsModel.getProductGender(product.gender);
+        product["images"] = await TopsModel.getImagesBySku(product.sku);
+        if (index === array.length - 1) {
+          const response = ResponseValidator.successResponse(
+            HttpStatus.success.success,
+            data
+          );
+          res.status(response.status).json(response);
+        }
+      });
     } catch (error) {}
   },
   getImages: async (req, res) => {

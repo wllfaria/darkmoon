@@ -20,7 +20,7 @@ export class TopsService {
   }
 
   getByUrl(url: string): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/tops/url/${url}`);
+    return this.http.get<any>(`${this.API_URL}/tops/${url}`);
   }
 
   getImagesByTopId(id: number): Observable<any> {

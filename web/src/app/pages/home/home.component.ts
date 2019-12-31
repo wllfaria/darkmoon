@@ -10,10 +10,17 @@ import { TopsService } from "../../core/services/tops.service";
 export class HomeComponent implements OnInit {
   constructor(private topsService: TopsService) {}
   loading: boolean = true;
-  products: any;
+  products: any[];
+  productsLoaded: boolean;
 
   ngOnInit() {
+    this.loading = true;
     this.getAllProducts();
+    setInterval(() => {
+      if(this.loading) {
+        this.checkLoading();
+      }
+    }, 100)
   }
 
   getAllProducts() {
@@ -22,9 +29,23 @@ export class HomeComponent implements OnInit {
     },
     error => {},
     () => {
-      this.loading = false;
-      console.log(this.products)
     }
-    );
+  )}
+
+  checkLoading() {
+    if(this.products) {
+      this.products.forEach(product => {
+        console.log(product)
+        if(product.images.length) {
+          this.productsLoaded = true;
+        } else {
+          this.productsLoaded = false;
+          this.getAllProducts();
+        }
+      });
+    }
+    if(this.productsLoaded) {
+      this.loading = false;
+    }
   }
 }

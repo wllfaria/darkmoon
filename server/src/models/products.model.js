@@ -19,15 +19,39 @@ module.exports = {
           on A.sku = B.id`,
         (error, results) => {
           connection.release();
-          console.log(error)
           if (error) reject(error);
-          console.log(results)
           resolve(results);
         }
       );
     });
   },
-  getProductType: (productType) => {
+  getByUrl: productUrl => {
+    return new Promise(async (resolve, reject) => {
+      const connection = await mySqlPool.mySqlConnection();
+      connection.query(
+        `select 
+        B.product_name, 
+        B.product_url,
+        A.sku,
+        A.color, 
+        A.price, 
+        A.size,
+        B.product_type,
+        A.model,
+        A.gender
+        from shirts AS A inner join skus AS B
+        on A.sku = B.id
+        where B.product_url = ?`,
+        productUrl,
+        (error, results) => {
+          connection.release();
+          if (error) reject(error);
+          resolve(results);
+        }
+      );
+    });
+  },
+  getProductType: productType => {
     return new Promise(async (resolve, reject) => {
       const connection = await mySqlPool.mySqlConnection();
       connection.query(
@@ -40,13 +64,13 @@ module.exports = {
         productType,
         (error, result) => {
           connection.release();
-          if(error) reject(error);
+          if (error) reject(error);
           resolve(result[0]);
         }
-      )
-    })
+      );
+    });
   },
-  getProductModel: (productModel) => {
+  getProductModel: productModel => {
     return new Promise(async (resolve, reject) => {
       const connection = await mySqlPool.mySqlConnection();
       connection.query(
@@ -59,13 +83,13 @@ module.exports = {
         productModel,
         (error, result) => {
           connection.release();
-          if(error) reject(error);
+          if (error) reject(error);
           resolve(result[0]);
         }
-      )
-    })
+      );
+    });
   },
-  getProductGender: (productGender) => {
+  getProductGender: productGender => {
     return new Promise(async (resolve, reject) => {
       const connection = await mySqlPool.mySqlConnection();
       connection.query(
@@ -77,13 +101,13 @@ module.exports = {
         `,
         productGender,
         (error, result) => {
-          if(error) reject(error);
+          if (error) reject(error);
           resolve(result[0]);
         }
-      )
-    })
+      );
+    });
   },
-  getImagesBySku: (productSku) => {
+  getImagesBySku: productSku => {
     return new Promise(async (resolve, reject) => {
       const connection = await mySqlPool.mySqlConnection();
       connection.query(
@@ -96,10 +120,10 @@ module.exports = {
         productSku,
         (error, results) => {
           connection.release();
-          if(error) reject(error);
+          if (error) reject(error);
           resolve(results);
         }
-      )
-    })
+      );
+    });
   }
 };

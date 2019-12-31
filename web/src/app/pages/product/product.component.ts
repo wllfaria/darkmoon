@@ -36,8 +36,8 @@ export class ProductComponent implements OnInit {
     }, 1000);
   }
 
-  changePreview(url: string): void {
-    this.productPreview = url;
+  changePreview(previewImage: any): void {
+    this.productPreview = previewImage;
   }
 
   getCurrentProduct(): void {
@@ -45,31 +45,16 @@ export class ProductComponent implements OnInit {
     if (urlArray.length === 5 && urlArray[4].indexOf("-") !== -1) {
       this.topsService.getByUrl(urlArray[4]).subscribe(
         response => {
-          this.product = response.data;
-          this.product.size_m = 0;
+          this.product = response.data[0];
+          this.productPreview = this.product.images[0];
         },
         error => {},
         () => {
-          this.getCurrentProductImages();
+          console.log(this.product);
+          this.loading = false;
         }
       );
     }
-  }
-
-  getCurrentProductImages(): void {
-    this.topsService.getImagesByTopId(this.product.id).subscribe(
-      response => {
-        this.product.images = [];
-        response.data.forEach(image => {
-          this.product.images.push(image);
-        });
-      },
-      error => {},
-      () => {
-        this.productPreview = this.product.images[0].url;
-        this.getSuggestions();
-      }
-    );
   }
 
   addToCart(): void {
@@ -79,9 +64,9 @@ export class ProductComponent implements OnInit {
     if (currentCart) {
       window.localStorage.removeItem("DARKMOONCART");
       let product = {
-        id: this.product.id,
-        name: this.product.name,
-        url: this.product.url,
+        sku: this.product.sku,
+        name: this.product.product_name,
+        url: this.product.product_url,
         size: this.choosenSize
       };
       currentCart.cart.push(product);
@@ -90,45 +75,14 @@ export class ProductComponent implements OnInit {
       currentCart = {
         cart: [
           {
-            id: this.product.id,
-            name: this.product.name,
-            url: this.product.url,
+            sku: this.product.sku,
+            name: this.product.product_name,
+            url: this.product.product_url,
             size: this.choosenSize
           }
         ]
       };
       window.localStorage.setItem("DARKMOONCART", JSON.stringify(currentCart));
     }
-  }
-
-  getSuggestions(): void {
-    this.topsService.getAll().subscribe(
-      response => {
-        this.suggestions = [];
-        this.suggestions.push(response.data[0]);
-        this.suggestions.push(response.data[1]);
-      },
-      error => {},
-      () => {
-        this.getSuggestionsImages();
-      }
-    );
-  }
-
-  getSuggestionsImages(): void {
-    this.suggestions.forEach(product => {
-      this.topsService.getImagesByTopId(product.id).subscribe(
-        response => {
-          product.images = [];
-          response.data.forEach(image => {
-            product.images.push(image);
-          });
-        },
-        error => {},
-        () => {
-          this.loadingComplete();
-        }
-      );
-    });
   }
 }
