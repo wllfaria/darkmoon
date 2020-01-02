@@ -15,10 +15,12 @@ export class CartComponent implements OnInit {
   private products: any[];
   private cartHasError: boolean;
   private suggestion: any;
+  private totalPrice: number;
 
   ngOnInit() {
     this.isCartOpen = false;
     this.loading = true;
+    this.totalPrice = 0;
   }
 
   toggleCart(): void {
@@ -31,7 +33,6 @@ export class CartComponent implements OnInit {
     let currentCart = JSON.parse(window.localStorage.getItem("DARKMOONCART"));
     if (!currentCart || !currentCart.cart.length) {
       this.isCartEmpty = true;
-      // this.cartHasError = true;
       this.loading = false;
       // this.getSuggestion();
       return;
@@ -39,43 +40,40 @@ export class CartComponent implements OnInit {
     this.products = currentCart.cart;
     this.loading = false;
     this.isCartEmpty = false;
-    // this.getProductsData();
+    this.getProductsData();
   }
 
   getProductsData(): void {
     this.products.forEach(product => {
       this.topsService.getByUrl(product.url).subscribe(
         response => {
-          product["id"] = response.data.id;
-          product["price"] = response.data.price;
-          product["model"] = response.data.model;
-          product["category"] = response.data.category;
-          product["gender"] = response.data.gender;
+          console.log(response)
+          product["sku"] = response.data[0].sku;
+          product["price"] = response.data[0].price;
+          product["type"] = response.data[0].product_type;
+          product["model"] = response.data[0].model;
+          product["gender"] = response.data[0].gender;
+          product["images"] = response.data[0].images;
         },
         error => {
           this.cartHasError = true;
         },
         () => {
-          this.getProductsImages();
+          setTimeout(() => {
+            this.calculateCartPrice();
+          }, 1500)
         }
       );
     });
   }
 
-  getProductsImages(): void {
-    this.products.forEach(product => {
-      this.topsService.getImagesByTopId(product.id).subscribe(
-        response => {
-          product["images"] = response.data;
-        },
-        error => {
-          this.cartHasError = true;
-        },
-        () => {
-          this.loading = false;
-        }
-      );
-    });
+  calculateCartPrice() {
+    if(this.totalPrice === 0) {
+      this.products.forEach((product, index, array) => {
+        this.totalPrice = this.totalPrice + Number(product.price);
+      })
+      this.totalPrice = Number((Math.round(this.totalPrice * 100) / 100).toFixed(2));
+    }
   }
 
   getSuggestion(): void {
@@ -87,21 +85,6 @@ export class CartComponent implements OnInit {
         this.cartHasError = true;
       },
       () => {
-        this.getSuggestionImage();
-      }
-    );
-  }
-
-  getSuggestionImage(): void {
-    this.topsService.getImagesByTopId(this.suggestion.id).subscribe(
-      response => {
-        this.suggestion.images = response.data;
-      },
-      error => {
-        this.cartHasError = true;
-      },
-      () => {
-        this.loading = false;
       }
     );
   }
@@ -123,5 +106,6 @@ export class CartComponent implements OnInit {
       );
       this.loading = false;
     }
+    this.getCurrentCart();
   }
 }

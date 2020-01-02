@@ -6,14 +6,15 @@
       <div *ngIf="!isCartEmpty && !cartHasError && !loading">
         <h2 class="cart__container__title">Seu carrinho</h2>
 
-        <div
+          <div class="cart__container__products">
+            <div
           *ngFor="let product of products; let i = index"
           class="cart__container__product"
         >
           <div
             class="cart__container__product__image"
           >
-            <!-- <img [src]="product.images[0].url" /> -->
+            <img [src]="product.images[0].url" />
           </div>
           <div class="cart__container__product__details">
             <h4>
@@ -43,6 +44,12 @@
               />
             </svg>
           </div>
+        </div>
+          </div>
+
+        <div class="cart__container__finish">
+          <h2>Total: {{totalPrice}}</h2>
+          <button class="btn btn--primary" (click)="checkout()">Finalizar compra</button>
         </div>
       </div>
       <div *ngIf="isCartEmpty && !cartHasError">
