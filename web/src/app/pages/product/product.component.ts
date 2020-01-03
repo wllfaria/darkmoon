@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { TopsService } from "src/app/core/services/tops.service";
+import { ShirtsService } from "src/app/core/services/shirts.service";
 
 @Component({
   selector: "app-product",
@@ -10,7 +10,7 @@ import { TopsService } from "src/app/core/services/tops.service";
 export class ProductComponent implements OnInit {
   constructor(
     private router: Router,
-    private topsService: TopsService,
+    private shirtsService: ShirtsService,
     private route: ActivatedRoute
   ) {}
 
@@ -43,14 +43,14 @@ export class ProductComponent implements OnInit {
   getCurrentProduct(): void {
     const urlArray = this.router.url.split("/");
     if (urlArray.length === 5 && urlArray[4].indexOf("-") !== -1) {
-      this.topsService.getByUrl(urlArray[4]).subscribe(
+      this.shirtsService.getByUrl(urlArray[4]).subscribe(
         response => {
           this.product = response.data[0];
           this.productPreview = this.product.images[0];
         },
         error => {},
         () => {
-          console.log(this.product);
+          console.log("product", this.product);
           this.loading = false;
         }
       );

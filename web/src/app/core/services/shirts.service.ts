@@ -6,24 +6,16 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root"
 })
-export class TopsService {
+export class ShirtsService {
   constructor(private http: HttpClient) {}
 
   private API_URL: string = environment.api;
 
   getAll(): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/tops`);
-  }
-
-  getImages(): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/tops/images/all`);
+    return this.http.get<any>(`${this.API_URL}/shirts`);
   }
 
   getByUrl(url: string): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/tops/${url}`);
-  }
-
-  getImagesByTopId(id: number): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/tops/images/${id}`);
+    return this.http.get<any>(`${this.API_URL}/shirts/${url}`);
   }
 }

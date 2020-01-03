@@ -3,18 +3,18 @@
   <app-banner></app-banner>
   <div class="my--max">
     <div class="container">
-      <h2 class="mb--big">Tops</h2>
+      <h2 class="mb--big">Camisetas</h2>
       <div class="d--grid grid--6col">
         <app-product-card
           *ngFor="let product of products"
           [id]="product.id"
-          [name]="product.product_name"
-          [url]="product.product_url"
+          [name]="product.name"
+          [url]="product.url"
           [sku]="product.sku"
           [color]="product.color"
           [price]="product.price"
           [size]="product.size"
-          [productType]="product.product_type"
+          [productType]="product.productType"
           [model]="product.model"
           [gender]="product.gender"
           [images]="product.images"

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Tops } from "src/app/models/tops";
-import { TopsService } from "../../core/services/tops.service";
+import { ShirtsService } from "../../core/services/shirts.service";
 
 @Component({
   selector: "app-home",
@@ -8,7 +8,7 @@ import { TopsService } from "../../core/services/tops.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  constructor(private topsService: TopsService) {}
+  constructor(private shirtsService: ShirtsService) {}
   loading: boolean = true;
   products: any[];
   productsLoaded: boolean;
@@ -24,8 +24,9 @@ export class HomeComponent implements OnInit {
   }
 
   getAllProducts() {
-    this.topsService.getAll().subscribe(res => {
+    this.shirtsService.getAll().subscribe(res => {
       this.products = res.data;
+      console.log(this.products)
     },
     error => {},
     () => {
@@ -35,7 +36,6 @@ export class HomeComponent implements OnInit {
   checkLoading() {
     if(this.products) {
       this.products.forEach(product => {
-        console.log(product)
         if(product.images.length) {
           this.productsLoaded = true;
         } else {

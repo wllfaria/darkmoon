@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { TopsService } from "src/app/core/services/tops.service";
+import { ShirtsService } from "src/app/core/services/shirts.service";
 
 @Component({
   selector: "app-cart",
@@ -7,7 +7,7 @@ import { TopsService } from "src/app/core/services/tops.service";
   styleUrls: ["./cart.component.scss"]
 })
 export class CartComponent implements OnInit {
-  constructor(private topsService: TopsService) {}
+  constructor(private shirtsService: ShirtsService) {}
 
   private loading: boolean;
   private isCartOpen: boolean;
@@ -45,9 +45,8 @@ export class CartComponent implements OnInit {
 
   getProductsData(): void {
     this.products.forEach(product => {
-      this.topsService.getByUrl(product.url).subscribe(
+      this.shirtsService.getByUrl(product.url).subscribe(
         response => {
-          console.log(response)
           product["sku"] = response.data[0].sku;
           product["price"] = response.data[0].price;
           product["type"] = response.data[0].product_type;
@@ -77,7 +76,7 @@ export class CartComponent implements OnInit {
   }
 
   getSuggestion(): void {
-    this.topsService.getAll().subscribe(
+    this.shirtsService.getAll().subscribe(
       response => {
         this.suggestion = response.data[0];
       },
