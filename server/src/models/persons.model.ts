@@ -1,4 +1,4 @@
-import { mysqlpool } from '../database';
+import { getMySqlConnection } from '../database';
 import * as crypto from 'crypto';
 import '../env';
 
@@ -21,7 +21,7 @@ export default class PersonsModel {
     person['password'] = this.encodePassword(<string>person.password, person.salt);
 
     return new Promise(async (resolve, reject) => {
-      const conn: any = await mysqlpool();
+      const conn: any = await getMySqlConnection();
       conn.query(
         `
           insert into persons set ?
@@ -39,7 +39,7 @@ export default class PersonsModel {
 
   public getById(personId: number): Promise<Persons> {
     return new Promise(async (resolve, reject) => {
-      const conn: any = await mysqlpool();
+      const conn: any = await getMySqlConnection();
       conn.query(
         `
           select

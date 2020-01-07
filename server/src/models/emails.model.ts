@@ -3,7 +3,7 @@ import '../env';
 import uuidv4 from 'uuid/v4';
 
 import { MailOptions } from 'nodemailer/lib/sendmail-transport';
-import { mysqlpool } from '../database';
+import { getMySqlConnection } from '../database';
 import { QueryError, RowDataPacket, OkPacket } from 'mysql';
 import Emails from '../interfaces/emails.interface';
 
@@ -32,7 +32,7 @@ export default class EmailsModel {
   public createConfirmation(personId: number): Promise<string> {
     const guid: string = this.generateGuid();
     return new Promise(async (resolve, reject) => {
-      const conn: any = await mysqlpool();
+      const conn: any = await getMySqlConnection();
       conn.query(
         `
           insert into 
@@ -51,7 +51,7 @@ export default class EmailsModel {
 
   public getTemplate(templateName: string): Promise<Emails> {
     return new Promise(async (resolve, reject) => {
-      const conn: any = await mysqlpool();
+      const conn: any = await getMySqlConnection();
       conn.query(
         `
           select

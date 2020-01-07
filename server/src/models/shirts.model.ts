@@ -1,12 +1,15 @@
-import { mysqlpool } from '../database';
+import { getMySqlConnection } from '../database';
 import { RowDataPacket, QueryError } from 'mysql';
 import Shirts from '../interfaces/shirts.interface';
+
+// I will refactor this class once I get home.
+
 
 export default class ShirtsModel {
   public getAll(): Promise<Shirts[]> {
     return new Promise(async (resolve, reject) => {
       let shirts: RowDataPacket[];
-      const conn: any = await mysqlpool();
+      const conn: any = await getMySqlConnection();
       conn.query(
         `
           select
@@ -39,7 +42,7 @@ export default class ShirtsModel {
   public getByUrl(url: string): Promise<Shirts[]> {
     return new Promise(async (resolve, reject) => {
       let shirts: RowDataPacket[];
-      const conn: any = await mysqlpool();
+      const conn: any = await getMySqlConnection();
       conn.query(
         `
           select
@@ -71,10 +74,11 @@ export default class ShirtsModel {
     })
   }
 
+  // Doing this is to miss the point of the relational database, that is the foreign joins.
   private getImages(shirts: RowDataPacket[]): Promise<RowDataPacket[]> {
     return new Promise((resolve, reject) => {
       shirts.forEach(async (shirt, index, array) => {
-        const conn: any = await mysqlpool();
+        const conn: any = await getMySqlConnection();
         conn.query(
           `
             select
@@ -101,7 +105,7 @@ export default class ShirtsModel {
   private getGenders(shirts: RowDataPacket[]): Promise<RowDataPacket[]> {
     return new Promise((resolve, reject) => {
       shirts.forEach(async (shirt, index, array) => {
-        const conn: any = await mysqlpool();
+        const conn: any = await getMySqlConnection();
         conn.query(
           `
             select
@@ -127,7 +131,7 @@ export default class ShirtsModel {
   private getModels(shirts: RowDataPacket[]): Promise<RowDataPacket[]> {
     return new Promise((resolve, reject) => {
       shirts.forEach(async (shirt, index, array) => {
-        const conn: any = await mysqlpool();
+        const conn: any = await getMySqlConnection();
         conn.query(
           `
             select
@@ -153,7 +157,7 @@ export default class ShirtsModel {
   private getTypes(shirts: RowDataPacket[]): Promise<RowDataPacket[]> {
     return new Promise((resolve, reject) => {
       shirts.forEach(async (shirt, index, array) => {
-        const conn: any = await mysqlpool();
+        const conn: any = await getMySqlConnection();
         await conn.query(
           `
             select
