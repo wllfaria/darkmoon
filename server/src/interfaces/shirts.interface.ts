@@ -1,4 +1,4 @@
-import Images from "../images.interface";
+import Images from "./images.interface";
 
 export default interface Shirts {
   name: string;
@@ -7,7 +7,7 @@ export default interface Shirts {
   color: string;
   price: string;
   size: string;
-  productType: any[];
+  product_type: any[];
   model: any[];
   gender: any[];
   images: Images[];

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import ShirtsModel from "../models/shirts.model";
-import Shirts from '../interfaces/shirts/shirts.interface';
+import Shirts from '../interfaces/shirts.interface';
 
 export default class ShirtsController {
   

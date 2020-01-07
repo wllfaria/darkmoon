@@ -7,16 +7,28 @@ create table persons(
   first_name varchar(45) not null,
   last_name varchar(45) not null,
   cpf char(11) not null,
-  birthdate date not null,
+  birthdate date default null,
   email varchar(255) not null unique,
-  uuid varchar(36) default null unique,
+  jwt varchar(768) default null unique,
   password varchar(140) default null,
-  token varchar(140) default null,
-  expire datetime default null,
+  password_changed datetime default null,
+  password_old varchar(140) default null,
+  email_confirmed boolean default null,
   created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
   primary key (id)
+);
+
+create table email_confirmations (
+	id int not null unique auto_increment,
+  person int not null unique,
+  guid varchar(90) not null unique,
+	created_at datetime not null default current_timestamp,
+  updated_at datetime not null default current_timestamp,
+  deleted_at datetime default null,
+  primary key (id),
+  foreign key (person) references persons(id)
 );
 
 create table product_types (
@@ -94,20 +106,54 @@ create table product_images (
 
 create table addresses(
 	id int not null unique auto_increment,
-  person_id int not null,
+  person int not null,
   zip_code varchar(8) not null,
-  public_place varchar(255) not null,
+  district varchar(255) not null,
   neighborhood varchar(255) not null,
   city varchar(255) not null,
   state varchar(2) not null,
   number varchar(99) not null,
 	complement varchar(140) default null,
-  reference varchar(140) default null,
   created_at datetime not null default current_timestamp,
   updated_at datetime not null default current_timestamp,
   deleted_at datetime default null,
   primary key (id),
-  foreign key (person_id) references persons(id)
+  foreign key (person) references persons(id)
+);
+
+create table card_flags (
+	id int not null unique auto_increment,
+  name varchar(100) not null,
+  created_at datetime not null default current_timestamp,
+  updated_at datetime not null default current_timestamp,
+  deleted_at datetime default null,
+  primary key (id)
+);
+
+create table cards (
+	id int not null unique auto_increment,
+  person int not null,
+  number varchar(16) not null,
+  name varchar(255) not null,
+  flag int not null,
+  vality date not null,
+  created_at datetime not null default current_timestamp,
+  updated_at datetime not null default current_timestamp,
+  deleted_at datetime default null,
+  primary key (id),
+  foreign key (person) references persons(id),
+  foreign key (flag) references card_flags(id)
+);
+
+create table email_templates (
+	id int not null unique auto_increment,
+  name varchar(50) not null unique,
+  subject varchar(255) not null,
+  template longtext not null,
+  created_at datetime not null default current_timestamp,
+  updated_at datetime not null default current_timestamp,
+  deleted_at datetime default null,
+  primary key (id)
 );
 
 insert into product_types (name) values ("shirt");

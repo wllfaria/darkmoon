@@ -1,6 +1,6 @@
 import { mysqlpool } from '../database';
 import { RowDataPacket, QueryError } from 'mysql';
-import Shirts from '../interfaces/shirts/shirts.interface';
+import Shirts from '../interfaces/shirts.interface';
 
 export default class ShirtsModel {
   public getAll(): Promise<Shirts[]> {
