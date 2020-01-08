@@ -2,12 +2,13 @@ import express from 'express';
 import Router from "./router";
 import * as bodyParser from 'body-parser'
 import './env';
-import * as database from "./database";
+import { ModelRepository } from "./database";
 
 const cors = require('cors')
 const server = express();
 const router = new Router(server);
 const port = process.env.PORT || 3333;
+const modelRepo = new ModelRepository();
 
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(bodyParser.json())
@@ -20,7 +21,7 @@ server.get('/', cors(), (_req, res) => {
 
 server.get('/database-test', async (_req, _res) => {
   try {
-    const result = await database.testConnection();
+    const result = await modelRepo.testConnection();
     _res.status(200).json({ 
       ok: true,
       msg: "Database is working properly.",
@@ -34,9 +35,5 @@ server.get('/database-test', async (_req, _res) => {
     })
   }
 });
-
-server.get("/configure-db", async (_req, _res) => {
-  database.spawnDatabase();
-})
 
 server.listen(port, () => { console.log(`Server is running on port ${port}`) });

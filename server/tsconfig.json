@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "outDir": "./dist/",
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
