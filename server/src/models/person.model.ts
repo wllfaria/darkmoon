@@ -1,36 +1,33 @@
-// import { getMySqlConnection } from '../database';
 import * as crypto from 'crypto';
 import '../env';
-// import { QueryError, RowDataPacket, OkPacket } from 'mysql';
-import { Model, DataType } from 'sequelize-typescript';
+import { Model, DataType, HasMany } from 'sequelize-typescript';
 import { Table, Column } from 'sequelize-typescript';
-// import Address from './address.model';
+import Address from './address.model';
 
 @Table({ tableName: "persons" })
 export default class Person extends Model<Person> {
 
-  @Column({ primaryKey: true, autoIncrementIdentity: true, type: DataType.INTEGER })
-  id: number = -1;
+  @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
+  id!: number;
   @Column(DataType.TEXT)
-  first_name: string = "";
+  first_name!: string;
   @Column(DataType.TEXT)
-  last_name: string = "";
+  last_name!: string;
   @Column(DataType.TEXT)
-  cpf: string = "";
+  cpf!: string ;
   @Column(DataType.DATE)
-  birthdate: Date = new Date();
+  birthdate!: Date;
   @Column(DataType.TEXT)
-  email: string = "";
+  email!: string;
   @Column(DataType.TEXT)
-  password: string = "";
+  password!: string;
   @Column(DataType.TEXT)
   salt?: string;
   @Column(DataType.BOOLEAN)
-  email_confirmed: boolean = false;
+  email_confirmed!: boolean;
   
-  // @HasMany(() => Address)
-  // addresses: Addresses[];
-  //cards?: Cards[];
+  @HasMany(() => Address)
+  addresses!: Address[];
 
   private generateSalt(): string {
     return crypto.randomBytes(Number(process.env.CRYPTOSALT)).toString(String(process.env.CRYPTOSTRING));

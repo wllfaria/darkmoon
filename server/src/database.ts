@@ -7,6 +7,8 @@ import './env';
 import * as config from '../db-config.json';
 import Connection = require('mysql/lib/Connection');
 import Person from './models/person.model';
+import Address from './models/address.model';
+import PersonsController from './controllers/persons.controller';
 //import { QueryError, RowDataPacket } from 'mysql';
 
 export class ModelRepository {
@@ -28,17 +30,78 @@ export class ModelRepository {
       }
     });
 
-    this.repository.addModels([Person]);
+    this.repository.addModels([Address, Person]);
   }
 
   async testConnection() {
     await this.repository?.authenticate();
     try {
-      await Person.create({ first_name: "asdasdasd" })
+      console.log("Will create persons.")
+      await Person.sync({ force: true });
+      await Address.sync({ force: true });
     } catch (e) {
       console.log("Error!", e)
      }
     return null;
+  }
+
+  async testTables() {
+    // var person = new Person({
+    //   first_name: "Willians",
+    //   last_name: "Faria",
+    //   cpf: "41749257807",
+    //   email: "willianasfaria@hotmail.com",
+    //   password: "Wfaria10"
+    // });
+    // await person.save();
+
+    // Person.bulkCreate([{
+    //     first_name: "Willians",
+    //     last_name: "Faria",
+    //     cpf: "41749257807",
+    //     email: "willianasfaria@hotmail.com",
+    //     password: "Wfaria10"
+    //   }, {
+    //     first_name: "Artur",
+    //     last_name: "Trapp",
+    //     cpf: "06341149999",
+    //     email: "artptrapp@hotmail.com",
+    //     password: "Atrapp10",
+    //     addresses: [
+    //       {
+    //         city: "Dublin",
+    //         state: "Co. Dublin",
+    //         district: "Ballsbridge"
+    //       },
+    //       {
+    //         city: "Dublin",
+    //         state: "Co. Dublin",
+    //         district: "Dun Laoghaire"
+    //       },
+    //     ]
+    //   }], { } );
+
+    await Person.create({
+      first_name: "Artur",
+      last_name: "Trapp",
+      cpf: "06341149999",
+      email: "artptrapp@hotmail.com",
+      password: "Atrapp10",
+      addresses: [
+        {
+          city: "Dublin",
+          state: "Co. Dublin",
+          district: "Ballsbridge"
+        },
+        {
+          city: "Dublin",
+          state: "Co. Dublin",
+          district: "Dun Laoghaire"
+        },
+      ]}, { include: Address }
+      );
+
+    // console.log(person);
   }
 }
 
