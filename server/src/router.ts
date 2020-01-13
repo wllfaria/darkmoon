@@ -1,44 +1,28 @@
 import * as core from "express-serve-static-core";
-import ShirtsController from './controllers/shirts.controller';
-import EmailsController from "./controllers/emails.controller";
-import PersonsController from "./controllers/persons.controller";
+import ShirtController from "./controllers/v1/shirt.controller";
+import RequestValidator from "./validations/v1/requestValidator.validation";
 const cors = require('cors')
 
 export default class Router {
 
 	private app: core.Express;
-	private shirtsController: ShirtsController;
-	private emailsController: EmailsController;
-	private personsController: PersonsController;
+	private shirtController: ShirtController;
+	private requestValidator: RequestValidator;
 
 	constructor(app: core.Express) {
 			this.app = app;
-			this.shirtsController = new ShirtsController();
-			this.emailsController = new EmailsController();
-			this.personsController = new PersonsController();
+			this.shirtController = new ShirtController();
+			this.requestValidator = new RequestValidator();
 	}
 
-	public initializeRoutes() {
+	public initializeRoutes = () => {
 		this.shirtsRoutes();
-		this.emailsRoutes();
-		this.personsRoutes();
 	}
 
-	private shirtsRoutes() {
+	private shirtsRoutes = () => {
 		this.app.route('/shirts')
-			.get(cors(), this.shirtsController.getAll);
-		this.app.route('/shirts/:url')
-			.get(cors(), this.shirtsController.getByUrl)
-	}
-
-	private emailsRoutes() {
-		this.app.route('/emails/confirmations')
-			.post(cors(), this.emailsController.createConfirmation);
-	}
-
-	private personsRoutes() {
-		this.app.route('/persons')
-			.get(cors(), this.personsController.fullRegister);
+			.get(cors(), this.shirtController.get)
+			.post(cors(), this.requestValidator.shirtValidator('create'), this.shirtController.create)
 	}
 
 }

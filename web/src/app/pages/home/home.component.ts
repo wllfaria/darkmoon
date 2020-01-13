@@ -8,19 +8,29 @@ import { ShirtsService } from "../../core/services/shirts.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
+
   constructor(private shirtsService: ShirtsService) {}
-  loading: boolean = true;
-  products: any[];
-  productsLoaded: boolean;
+
+  private contentLoading: boolean;
+  private products: any[];
+  private productsLoading: boolean;
 
   ngOnInit() {
-    this.loading = true;
+    this.setPageLoading();
     this.getAllProducts();
-    setInterval(() => {
-      if(this.loading) {
-        this.checkLoading();
-      }
-    }, 100)
+  }
+
+  setPageLoading() {
+    this.contentLoading = true;
+    this.productsLoading = true;
+  }
+
+  checkLoading() {
+    if(
+      !this.productsLoading
+    ) {
+      this.contentLoading = false;
+    }
   }
 
   getAllProducts() {
@@ -30,22 +40,7 @@ export class HomeComponent implements OnInit {
     },
     error => {},
     () => {
+      this.checkLoading();
     }
   )}
-
-  checkLoading() {
-    if(this.products) {
-      this.products.forEach(product => {
-        if(product.images.length) {
-          this.productsLoaded = true;
-        } else {
-          this.productsLoaded = false;
-          this.getAllProducts();
-        }
-      });
-    }
-    if(this.productsLoaded) {
-      this.loading = false;
-    }
-  }
 }

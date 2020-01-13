@@ -36,21 +36,4 @@ server.get('/database-test', async (_req, _res) => {
   }
 });
 
-server.get('/tables-test', async (_req, _res) => {
-  try {
-    const result = await modelRepo.testTables();
-    _res.status(200).json({ 
-      ok: true,
-      msg: "Database is working properly.",
-      list_of_dbs: result
-    });
-  } catch(e) {
-    _res.status(500).json({
-      ok: false,
-      message: "Database is not working properly.",
-      reason: e
-    })
-  }
-});
-
 server.listen(port, () => { console.log(`Server is running on port ${port}`) });

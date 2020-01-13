@@ -1,15 +1,15 @@
-//const mysql = require('mysql')
 import { Sequelize } from 'sequelize-typescript';
-import './env';
-
-// It should be safe to store the configuration in this file,
-// because of the access pattern from the server.
 import * as config from '../db-config.json';
-import Connection = require('mysql/lib/Connection');
-import Person from './models/person.model';
-import Address from './models/address.model';
-import PersonsController from './controllers/persons.controller';
-//import { QueryError, RowDataPacket } from 'mysql';
+import Person from './models/v1/person.model';
+import Address from './models/v1/address.model';
+import Card from './models/v1/card.model';
+import CardFlag from './models/v1/cardFlag.model';
+import Gender from './models/v1/gender.model';
+import ProductModel from './models/v1/productModel.model';
+import Shirt from './models/v1/shirt.model';
+import Sku from './models/v1/sku.model';
+import ProductType from './models/v1/productType.model';
+import ProductImage from './models/v1/productImage.model';
 
 export class ModelRepository {
   repository: Sequelize | undefined;
@@ -18,7 +18,7 @@ export class ModelRepository {
     this.initialize();
   }
 
-  private initialize() {
+  private initialize = () => {
     this.repository = new Sequelize(config.database, config.username, config.password, {
       dialect: "mysql",
       host: config.host,
@@ -29,87 +29,31 @@ export class ModelRepository {
         idle: 10000
       }
     });
-
-    this.repository.addModels([Address, Person]);
+    this.addModels();
+    // this.repository.sync({ force: true })
   }
 
-  async testConnection() {
+  private addModels = () => {
+    this.repository?.addModels([
+      Address,
+      Card,
+      CardFlag,
+      Gender,
+      Person,
+      ProductImage,
+      ProductModel,
+      ProductType,
+      Shirt,
+      Sku
+    ]);
+  }
+
+  testConnection = async () => {
     await this.repository?.authenticate();
     try {
-      console.log("Will create persons.")
-      await Person.sync({ force: true });
-      await Address.sync({ force: true });
+      return this.repository?.showAllSchemas({})
     } catch (e) {
-      console.log("Error!", e)
-     }
-    return null;
+      return e
+    }
   }
-
-  async testTables() {
-    // var person = new Person({
-    //   first_name: "Willians",
-    //   last_name: "Faria",
-    //   cpf: "41749257807",
-    //   email: "willianasfaria@hotmail.com",
-    //   password: "Wfaria10"
-    // });
-    // await person.save();
-
-    // Person.bulkCreate([{
-    //     first_name: "Willians",
-    //     last_name: "Faria",
-    //     cpf: "41749257807",
-    //     email: "willianasfaria@hotmail.com",
-    //     password: "Wfaria10"
-    //   }, {
-    //     first_name: "Artur",
-    //     last_name: "Trapp",
-    //     cpf: "06341149999",
-    //     email: "artptrapp@hotmail.com",
-    //     password: "Atrapp10",
-    //     addresses: [
-    //       {
-    //         city: "Dublin",
-    //         state: "Co. Dublin",
-    //         district: "Ballsbridge"
-    //       },
-    //       {
-    //         city: "Dublin",
-    //         state: "Co. Dublin",
-    //         district: "Dun Laoghaire"
-    //       },
-    //     ]
-    //   }], { } );
-
-    await Person.create({
-      first_name: "Artur",
-      last_name: "Trapp",
-      cpf: "06341149999",
-      email: "artptrapp@hotmail.com",
-      password: "Atrapp10",
-      addresses: [
-        {
-          city: "Dublin",
-          state: "Co. Dublin",
-          district: "Ballsbridge"
-        },
-        {
-          city: "Dublin",
-          state: "Co. Dublin",
-          district: "Dun Laoghaire"
-        },
-      ]}, { include: Address }
-      );
-
-    // console.log(person);
-  }
-}
-
-export function getMySqlConnection(): Promise<Connection> {
-  return new Promise((_resolve, _reject) => {
-    // pool.getConnection((error: any, connection: Connection) => {
-    //   if (error) reject(error);
-    //   resolve(connection);
-    // });
-  });
 }
