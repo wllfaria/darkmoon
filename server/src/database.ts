@@ -48,12 +48,75 @@ export class ModelRepository {
     ]);
   }
 
-  testConnection = async () => {
+  async testConnection() {
     await this.repository?.authenticate();
     try {
-      return this.repository?.showAllSchemas({})
+      await Person.create({ first_name: "asdasdasd" })
+      console.log("Will create persons.")
+      await Person.sync({ force: true });
+      await Address.sync({ force: true });
     } catch (e) {
-      return e
+      console.log("Error!", e)
     }
+    return null;
+  }
+
+  async testTables() {
+    // var person = new Person({
+    //   first_name: "Willians",
+    //   last_name: "Faria",
+    //   cpf: "41749257807",
+    //   email: "willianasfaria@hotmail.com",
+    //   password: "Wfaria10"
+    // });
+    // await person.save();
+
+    // Person.bulkCreate([{
+    //     first_name: "Willians",
+    //     last_name: "Faria",
+    //     cpf: "41749257807",
+    //     email: "willianasfaria@hotmail.com",
+    //     password: "Wfaria10"
+    //   }, {
+    //     first_name: "Artur",
+    //     last_name: "Trapp",
+    //     cpf: "06341149999",
+    //     email: "artptrapp@hotmail.com",
+    //     password: "Atrapp10",
+    //     addresses: [
+    //       {
+    //         city: "Dublin",
+    //         state: "Co. Dublin",
+    //         district: "Ballsbridge"
+    //       },
+    //       {
+    //         city: "Dublin",
+    //         state: "Co. Dublin",
+    //         district: "Dun Laoghaire"
+    //       },
+    //     ]
+    //   }], { } );
+
+    // await Person.create({
+    //   first_name: "Artur",
+    //   last_name: "Trapp",
+    //   cpf: "06341149999",
+    //   email: "artptrapp@hotmail.com",
+    //   password: "Atrapp10",
+    //   addresses: [
+    //     {
+    //       city: "Dublin",
+    //       state: "Co. Dublin",
+    //       district: "Ballsbridge"
+    //     },
+    //     {
+    //       city: "Dublin",
+    //       state: "Co. Dublin",
+    //       district: "Dun Laoghaire"
+    //     },
+    //   ]}, { include: Address }
+    //   );
+
+    // console.log(person);
   }
 }

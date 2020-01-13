@@ -21,9 +21,6 @@ export default class RequestValidator {
           body('avaliable')
             .exists().withMessage('Avaliable doesn\'t exists.')
             .isBoolean().withMessage('Avaliable should be a boolean.'),
-          body('sku')
-            .exists().withMessage('Sku doesn\'t exists.')
-            .isInt().withMessage('Sku should be an integer.'),
           body('price')
             .exists().withMessage('Price doesn\'t exists.')
             .isFloat().withMessage('Price should be a double.'),
@@ -45,7 +42,11 @@ export default class RequestValidator {
           body('images.*.name')
             .exists().withMessage('Image name does\'t exists.')
             .isString().withMessage('Image name should be a string.')
-            .isLength({ min: 1 }).withMessage('Image name should have at least 1 character.')
+            .isLength({ min: 1 }).withMessage('Image name should have at least 1 character.'),
+          body('images.*.alt')
+            .exists().withMessage('Image alt does\'t exists.')
+            .isString().withMessage('Image alt should be a string.')
+            .isLength({ min: 1 }).withMessage('Image alt should have at least 1 character.')
         ]
       default:
         return [

@@ -14,6 +14,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { ComponentsModule } from "./components/components.module";
 import { PipesModule } from "./pipes/pipes.module";
 import { DirectivesModule } from "./core/directives/directives.module";
+import { LoginComponent } from './pages/login/login.component';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { DirectivesModule } from "./core/directives/directives.module";
     TemplateComponent,
     ProductComponent,
     NotFoundComponent,
-    ProductListComponent
+    ProductListComponent,
+    LoginComponent,
+
   ],
   imports: [
     ComponentsModule,

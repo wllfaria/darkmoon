@@ -36,10 +36,11 @@ export class HomeComponent implements OnInit {
   getAllProducts() {
     this.shirtsService.getAll().subscribe(res => {
       this.products = res.data;
-      console.log(this.products)
+      console.log(res.data);
     },
     error => {},
     () => {
+      this.productsLoading = false;
       this.checkLoading();
     }
   )}

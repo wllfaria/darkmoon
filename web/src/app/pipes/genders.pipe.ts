@@ -4,8 +4,8 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: "genders"
 })
 export class GendersPipe implements PipeTransform {
-  transform(value: any): any {
-    switch (value) {
+  transform(value: string): any {
+    switch (value.toLowerCase()) {
       case "male":
         return "masculino";
       case "female":

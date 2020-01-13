@@ -5,6 +5,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { ProductComponent } from "./pages/product/product.component";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { ProductListComponent } from "./pages/product-list/product-list.component";
+import { LoginComponent } from './pages/login/login.component';
 
 export const ROUTER: Routes = [
   {
@@ -43,7 +44,11 @@ export const ROUTER: Routes = [
         path: "camisetas/longsleeve/masculino/:product",
         component: ProductComponent
       },
-      { path: "**", component: NotFoundComponent }
     ]
-  }
+  },
+  {
+    path: "login",
+    component: LoginComponent
+  },
+  { path: "**", component: NotFoundComponent }
 ];

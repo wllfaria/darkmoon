@@ -4,8 +4,8 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: "models"
 })
 export class ModelsPipe implements PipeTransform {
-  transform(value: any): any {
-    switch (value) {
+  transform(value: string): any {
+    switch (value.toLowerCase()) {
       case "shirt":
         return "camisetas";
     }

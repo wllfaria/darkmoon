@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany, ForeignKey } from "sequelize-typescript";
+import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany, ForeignKey, BelongsTo } from "sequelize-typescript";
 import Shirt from "./shirt.model";
 import ProductType from "./productType.model";
 import ProductImage from "./productImage.model";
@@ -21,6 +21,9 @@ export default class Sku extends Model<Sku> {
   updated_at!: Date;
   @DeletedAt
   deleted_at!: Date;
+
+  @BelongsTo(() => ProductType)
+  type!: ProductType;
 
   @HasMany(() => Shirt)
   shirt!: Shirt[];

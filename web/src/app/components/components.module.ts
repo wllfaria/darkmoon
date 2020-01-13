@@ -12,6 +12,7 @@ import { CartComponent } from "./cart/cart.component";
 import { CartLoaderComponent } from "./loaders/cart-loader/cart-loader.component";
 import { DirectivesModule } from "../core/directives/directives.module";
 import { LoadingCartDirective } from "../core/directives/loading-cart.directive";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { LoadingCartDirective } from "../core/directives/loading-cart.directive"
     CartComponent,
     CartLoaderComponent
   ],
-  imports: [CommonModule, PipesModule, RouterModule],
+  imports: [CommonModule, PipesModule, RouterModule, FontAwesomeModule],
   exports: [
     BannerComponent,
     FooterComponent,
