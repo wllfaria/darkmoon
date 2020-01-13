@@ -6,7 +6,6 @@ import ProductImage from "../../models/v1/productImage.model";
 import Gender from "../../models/v1/gender.model";
 import ProductModel from "../../models/v1/productModel.model";
 import ProductType from "../../models/v1/productType.model";
-import SkuController from "./sku.controller";
 
 export default class ShirtController {
   public get = async (_req: Request, res: Response) => {
@@ -22,7 +21,6 @@ export default class ShirtController {
   public create = async (req: Request, res: Response) => {
     try {
       const requestValidator: RequestValidator = new RequestValidator();
-      const skuController: SkuController = new SkuController();
       const errors = requestValidator.extractErrors(req);
       if(errors.length) { 
         requestValidator.validate(errors, res);
