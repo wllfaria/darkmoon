@@ -22,7 +22,9 @@ export default class Router {
 	private shirtsRoutes = () => {
 		this.app.route('/shirts')
 			.get(cors(), this.shirtController.get)
-			.post(cors(), this.requestValidator.shirtValidator('create'), this.shirtController.create)
+			.post(cors(), this.requestValidator.shirtValidator('create'), this.shirtController.create);
+		this.app.route('/shirts/:url')
+			.get(cors(), this.requestValidator.shirtValidator('getbyurl'), this.shirtController.getByUrl)
 	}
 
 }

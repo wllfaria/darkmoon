@@ -11,11 +11,20 @@ export default class ShirtController {
   public get = async (_req: Request, res: Response) => {
     try {
       let results = await Sku.findAll({include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage]})
-      console.log(results);
       res.status(200).json({ok: true, data: results})
     } catch (err) {
       res.status(400).json({failed: true, err})      
     }
+  }
+
+  public getByUrl = (req: Request, res: Response) => {
+    const requestValidator: RequestValidator = new RequestValidator();
+    const errors = requestValidator.extractErrors(req);
+    if(errors.length) {
+      requestValidator.validate(errors, res);
+      return;
+    }
+    Shirt.findOne
   }
 
   public create = async (req: Request, res: Response) => {

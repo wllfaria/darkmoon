@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 export default class RequestValidator {
   public shirtValidator = (option: string) => {
     switch (option) {
-      case 'create':
+      case 'create': {
         return [
           body('productName')
             .exists().withMessage('Product Name doesn\'t exists.')
@@ -48,6 +48,15 @@ export default class RequestValidator {
             .isString().withMessage('Image alt should be a string.')
             .isLength({ min: 1 }).withMessage('Image alt should have at least 1 character.')
         ]
+      }
+      case 'getbyurl': {
+        return [
+          body('url')
+            .exists().withMessage('Product url doesn\'t exists.')
+            .isString().withMessage('Product url should be a string.')
+            .isLength({ min: 1 }).withMessage('Product url should have at least 1 character.')
+        ]
+      }
       default:
         return [
           body()
