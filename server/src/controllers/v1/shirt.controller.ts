@@ -6,15 +6,18 @@ import ProductImage from "../../models/v1/productImage.model";
 import Gender from "../../models/v1/gender.model";
 import ProductModel from "../../models/v1/productModel.model";
 import ProductType from "../../models/v1/productType.model";
+import { MessageFactory } from "../../models/v1/MessageFactory/messageFactory";
+import ErrorMessage from "../../models/v1/MessageFactory/errorMessage";
+import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
+import ServerMessage from "../../models/v1/MessageFactory/serverMessage";
 
 export default class ShirtController {
   public get = async (_req: Request, res: Response) => {
     try {
-      let results = await Sku.findAll({include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage]})
-      console.log(results);
-      res.status(200).json({ok: true, data: results})
+      let results = await Sku.findAll({include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage]});
+      MessageFactory.buildResponse(SuccessMessage, res, results);
     } catch (err) {
-      res.status(400).json({failed: true, err})      
+      MessageFactory.buildResponse(ErrorMessage, res, err);
     }
   }
 
@@ -29,14 +32,14 @@ export default class ShirtController {
 
       const { productName, productUrl, productType, avaliable, price, size, model, gender, images } = req.body;
 
-      const skuResult: any = await Sku.create({ product_name: productName, product_url: productUrl, type_id: productType, avaliable });
+      const skuResult: Sku = await Sku.create({ product_name: productName, product_url: productUrl, type_id: productType, avaliable });
       await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender });
       images.forEach(async (image: any) => {
         await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt })
       })
-      res.status(200).json({ok: true});
+      MessageFactory.buildResponse(SuccessMessage, res, { ok: true });
     } catch (err) {
-      res.status(400).json({failed: true, err});
+      MessageFactory.buildResponse(ErrorMessage, res, err);
     }
   }
 }
