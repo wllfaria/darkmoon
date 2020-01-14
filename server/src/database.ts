@@ -14,8 +14,21 @@ import ProductImage from './models/v1/productImage.model';
 export class ModelRepository {
   repository: Sequelize | undefined;
 
+  private static _instance: ModelRepository;
+
   constructor() {
-    this.initialize();
+    if(ModelRepository._instance == null) {
+      this.initialize();
+      ModelRepository._instance = this;
+    }
+    return ModelRepository._instance;
+  }
+
+  public static getInstance(): ModelRepository {
+    if(ModelRepository._instance != null) {
+      return ModelRepository._instance;
+    }
+    return new ModelRepository();
   }
 
   private initialize = () => {
@@ -31,6 +44,10 @@ export class ModelRepository {
     });
     this.addModels();
     // this.repository.sync({ force: true })
+  }
+
+  public async getTransaction() {
+    return await this.repository?.transaction()
   }
 
   private addModels = () => {
