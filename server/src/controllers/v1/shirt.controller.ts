@@ -44,7 +44,10 @@ export default class ShirtController {
         return;
       }
       const { productName, productUrl, productType, avaliable, price, size, model, gender, images } = req.body;
+<<<<<<< HEAD
 
+=======
+>>>>>>> f88f55c8b6da1c4c41e29e39b2ea50e43330f392
       const skuResult: Sku = await Sku.create(
         {
           product_name: productName, product_url: productUrl, type_id: productType, avaliable
@@ -52,6 +55,10 @@ export default class ShirtController {
         { 
           transaction 
         });
+<<<<<<< HEAD
+=======
+    
+>>>>>>> f88f55c8b6da1c4c41e29e39b2ea50e43330f392
       await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
       images.forEach(async (image: any) => {
         await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
@@ -59,6 +66,10 @@ export default class ShirtController {
       await transaction?.commit();
       MessageFactory.buildResponse(SuccessMessage, res, { ok: true });
     } catch (err) {
+<<<<<<< HEAD
+=======
+      // Rollbacks everything in case of explosion
+>>>>>>> f88f55c8b6da1c4c41e29e39b2ea50e43330f392
       await transaction?.rollback();
       MessageFactory.buildResponse(ErrorMessage, res, err);
     }
