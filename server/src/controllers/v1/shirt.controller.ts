@@ -35,8 +35,6 @@ export default class ShirtController {
       }
 
       const { productName, productUrl, productType, avaliable, price, size, model, gender, images } = req.body;
-
-      // Quem não tem colírio
       const skuResult: Sku = await Sku.create(
         {
           product_name: productName, product_url: productUrl, type_id: productType, avaliable
@@ -45,19 +43,15 @@ export default class ShirtController {
           transaction 
         });
     
-      // usa óculos escuro
       await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
-      // quem não tem filé
       images.forEach(async (image: any) => {
         await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
       });
-      // come pão e osso duro
       await transaction?.commit();
       MessageFactory.buildResponse(SuccessMessage, res, { ok: true });
     } catch (err) {
-      // quem não tem visão?
+      // Rollbacks everything in case of explosion
       await transaction?.rollback();
-      // bate a cara contra o muro
       MessageFactory.buildResponse(ErrorMessage, res, err);
     }
   }
