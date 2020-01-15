@@ -71,11 +71,4 @@ export default class RequestValidator {
     errors.array().map(err => extractedErrors.push(`${err.msg} at param: ${err.param ? err.param : 'undefined'} with value: ${err.value}`))
     return extractedErrors;
   }
-
-  public validate = (errors: any, res: Response) => {
-    res.status(400).json({
-      ok: false,
-      errors
-    })
-  }
 }
