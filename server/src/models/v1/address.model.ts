@@ -1,7 +1,7 @@
 import { Model, Table, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import Person from './person.model';
 
-@Table({ tableName: "dbo_addresses" })
+@Table({ tableName: "addresses" })
 export default class Address extends Model<Address> {
 	@Column({ type: DataType.INTEGER, primaryKey: true, autoIncrementIdentity: true })
 	id!: number;

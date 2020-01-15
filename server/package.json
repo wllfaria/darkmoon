@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-mocha test/**/*.test.ts",
     "dev": "nodemon src/index.ts",
     "dev:debug": "nodemon --inspect src/index.ts",
     "build": "tsc",
@@ -17,7 +17,10 @@
   "dependencies": {
     "@types/bluebird": "^3.5.29",
     "@types/cors": "^2.8.6",
+    "@types/expect": "^24.3.0",
     "@types/express": "^4.17.1",
+    "@types/jsonwebtoken": "^8.3.6",
+    "@types/mocha": "^5.2.7",
     "@types/mysql": "github:types/mysql",
     "@types/node": "^13.1.4",
     "@types/nodemailer": "^6.4.0",
@@ -39,5 +42,10 @@
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4",
     "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.0",
+    "ts-mocha": "^6.0.0"
   }
 }

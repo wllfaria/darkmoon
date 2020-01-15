@@ -6,6 +6,8 @@ export default class RequestValidator {
     switch (option) {
       case 'create': {
         return [
+          body()
+            .exists().withMessage('Body doesn\'t exists.'),
           body('productName')
             .exists().withMessage('Product Name doesn\'t exists.')
             .isString().withMessage('Product Name should be a string.')
@@ -57,6 +59,51 @@ export default class RequestValidator {
             .isLength({ min: 1 }).withMessage('Product url should have at least 1 character.')
         ]
       }
+      default:
+        return [
+          body()
+            .exists().withMessage('Request body doesn\'t exists.')
+        ]
+    }
+  }
+
+  public personValidator = (option: string) => {
+    switch(option) {
+      case "create":
+        return [
+          body()
+            .exists().withMessage('Body doesn\'t exists.'),
+          body('name')
+            .exists().withMessage('Name doesn\'t exists.')
+            .isString().withMessage('Name should be a string.')
+            .custom(name => /\s/.test(name)).withMessage('Name must have at least 1 space.')
+            .isLength({ min: 1 }).withMessage('Name should not be empty'),
+          body('email')
+            .exists().withMessage('Email doesn\'t exists.')
+            .isString().withMessage('Email should be a string.')
+            .isLength({ min: 1 }).withMessage('Email should not be empty.')
+            .custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
+          body('password')
+            .exists().withMessage('Password doesn\'t exists.')
+            .isString().withMessage('Password should be a string.')
+            .isLength({ min: 8 }).withMessage('Password should have at least 8 characters.'),
+          body('cpf')
+            .exists().withMessage('Cpf doesn\'t exists.')
+            .isInt().withMessage('Cpf must contain only numbers.')
+            .isLength({ min: 11, max: 11 }).withMessage('Cpf should have 11 characters.')
+        ]
+      case "auth":
+        return [
+          body()
+            .exists().withMessage('Body doesn\'t exists.'),
+          body('email')
+            .exists().withMessage('Email doesn\'t exists.')
+            .isString().withMessage('Email should be a string.')
+            .custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
+          body('password')
+            .exists().withMessage('Password doesn\'t exists.')
+            .isString().withMessage('Password should be a string.')
+        ]
       default:
         return [
           body()

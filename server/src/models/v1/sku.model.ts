@@ -3,7 +3,7 @@ import Shirt from "./shirt.model";
 import ProductType from "./productType.model";
 import ProductImage from "./productImage.model";
 
-@Table({ tableName: "dbo_skus" })
+@Table({ tableName: "skus" })
 export default class Sku extends Model<Sku> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;
@@ -15,6 +15,12 @@ export default class Sku extends Model<Sku> {
   type_id!: number;
   @Column({ type: DataType.BOOLEAN, allowNull: false, unique: true })
   avaliable!: string;
+  @Column({ type: DataType.REAL, allowNull: false })
+  price!: number;
+  @Column({ type: DataType.REAL })
+  sale_price!: number;
+  @Column({ type: DataType.DATE })
+  sale_date!: Date;
   @CreatedAt
   created_at!: Date;
   @UpdatedAt
