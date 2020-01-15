@@ -4,19 +4,17 @@ import { Table, Model, Column, DataType, HasMany, CreatedAt, UpdatedAt, DeletedA
 import Address from './address.model';
 import Card from './card.model';
 
-@Table({ tableName: "dbo_persons" })
+@Table({ tableName: "persons" })
 export default class Person extends Model<Person> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id!: number;
   @Column({ type: DataType.STRING, allowNull: false })
-  first_name!: string;
-  @Column({ type: DataType.STRING, allowNull: false })
-  last_name!: string;
+  name!: string;
   @Column({ type: DataType.STRING, allowNull: false })
   cpf!: string;
   @Column({ type: DataType.DATE })
   birthdate!: Date;
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email!: string;
   @Column({ type: DataType.BOOLEAN })
   email_confirmed!: boolean;
@@ -28,8 +26,6 @@ export default class Person extends Model<Person> {
   passowrd_changed!: Date;
   @Column({ type: DataType.TEXT })
   salt!: string;
-  @Column({ type: DataType.TEXT })
-  jwt!: string;
   @CreatedAt
   created_at!: Date;
   @UpdatedAt
