@@ -20,7 +20,7 @@ export default class Router {
 
 	public initializeRoutes = (): void => {
 		this.shirtsRoutes();
-		this.personsRoutes();
+		this.peopleRoutes();
 	}
 
 	private shirtsRoutes = (): void => {
@@ -29,7 +29,7 @@ export default class Router {
 			.post(cors(), this.requestValidator.shirtValidator('create'), this.shirtController.create)
 	}
 
-	private personsRoutes = (): void => {
+	private peopleRoutes = (): void => {
 		this.app.route('/persons')
 			.post(cors(), this.requestValidator.personValidator('create'), this.personController.create)
 		this.app.route('/persons/auth')

@@ -47,7 +47,7 @@ export class Database {
     // this.repository.sync({ force: true })
   }
 
-  public async getTransaction() {
+  public getTransaction = async () => {
     return await this.repository?.transaction()
   }
 
@@ -67,7 +67,7 @@ export class Database {
     ]);
   }
 
-  async testConnection() {
+  testConnection = async () => {
     await this.repository?.authenticate();
     try {
       await Person.create({ first_name: "asdasdasd" })

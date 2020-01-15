@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Database } from "../../database";
 import RequestValidator from "../../validations/v1/requestValidator.validation";
-import EncoderModel from "../../models/v1/encoder.model";
+import EncodingHelper from "../../helpers/v1/encodingHelper.helper";
 import Person from "../../models/v1/person.model";
 import Email from "../../models/v1/emailConfirmation.model";
 import { MessageFactory } from "../../models/v1/MessageFactory/messageFactory";
@@ -17,7 +17,6 @@ export default class PersonController {
     const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
     try {
       const requestValidator: RequestValidator = new RequestValidator();
-      const encoder: EncoderModel = new EncoderModel();
 
       const errors: any = requestValidator.extractErrors(req);
       if(errors.length) {
@@ -26,12 +25,12 @@ export default class PersonController {
       }
 
       const { name, email, cpf, password }: any = req.body;
-      const { salt, encodedPassword }: any = encoder.encodePassword(password);
-      const guid: string = encoder.generateGuid();
+      const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
+      const guid: string = EncodingHelper.generateGuid();
       
       const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
       await Email.create({ person_id: person.id, guid }, { transaction });
-      const jwt = encoder.signJWT({ id: person.id, name: person.name });
+      const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
       await transaction?.commit();
       MessageFactory.buildResponse(SuccessMessage, res, { ok: true, data: { person: person, token: jwt }});
@@ -44,7 +43,6 @@ export default class PersonController {
   public login = async (req: Request, res: Response) => {
     try {
       const requestValidator: RequestValidator = new RequestValidator();
-      const encoder: EncoderModel = new EncoderModel();
 
       const errors: any = requestValidator.extractErrors(req);
       if(errors.length) {
@@ -55,10 +53,10 @@ export default class PersonController {
       const { email, password }: any = req.body;
       const token: string = <string>req.headers.authorization;
       
-      const verifiedToken = encoder.verifyJWT(token);
+      const verifiedToken = EncodingHelper.verifyJWT(token);
 
       const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email }})
-      const authenticated: boolean = encoder.decodePassword(person.password, password, person.salt);
+      const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
 
       if (authenticated) {
         MessageFactory.buildResponse(SuccessMessage, res, { ok: true, data: person });
