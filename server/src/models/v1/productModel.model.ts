@@ -2,7 +2,7 @@ import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMan
 import Shirt from "./shirt.model";
 import ProductType from "./productType.model";
 
-@Table({ tableName: "dbo_models" })
+@Table({ tableName: "models" })
 export default class ProductModel extends Model<ProductModel> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;

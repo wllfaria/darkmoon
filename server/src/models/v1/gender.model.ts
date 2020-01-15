@@ -1,7 +1,7 @@
 import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany } from "sequelize-typescript";
 import Shirt from "./shirt.model";
 
-@Table({ tableName: "dbo_genders" })
+@Table({ tableName: "genders" })
 export default class Gender extends Model<Gender> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;

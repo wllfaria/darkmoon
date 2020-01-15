@@ -3,18 +3,12 @@ import ProductModel from "./productModel.model";
 import Gender from "./gender.model";
 import Sku from "./sku.model";
 
-@Table({ tableName: "dbo_shirts" })
+@Table({ tableName: "shirts" })
 export default class Shirt extends Model<Shirt> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id!: number;
   @ForeignKey(() => Sku)
   sku_id!: number;
-  @Column({ type: DataType.REAL, allowNull: false })
-  price!: number;
-  @Column({ type: DataType.REAL })
-  sale_price!: number;
-  @Column({ type: DataType.DATE })
-  sale_date!: Date;
   @Column({ type: DataType.ENUM('PP', 'P', 'M', 'G', 'GG'), allowNull: false})
   size!: string;
   @ForeignKey(() => ProductModel)

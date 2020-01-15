@@ -2,7 +2,7 @@ import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMan
 import Sku from "./sku.model";
 import ProductModel from "./productModel.model";
 
-@Table({ tableName: "dbo_product_types" })
+@Table({ tableName: "product_types" })
 export default class ProductType extends Model<ProductType> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;
