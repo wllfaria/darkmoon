@@ -2,7 +2,7 @@ import { Model, Table, Column, DataType, BelongsTo, ForeignKey, CreatedAt, Updat
 import Person from './person.model';
 import CardFlag from './cardFlag.model';
 
-@Table({tableName: 'dbo_cards'})
+@Table({tableName: 'cards'})
 export default class Card extends Model<Card> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;

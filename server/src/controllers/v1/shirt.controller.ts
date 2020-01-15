@@ -11,7 +11,7 @@ import ErrorMessage from "../../models/v1/MessageFactory/errorMessage";
 import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
 import ServerMessage from "../../models/v1/MessageFactory/serverMessage";
 import { Sequelize, Transaction } from "sequelize/types";
-import { ModelRepository } from "../../database";
+import { Database } from "../../database";
 
 export default class ShirtController {
   public get = async (_req: Request, res: Response) => {
@@ -25,7 +25,7 @@ export default class ShirtController {
 
   public create = async (req: Request, res: Response) => {
 
-    const transaction = await ModelRepository.getInstance().getTransaction();
+    const transaction = await Database.getInstance().getTransaction();
     try {
       const requestValidator: RequestValidator = new RequestValidator();
       const errors = requestValidator.extractErrors(req);

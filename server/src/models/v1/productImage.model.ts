@@ -2,7 +2,7 @@ import { Table, Model, Column, DataType, ForeignKey, CreatedAt, UpdatedAt, Delet
 import Sku from "./sku.model";
 
 
-@Table({ tableName: "dbo_product_images" })
+@Table({ tableName: "product_images" })
 export default class ProductImage extends Model<ProductImage> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id!: number;

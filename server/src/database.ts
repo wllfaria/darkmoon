@@ -10,25 +10,26 @@ import Shirt from './models/v1/shirt.model';
 import Sku from './models/v1/sku.model';
 import ProductType from './models/v1/productType.model';
 import ProductImage from './models/v1/productImage.model';
+import Email from './models/v1/emailConfirmation.model';
 
-export class ModelRepository {
+export class Database {
   repository: Sequelize | undefined;
 
-  private static _instance: ModelRepository;
+  private static _instance: Database;
 
   constructor() {
-    if(ModelRepository._instance == null) {
+    if(Database._instance == null) {
       this.initialize();
-      ModelRepository._instance = this;
+      Database._instance = this;
     }
-    return ModelRepository._instance;
+    return Database._instance;
   }
 
-  public static getInstance(): ModelRepository {
-    if(ModelRepository._instance != null) {
-      return ModelRepository._instance;
+  public static getInstance(): Database {
+    if(Database._instance != null) {
+      return Database._instance;
     }
-    return new ModelRepository();
+    return new Database();
   }
 
   private initialize = () => {
@@ -55,6 +56,7 @@ export class ModelRepository {
       Address,
       Card,
       CardFlag,
+      Email,
       Gender,
       Person,
       ProductImage,

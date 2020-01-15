@@ -1,7 +1,7 @@
 import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany } from "sequelize-typescript";
 import Card from "./card.model";
 
-@Table({ tableName: "dbo_card_flags" })
+@Table({ tableName: "card_flags" })
 export default class CardFlag extends Model<CardFlag> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;
