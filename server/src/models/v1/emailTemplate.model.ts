@@ -5,10 +5,12 @@ import EmailType from "./emailType.model";
 export default class EmailTemplate extends Model<EmailTemplate> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id!: number;
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  name!: string;
   @ForeignKey(() => EmailType)
   type_id!: number;
   @Column({ type: DataType.STRING, allowNull: false })
-  from!: string;
+  sender!: string;
   @Column({ type: DataType.STRING, allowNull: false })
   email!: string;
   @Column({ type: DataType.STRING, allowNull: false })
