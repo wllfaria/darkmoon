@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Database } from "../../database";
 import RequestValidator from "../../validations/v1/requestValidator.validation";
-import EncodingHelper from "../../helpers/v1/encodingHelper.helper";
+import EncodingHelper from "../../helpers/v1/encoding.helper";
 import Person from "../../models/v1/person.model";
 import Email from "../../models/v1/emailConfirmation.model";
 import { MessageFactory } from "../../models/v1/MessageFactory/messageFactory";
