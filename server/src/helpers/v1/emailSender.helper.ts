@@ -1,10 +1,9 @@
 import nodemailer from 'nodemailer';
 import '../../env';
 import { MailOptions } from 'nodemailer/lib/json-transport';
-import EmailTemplate from '../../models/v1/emailTemplate.model';
 
 export default class EmailSender {
-  private static createTransposer = () => {
+  private static createTransporter = () => {
     return nodemailer.createTransport({
       host: process.env.EMAILHOST,
       port: Number(process.env.EMAILPORT),
@@ -28,7 +27,7 @@ export default class EmailSender {
   }
 
   public static sendMail = (email: string, template: any) => {
-    const transporter = EmailSender.createTransposer()
+    const transporter = EmailSender.createTransporter()
     const mailOptions: MailOptions = {
       from: `'${template.sender}' <${template.email}>`,
       to: email,
