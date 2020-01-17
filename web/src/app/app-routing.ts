@@ -50,5 +50,13 @@ export const ROUTER: Routes = [
     path: "login",
     component: LoginComponent
   },
+  {
+    path: "registro",
+    component: LoginComponent
+  },
+  {
+    path: "recuperar-senha",
+    component: LoginComponent
+  },
   { path: "**", component: NotFoundComponent }
 ];

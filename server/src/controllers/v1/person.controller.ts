@@ -21,15 +21,15 @@ export default class PersonController {
       const requestValidator: RequestValidator = new RequestValidator();
 
       const errors: any = requestValidator.extractErrors(req);
-      if(errors.length) {
-        requestValidator.validate(errors, res);
+      if (errors.length) {
+        MessageFactory.buildResponse(ErrorMessage, res, errors);
         return;
       }
 
       const { name, email, cpf, password }: any = req.body;
       const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
       const guid: string = EncodingHelper.generateGuid();
-      
+
       const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
       const confirmation: any = await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
       const emailTemplate: any = await EmailTemplate.findOne({ where: { name: "email confirmation" }})
@@ -39,7 +39,7 @@ export default class PersonController {
       const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
       await transaction?.commit();
-      MessageFactory.buildResponse(SuccessMessage, res, { ok: true, data: { person: person, token: jwt }});
+      MessageFactory.buildResponse(SuccessMessage, res, { ok: true, data: { person: person, token: jwt } });
     } catch (err) {
       await transaction?.rollback();
       MessageFactory.buildResponse(ErrorMessage, res, err);
@@ -51,17 +51,17 @@ export default class PersonController {
       const requestValidator: RequestValidator = new RequestValidator();
 
       const errors: any = requestValidator.extractErrors(req);
-      if(errors.length) {
-        requestValidator.validate(errors, res);
+      if (errors.length) {
+        MessageFactory.buildResponse(ErrorMessage, res, errors);
         return;
       }
 
       const { email, password }: any = req.body;
       const token: string = <string>req.headers.authorization;
-      
+
       const verifiedToken = EncodingHelper.verifyJWT(token);
 
-      const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email }})
+      const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email } })
       const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
 
       if (authenticated) {
@@ -70,7 +70,7 @@ export default class PersonController {
         MessageFactory.buildResponse(SuccessMessage, res, { ok: false, message: 'Invalid password.' });
       }
     } catch (err) {
-      if(err instanceof jwt.JsonWebTokenError) {
+      if (err instanceof jwt.JsonWebTokenError) {
         err = { ok: false, message: err.message }
       } else {
         err = { ok: false, message: 'Email Invalid.' }

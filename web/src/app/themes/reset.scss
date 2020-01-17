@@ -1,4 +1,5 @@
 @import "./variables.scss";
+@import './markpro.scss';
 
 *,
 *::before,
@@ -7,7 +8,7 @@
   padding: 0;
   box-sizing: border-box;
   text-rendering: optimizeLegibility;
-  font-family: "Century Gothic";
+  font-family: "MarkPro";
   line-height: 1.5;
 }
 
