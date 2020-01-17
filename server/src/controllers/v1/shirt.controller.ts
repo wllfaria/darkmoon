@@ -28,8 +28,13 @@ export default class ShirtController {
 			MessageFactory.buildResponse(ErrorMessage, res, errors);
 			return;
 		}
-		// Wtf is this
-		Shirt.findOne
+		try {
+			const { url } = req.query;
+			const result = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
+			MessageFactory.buildResponse(SuccessMessage, res, result);
+		} catch (e) {
+			MessageFactory.buildResponse(ErrorMessage, res, e);
+		}
 	}
 
 	public create = async (req: Request, res: Response) => {
