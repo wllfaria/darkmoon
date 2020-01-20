@@ -7,6 +7,7 @@ import ErrorMessage from "../../models/v1/MessageFactory/errorMessage";
 import RequestValidator from "../../validations/v1/requestValidator.validation";
 
 export default class AddressController {
+    
     public get = async (_req: Request, res: Response) => {
         try {
             let results = Address.findAll({ include: [Person] });

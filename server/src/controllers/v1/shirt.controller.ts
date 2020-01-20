@@ -12,6 +12,7 @@ import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
 import { Database } from "../../database";
 
 export default class ShirtController {
+
 	public get = async (_req: Request, res: Response) => {
 		try {
 			let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
