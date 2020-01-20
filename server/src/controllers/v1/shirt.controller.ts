@@ -12,14 +12,18 @@ import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
 import ServerMessage from "../../models/v1/MessageFactory/serverMessage";
 import { Sequelize, Transaction } from "sequelize/types";
 import { Database } from "../../database";
+import RequestStatus from "../../helpers/v1/requestStatus.helper";
+import { ValidationError } from "express-validator";
 
 export default class ShirtController {
   public get = async (_req: Request, res: Response) => {
     try {
       let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
-      MessageFactory.buildResponse(SuccessMessage, res, results);
+      const successType: any = RequestStatus.errors().ok;
+      MessageFactory.buildResponse(SuccessMessage, res, successType, results);
     } catch (err) {
-      MessageFactory.buildResponse(ErrorMessage, res, err);
+      const errorType = RequestStatus.errors().internal;
+      MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
     }
   }
 
@@ -28,9 +32,10 @@ export default class ShirtController {
     const transaction = await Database.getInstance().getTransaction();
     try {
       const requestValidator: RequestValidator = new RequestValidator();
-      const errors = requestValidator.extractErrors(req);
+      const errors: ValidationError[] = requestValidator.extractErrors(req);
       if (errors.length) {
-        requestValidator.validate(errors, res);
+        const errorType: any = RequestStatus.errors().badRequest;
+        MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
         return;
       }
 
@@ -43,16 +48,18 @@ export default class ShirtController {
           transaction 
         });
     
-      await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
+      const shirt = await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
       images.forEach(async (image: any) => {
         await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
       });
       await transaction?.commit();
-      MessageFactory.buildResponse(SuccessMessage, res, { ok: true });
+      const successType: any = RequestStatus.successes().create
+      MessageFactory.buildResponse(SuccessMessage, res, successType, shirt);
     } catch (err) {
       // Rollbacks everything in case of explosion
       await transaction?.rollback();
-      MessageFactory.buildResponse(ErrorMessage, res, err);
+      const errorType: any = RequestStatus.errors().badRequest;
+      MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
     }
   }
 }

@@ -14,7 +14,7 @@ export default class Sku extends Model<Sku> {
   @ForeignKey(() => ProductType)
   type_id!: number;
   @Column({ type: DataType.BOOLEAN, allowNull: false, unique: true })
-  avaliable!: string;
+  available!: boolean;
   @Column({ type: DataType.REAL, allowNull: false })
   price!: number;
   @Column({ type: DataType.REAL })
