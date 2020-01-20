@@ -1,4 +1,4 @@
-import { body, validationResult, ValidationError, ResultFactory, Result, ValidationChain } from 'express-validator';
+import { body, validationResult, ValidationError, ResultFactory, Result, ValidationChain, query } from 'express-validator';
 import { Request, Response } from 'express';
 
 export default class RequestValidator {
@@ -49,6 +49,14 @@ export default class RequestValidator {
 						.exists().withMessage('Image alt does\'t exists.')
 						.isString().withMessage('Image alt should be a string.')
 						.isLength({ min: 1 }).withMessage('Image alt should have at least 1 character.')
+				]
+			}
+			case 'getbyurl': {
+				return [
+					body('url')
+						.exists().withMessage('Product url doesn\'t exists.')
+						.isString().withMessage('Product url should be a string.')
+						.isLength({ min: 1 }).withMessage('Product url should have at least 1 character.')
 				]
 			}
 			default: {
@@ -178,6 +186,30 @@ export default class RequestValidator {
 			}
 		}
 	}
+
+	public addressValidator = (option: string) => {
+		switch (option) {
+			case "create":
+				return [
+					body().exists().withMessage('Request body doesn\'t exists.'),
+					body('zip_code').exists().withMessage('Missing Zip code').isInt().withMessage('Zip code must be numeric'),
+					body('district').exists().withMessage('Missing district'),
+					body('neighborhood').exists().withMessage('Missing neighborhood'),
+					body('city').exists().withMessage('Missing city'),
+					body('state').exists().withMessage('Missing state'),
+					body('number').exists().withMessage('Missing number').isInt().withMessage('Number must be numeric')
+				]
+			case "getbyid":
+				return [
+					query('id').exists().withMessage('Missing id on query string')
+				]
+			default:
+				return [
+					body().exists().withMessage("Body inexistent.")
+				]
+		}
+	}
+	
 
 	public extractErrors = (req: Request): ValidationError[] => {
 		const errors: Result<ValidationError> = validationResult(req)

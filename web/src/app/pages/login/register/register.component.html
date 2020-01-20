@@ -1,0 +1,56 @@
+<div class="login__modal">
+  <div class="login__loading" *ngIf="loading"></div>
+  <div class="login__modal__title">
+    <fa-icon [icon]="faUserPlus" [classes]="['login__modal__icon']"></fa-icon> <h1>Registro</h1>
+  </div>
+
+    <form [formGroup]="registerForm" (submit)="register()">
+      <div class="margin__input">
+        <div [@animateInput]="animateEmail ? 'animated' : 'still'" class="input">
+          <input formControlName="email" [@border]="animateEmail ? 'active' : 'inactive'" name="email" type="text" class="input__field" (focus)="animateLabel($event)" (focusout)="animateLabel($event)">
+          <label [@animateLabel]="animateEmail ? 'up' : 'down'" class="input__label">E-MAIL</label>
+        </div>
+        <div *ngIf="controls.email.errors">
+          <div *ngIf="controls.email.touched || controls.email.dirty && controls.email.errors.required" class="form--error">Por favor, informe um e-mail.</div>
+          <div *ngIf="controls.email.touched || controls.email.dirty && controls.email.errors.pattern" class="form--error">Este e-mail não é válido.</div>
+        </div>
+      </div>
+      <div class="margin__input">
+        <div [@animateInput]="animateCpf ? 'animated' : 'still'" class="input">
+          <input formControlName="cpf" [@border]="animateCpf ? 'active' : 'inactive'" name="cpf" type="text" class="input__field" (focus)="animateLabel($event)" (focusout)="animateLabel($event)">
+          <label [@animateLabel]="animateCpf ? 'up' : 'down'" class="input__label">CPF</label>
+        </div>
+        <div *ngIf="controls.cpf.errors">
+          <div *ngIf="controls.cpf.touched || controls.cpf.dirty && controls.cpf.errors.required" class="form--error">Por favor insira um CPF.</div>
+          <div *ngIf="controls.cpf.touched || controls.cpf.dirty && controls.cpf.errors.pattern" class="form--error">Este CPF não é válido.</div>
+        </div>
+      </div>
+      <div class="margin__input">
+        <div [@animateInput]="animatePass ? 'animated' : 'still'" class="input">
+          <input formControlName="password" [@border]="animatePass ? 'active' : 'inactive'" name="password" type="password" class="input__field" (focus)="animateLabel($event)" (focusout)="animateLabel($event)">
+          <label [@animateLabel]="animatePass ? 'up' : 'down'" class="input__label">SENHA</label>
+        </div>
+        <div *ngIf="controls.password.errors">
+          <div *ngIf="controls.password.touched || controls.password.dirty && controls.password.errors.required" class="form--error">Por favor, informe sua senha.</div>
+          <div *ngIf="controls.password.touched || controls.password.dirty && controls.password.errors.minLength" class="form--error">Sua senha deve conter no mínimo 8 caracteres.</div>
+        </div>
+      </div>
+      <div class="margin__input">
+        <div [@animateInput]="animatePassConfirm ? 'animated' : 'still'" class="input">
+          <input formControlName="passwordConfirmation" [@border]="animatePassConfirm ? 'active' : 'inactive'" name="passwordConfirmation" type="password" class="input__field" (focus)="animateLabel($event)" (focusout)="animateLabel($event)">
+          <label [@animateLabel]="animatePassConfirm ? 'up' : 'down'" class="input__label">CONFIRMAÇÃO DE SENHA</label>
+        </div>
+        <div *ngIf="controls.passwordConfirmation.errors">
+          <div *ngIf="controls.passwordConfirmation.touched || controls.passwordConfirmation.dirty && controls.passwordConfirmation.errors.required" class="form--error">Por favor, informe sua senha.</div>
+          <div *ngIf="controls.passwordConfirmation.touched || controls.passwordConfirmation.dirty && controls.passwordConfirmation.errors.minLength" class="form--error">Sua senha deve conter no mínimo 8 caracteres.</div>
+        </div>
+        <div *ngIf="passwordsDontMatch" class="form--error">Sua senha e confirmação devem ser a mesma.</div>
+      </div>
+      <div class="login__button">
+        <button class="btn btn--outline"><p>Registrar</p></button>
+        <div>
+          <a routerLink="/login">Já tem uma conta?</a>
+        </div>
+      </div>
+    </form>
+</div>

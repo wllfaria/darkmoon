@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 
 import { Database } from "../../database";
 import RequestValidator from "../../validations/v1/requestValidator.validation";
-import EncodingHelper from "../../helpers/v1/encodingHelper.helper";
+import EncodingHelper from "../../helpers/v1/encoding.helper";
 import Person from "../../models/v1/person.model";
-import Email from "../../models/v1/emailConfirmation.model";
+import EmailConfirmation from "../../models/v1/emailConfirmation.model";
 import { MessageFactory } from "../../models/v1/MessageFactory/messageFactory";
 import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
 import ErrorMessage from "../../models/v1/MessageFactory/errorMessage";
+import EmailSender from '../../helpers/v1/emailSender.helper';
 
 import { Transaction, QueryInterface } from "sequelize/types";
 import * as jwt from "jsonwebtoken";
@@ -43,7 +44,7 @@ export default class PersonController {
 				return;
 			}
 			const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
-			await Email.create({ person_id: person.id, guid }, { transaction });
+			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
@@ -138,7 +139,7 @@ export default class PersonController {
 
 			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
 			await Person.update({ name, password: encodedPassword, salt }, { where: { email, cpf }, transaction });
-			await Email.create({ person_id: person.id, guid }, { transaction });
+			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
 			const updatedPerson: any = await Person.findOne({ where: { id: person.id }}) 
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
