@@ -36,8 +36,10 @@ export default class Router {
 	}
 
 	private makePeopleRoutes = (): void => {
-		this.app.route('/persons')
+		this.app.route('/people')
 			.post(cors(), this.requestValidator.personValidator('create'), this.personController.create)
+		this.app.route('/people/lazy')
+			.post(cors(), this.requestValidator.personValidator('lazy'), this.personController.lazyCreate);
 		this.app.route('/people/auth')
 			.post(cors(), this.requestValidator.personValidator('auth'), this.personController.login)
 	}

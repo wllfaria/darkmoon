@@ -1,10 +1,12 @@
 import ServerMessage from "./serverMessage";
 
 export default class ErrorMessage extends ServerMessage {
-    protected create(message: any | undefined): ServerMessage {
+    protected create(type: any | undefined, message: any | undefined): ServerMessage {
         this.message = message;
         this.ok = false;
-        this.status = 500;
+        this.status = type.status;
+        this.code = type.code;
+        this.name = type.name;
         return this;
     }
     

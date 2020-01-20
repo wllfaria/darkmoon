@@ -3,12 +3,12 @@ import Person from './person.model';
 
 @Table({ tableName: "addresses" })
 export default class Address extends Model<Address> {
-	@Column({ type: DataType.INTEGER, primaryKey: true, autoIncrementIdentity: true })
+	@Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
 	id!: number;
 	@ForeignKey(() => Person)
 	person_id!: number;
 	@Column({ type: DataType.INTEGER, allowNull: false })
-	zip_code!: number;
+	zip_code!: string;
 	@Column({ type: DataType.STRING, allowNull: false })
 	district!: string;
 	@Column({ type: DataType.STRING, allowNull: false })

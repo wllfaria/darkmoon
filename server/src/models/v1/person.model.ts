@@ -23,7 +23,7 @@ export default class Person extends Model<Person> {
   @Column({ type: DataType.STRING })
   password_old!: string;
   @Column({ type: DataType.DATE })
-  passowrd_changed!: Date;
+  password_changed!: Date;
   @Column({ type: DataType.TEXT })
   salt!: string;
   @CreatedAt
