@@ -20,7 +20,7 @@ try {
 	const successType: any = RequestStatus.successes.ok;
 	MessageFactory.buildResponse(SuccessMessage, res, successType, results);
 } catch (err) {
-	const errorType = RequestStatus.errors.internal;
+	const errorType = RequestStatus.errors.INTERNAL;
 	MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
 }
 }
@@ -29,7 +29,7 @@ try {
 		const requestValidator: RequestValidator = new RequestValidator();
 		const errors = requestValidator.extractErrors(req);
 		if (errors.length) {
-			const errorType: any = RequestStatus.errors.badRequest
+			const errorType: any = RequestStatus.errors.BAD_REQUEST
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
 			return;
 		}
@@ -42,7 +42,7 @@ try {
 			const requestValidator: RequestValidator = new RequestValidator();
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if (errors.length) {
-				const errorType: any = RequestStatus.errors.badRequest;
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
 				return;
 			}
@@ -61,11 +61,11 @@ try {
 				await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
 			});
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes.create
+			const successType: any = RequestStatus.successes.CREATE
 			MessageFactory.buildResponse(SuccessMessage, res, successType, shirt);
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors.badRequest;
+			const errorType: any = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
 		}
 	}

@@ -1,11 +1,11 @@
 export default class RequestStatus {
     public static readonly errors = {
-        badRequest: {
+        BAD_REQUEST: {
             status: 400,
             code: 2001,
             name: "ER_BADREQUEST_ERROR"
         },
-        internal: {
+        INTERNAL: {
             status: 500,
             code: 1001,
             name: "ER_INTERNAL_ERROR"
@@ -13,10 +13,10 @@ export default class RequestStatus {
     }
 
     public static readonly successes: {
-        ok: {
+        OK: {
             status: 200
         },
-        create: {
+        CREATE: {
             status: 201
         }
     }
