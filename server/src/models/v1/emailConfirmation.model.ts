@@ -2,7 +2,7 @@ import { Table, Column, DataType, ForeignKey, CreatedAt, UpdatedAt, DeletedAt, B
 import Person from "./person.model";
 
 @Table({ tableName: "email_confirmations" })
-export default class Email extends Model<Email> {
+export default class EmailConfirmation extends Model<EmailConfirmation> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id!: number;
   @ForeignKey(() => Person)

@@ -10,7 +10,10 @@ import Shirt from './models/v1/shirt.model';
 import Sku from './models/v1/sku.model';
 import ProductType from './models/v1/productType.model';
 import ProductImage from './models/v1/productImage.model';
-import Email from './models/v1/emailConfirmation.model';
+import EmailConfirmation from './models/v1/emailConfirmation.model';
+import EmailTemplate from './models/v1/emailTemplate.model';
+import EmailType from './models/v1/emailType.model';
+import EmailSender from './helpers/v1/emailSender.helper';
 
 export class Database {
   repository: Sequelize | undefined;
@@ -56,7 +59,9 @@ export class Database {
       Address,
       Card,
       CardFlag,
-      Email,
+      EmailConfirmation,
+      EmailTemplate,
+      EmailType,
       Gender,
       Person,
       ProductImage,
