@@ -13,10 +13,10 @@ export default class AddressController {
         try {
             const addresses: any = Address.findAll({ include: [Person] });
 
-            const successType: any = RequestStatus.successes().ok;
+            const successType: any = RequestStatus.successes.OK;
             MessageFactory.buildResponse(SuccessMessage, res, successType, { addresses });
         } catch (err) {
-            const errorType: any = RequestStatus.errors().internal;
+            const errorType: any = RequestStatus.errors.INTERNAL;
             MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
         }
     }
@@ -24,20 +24,19 @@ export default class AddressController {
     public getById = async (req: Request, res: Response) => {
         try {
             const requestValidator: RequestValidator = new RequestValidator();
-
             const errors: ValidationError[] = requestValidator.extractErrors(req);
             if (errors.length) {
-                const errorType: any = RequestStatus.errors().badRequest;
+                const errorType: any = RequestStatus.errors.BAD_REQUEST;
                 MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
                 return;
             }
             const { id }: any = req.query;
             const address: any = await Address.findOne({ where: { id } });
 
-            const successType: any = RequestStatus.successes().ok;
+            const successType: any = RequestStatus.successes.OK;
             MessageFactory.buildResponse(SuccessMessage, res, successType, { address });
         } catch (err) {
-            const errorType: any = RequestStatus.errors().internal;
+            const errorType: any = RequestStatus.errors.INTERNAL;
             MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
         }
     }
@@ -45,10 +44,9 @@ export default class AddressController {
     public create = async (req: Request, res: Response) => {
         try {
             const requestValidator: RequestValidator = new RequestValidator();
-
             const errors: ValidationError[] = requestValidator.extractErrors(req);
             if (errors.length) {
-                const errorType: any = RequestStatus.errors().badRequest;
+                const errorType: any = RequestStatus.errors.BAD_REQUEST;
                 MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
                 return;
             }
@@ -56,10 +54,10 @@ export default class AddressController {
 
             const address: any = await Address.create({ zip_code, district, neighborhood, city, state, number, complement });
 
-            const succesType: any = RequestStatus.successes().create; 
+            const succesType: any = RequestStatus.successes.CREATE; 
             MessageFactory.buildResponse(SuccessMessage, res, succesType, { address });
         } catch (err) {
-            const errorType: any = RequestStatus.errors().internal;
+            const errorType: any = RequestStatus.errors.INTERNAL;
             MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
         }
     }

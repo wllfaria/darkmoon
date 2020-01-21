@@ -14,26 +14,34 @@ import RequestStatus from "../../helpers/v1/requestStatus.helper";
 import { ValidationError } from "express-validator";
 
 export default class ShirtController {
-public get = async (_req: Request, res: Response) => {
-try {
-	let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
-	const successType: any = RequestStatus.errors().ok;
-	MessageFactory.buildResponse(SuccessMessage, res, successType, results);
-} catch (err) {
-	const errorType = RequestStatus.errors().internal;
-	MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
-}
-}
+	public get = async (_req: Request, res: Response) => {
+		try {
+			let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
+			let type = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, results);
+		} catch (err) {
+			let type = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+		}
+	}
 
 	public getByUrl = (req: Request, res: Response) => {
 		const requestValidator: RequestValidator = new RequestValidator();
 		const errors = requestValidator.extractErrors(req);
 		if (errors.length) {
-			const errorType: any = RequestStatus.errors().badRequest
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
+			let type = RequestStatus.errors.BAD_REQUEST;
+			MessageFactory.buildResponse(ErrorMessage, res, type, errors);
 			return;
 		}
-		// Shirt.findOne()
+		try {
+			const { url } = req.query;
+			const result = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
+			let type = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, result);
+		} catch (e) {
+			let type = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, e);
+		}
 	}
 
 	public create = async (req: Request, res: Response) => {
@@ -42,7 +50,7 @@ try {
 			const requestValidator: RequestValidator = new RequestValidator();
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if (errors.length) {
-				const errorType: any = RequestStatus.errors().badRequest;
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
 				return;
 			}
@@ -61,11 +69,11 @@ try {
 				await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
 			});
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes().create
-			MessageFactory.buildResponse(SuccessMessage, res, successType, shirt);
+			let type = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { ok: true });
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors().badRequest;
+			const errorType: any = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
 		}
 	}

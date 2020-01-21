@@ -25,7 +25,7 @@ export default class PersonController {
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors().badRequest
+				const errorType: any = RequestStatus.errors.BAD_REQUEST
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, { error: errors});
 				return;
 			}
@@ -39,7 +39,7 @@ export default class PersonController {
 				this.finishCreate(req, res, existentPerson);
 				return;
 			} else if (existentPerson && existentPerson.password) {
-				const errorType: any = RequestStatus.errors().badRequest
+				const errorType: any = RequestStatus.errors.BAD_REQUEST
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, `User with email: ${existentPerson.email} already exists.`);
 				return;
 			}
@@ -48,11 +48,11 @@ export default class PersonController {
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes().create;
+			const successType: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, successType, { person: person, token: jwt });
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors().internal;
+			const errorType: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
 		}
 	}
@@ -63,7 +63,7 @@ export default class PersonController {
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors().badRequest;
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
 				return;
 			}
@@ -77,10 +77,10 @@ export default class PersonController {
 			const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
 
 			if (authenticated) {
-				const successType: any = RequestStatus.successes().ok;
+				const successType: any = RequestStatus.successes.OK;
 				MessageFactory.buildResponse(SuccessMessage, res, successType, { person });
 			} else {
-				const errorType: any = RequestStatus.errors().badRequest;
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, 'Invalid password.');
 			}
 		} catch (err) {
@@ -89,7 +89,7 @@ export default class PersonController {
 			} else {
 				err = 'Email Invalid.';
 			}
-			const errorType: any = RequestStatus.errors().badRequest;
+			const errorType: any = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err.message);
 		}
 	}
@@ -101,7 +101,7 @@ export default class PersonController {
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors().badRequest		
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;		
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
 				return
 			}
@@ -110,7 +110,7 @@ export default class PersonController {
 			
 			const existentPerson = await Person.findOne({ where: { email, cpf }});
 			if(existentPerson) {
-				const errorType: any = RequestStatus.errors().badRequest;
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, `User with email: ${email} already exists.`);
 				return;
 			}
@@ -122,11 +122,11 @@ export default class PersonController {
 			}
 
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes().create;
+			const successType: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, successType, { person });
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors().internal;
+			const errorType: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err.message);
 		}
 	}
@@ -144,11 +144,11 @@ export default class PersonController {
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes().ok;
+			const successType: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, successType, { person: updatedPerson, token: jwt })
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors().internal;
+			const errorType: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err.message);
 		}
 	}
