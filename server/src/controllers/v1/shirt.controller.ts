@@ -16,7 +16,7 @@ import { ValidationError } from "express-validator";
 export default class ShirtController {
 public get = async (_req: Request, res: Response) => {
 try {
-	let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
+	const results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
 	const successType: any = RequestStatus.successes.OK;
 	MessageFactory.buildResponse(SuccessMessage, res, successType, results);
 } catch (err) {
