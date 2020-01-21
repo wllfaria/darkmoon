@@ -38,8 +38,41 @@ describe('EncodingHelper', () => {
     })
   })
   describe('generateGuid', () => {
-    it('Expect to be a string.', () => {
+    it('Expect to be a string', () => {
       expect(EncodingHelper.generateGuid()).to.be.a('string');
+    })
+  })
+  describe('verifyJWT', () => {
+    it('Expect to be valid', () => {
+      expect(EncodingHelper.verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.be.a('object');
+      expect(EncodingHelper.verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('id');
+      expect(EncodingHelper.verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('name');
+      expect(EncodingHelper.verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('iat');
+      expect(EncodingHelper.verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('exp');
+    })
+    it('Expect to be invalid', () => {
+      expect(EncodingHelper.verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVy")).to.be.a('object');
+    })
+  })
+  describe('decodeJWT', () => {
+    it('Expect to be valid', () => {
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.be.a('object');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('id');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('name');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('iat');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('exp');
+    })
+    it('Expect to be invalid', () => {
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVy")).to.be.a('object');
+    })
+  })
+  describe('signJWT', () => {
+    it('Expect to be valid', () => {
+      expect(EncodingHelper.signJWT({ test: "test" })).to.be.a('string');
+      expect(EncodingHelper.signJWT({ hello: "world" })).to.be.a('string');
+    })
+    it('Expect to be invalid', () => {
+      expect(EncodingHelper.signJWT()).to.be.a('string');
     })
   })
 })
