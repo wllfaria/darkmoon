@@ -17,9 +17,11 @@ export default class ShirtController {
 	public get = async (_req: Request, res: Response) => {
 		try {
 			let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
-			MessageFactory.buildResponse(SuccessMessage, res, results);
+			let type = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, results);
 		} catch (err) {
-			MessageFactory.buildResponse(ErrorMessage, res, err);
+			let type = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 
@@ -27,15 +29,18 @@ export default class ShirtController {
 		const requestValidator: RequestValidator = new RequestValidator();
 		const errors = requestValidator.extractErrors(req);
 		if (errors.length) {
-			MessageFactory.buildResponse(ErrorMessage, res, errors);
+			let type = RequestStatus.errors.BAD_REQUEST;
+			MessageFactory.buildResponse(ErrorMessage, res, type, errors);
 			return;
 		}
 		try {
 			const { url } = req.query;
 			const result = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
-			MessageFactory.buildResponse(SuccessMessage, res, result);
+			let type = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, result);
 		} catch (e) {
-			MessageFactory.buildResponse(ErrorMessage, res, e);
+			let type = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, e);
 		}
 	}
 
@@ -64,12 +69,8 @@ export default class ShirtController {
 				await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
 			});
 			await transaction?.commit();
-			MessageFactory.buildResponse(SuccessMessage, res, { ok: true });
-		} catch (err) {
-			// Rollbacks everything in case of explosion
-			await transaction?.rollback();
-			const successType: any = RequestStatus.successes.CREATE
-			MessageFactory.buildResponse(SuccessMessage, res, successType, shirt);
+			let type = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { ok: true });
 		} catch (err) {
 			await transaction?.rollback();
 			const errorType: any = RequestStatus.errors.BAD_REQUEST;
