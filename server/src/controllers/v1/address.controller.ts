@@ -24,7 +24,6 @@ export default class AddressController {
     public getById = async (req: Request, res: Response) => {
         try {
             const requestValidator: RequestValidator = new RequestValidator();
-
             const errors: ValidationError[] = requestValidator.extractErrors(req);
             if (errors.length) {
                 const errorType: any = RequestStatus.errors.BAD_REQUEST;
@@ -45,7 +44,6 @@ export default class AddressController {
     public create = async (req: Request, res: Response) => {
         try {
             const requestValidator: RequestValidator = new RequestValidator();
-
             const errors: ValidationError[] = requestValidator.extractErrors(req);
             if (errors.length) {
                 const errorType: any = RequestStatus.errors.BAD_REQUEST;

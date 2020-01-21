@@ -28,12 +28,21 @@ try {
 	public getByUrl = (req: Request, res: Response) => {
 		const requestValidator: RequestValidator = new RequestValidator();
 		const errors = requestValidator.extractErrors(req);
-		if (errors.length) {
-			const errorType: any = RequestStatus.errors.BAD_REQUEST
+		if (errors.length) {t
+			const errorType = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
 			return;
 		}
-		// Shirt.findOne()
+		try {
+			const { url } = req.query;
+			const shirt = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
+
+			const successType = RequestStatus.successes.OK
+			MessageFactory.buildResponse(SuccessMessage, res, successType, { shirt });
+		} catch (err) {
+			const errorType = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+		}
 	}
 
 	public create = async (req: Request, res: Response) => {
@@ -61,12 +70,14 @@ try {
 				await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
 			});
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes.CREATE
-			MessageFactory.buildResponse(SuccessMessage, res, successType, shirt);
+
+			const successType = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, successType, { shirt });
 		} catch (err) {
+			// Rollbacks everything in case of explosion
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors.BAD_REQUEST;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+			const errorType: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(SuccessMessage, res, errorType, err);
 		}
 	}
 }
