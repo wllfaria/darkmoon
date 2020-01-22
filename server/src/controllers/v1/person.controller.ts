@@ -10,12 +10,13 @@ import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
 import ErrorMessage from "../../models/v1/MessageFactory/errorMessage";
 import EmailSender from '../../helpers/v1/emailSender.helper';
 
-import { Transaction, QueryInterface } from "sequelize/types";
+import { Transaction } from "sequelize/types";
 import * as jwt from "jsonwebtoken";
 import { ValidationError } from "express-validator";
 import Address from "../../models/v1/address.model";
 import Card from "../../models/v1/card.model";
 import RequestStatus from "../../helpers/v1/requestStatus.helper";
+import EmailTemplate from "../../models/v1/emailTemplate.model";
 
 export default class PersonController {
 	public create = async (req: Request, res: Response) => {
@@ -31,10 +32,11 @@ export default class PersonController {
 			}
 
 			const { name, email, cpf, password }: any = req.body;
+			const personFirstName = name.split(' ')[0];
 			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
 			const guid: string = EncodingHelper.generateGuid();
 			
-			const existentPerson = await Person.findOne({ where: { email, cpf }});
+			const existentPerson = await Person.findOne({ where: { email, cpf }, transaction });
 			if(existentPerson && !existentPerson.password) {
 				this.finishCreate(req, res, existentPerson);
 				return;
@@ -43,8 +45,11 @@ export default class PersonController {
 				MessageFactory.buildResponse(ErrorMessage, res, errorType, `User with email: ${existentPerson.email} already exists.`);
 				return;
 			}
+			
 			const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
+			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
+			await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid]);
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
@@ -90,7 +95,7 @@ export default class PersonController {
 				err = 'Email Invalid.';
 			}
 			const errorType: any = RequestStatus.errors.BAD_REQUEST;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err.message);
+			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
 		}
 	}
 
@@ -127,20 +132,23 @@ export default class PersonController {
 		} catch (err) {
 			await transaction?.rollback();
 			const errorType: any = RequestStatus.errors.INTERNAL;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err.message);
+			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
 		}
 	}
 
 	public finishCreate = async (req: Request, res: Response, person: any) => {
-		const transaction = await Database.getInstance().getTransaction();
+		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
 		try {
 			const { name, email, cpf, password }: any = req.body;
+			const personFirstName: string = name.split(' ')[0];
 			const guid = EncodingHelper.generateGuid();
 
 			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
 			await Person.update({ name, password: encodedPassword, salt }, { where: { email, cpf }, transaction });
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
 			const updatedPerson: any = await Person.findOne({ where: { id: person.id }}) 
+			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
+			await EmailSender.sendMail(updatedPerson.email, mailTemplate, [personFirstName, guid]);
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
@@ -149,7 +157,144 @@ export default class PersonController {
 		} catch (err) {
 			await transaction?.rollback();
 			const errorType: any = RequestStatus.errors.INTERNAL;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err.message);
+			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+		}
+	}
+
+	public confirmEmail = async (req: Request, res: Response) => {
+		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
+		try {
+			const requestValidator: RequestValidator = new RequestValidator();
+
+			const errors: ValidationError[] = requestValidator.extractErrors(req);
+			if(errors.length) {
+				const errorType: any = RequestStatus.errors.BAD_REQUEST;		
+				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
+				return;
+			}
+
+			const { guid } = req.body;
+
+			const confirmation: any = await EmailConfirmation.findOne({ where: { guid }, transaction })
+			await EmailConfirmation.update({ guid: null, updated_at: new Date(), deleted_at: new Date() }, { where: { guid, id: confirmation.id }, transaction });
+			await Person.update({ email_confirmed: true }, { where: { id: confirmation.person_id }});
+
+			await transaction?.commit();
+			const type: any = RequestStatus.successes.ACCEPTED;
+			MessageFactory.buildResponse(SuccessMessage, res, type, {})
+		} catch (err) {
+			await transaction?.rollback();
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+		}
+	}
+
+	public accountRecoveryMail = async (req: Request, res: Response) => {
+		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();		
+		try {
+			const requestValidator: RequestValidator = new RequestValidator();
+
+			const errors: ValidationError[] = requestValidator.extractErrors(req);
+			if(errors.length) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
+				return;
+			}
+
+			const { email = null, cpf = null }: any = req.body;
+			const pin: number = EncodingHelper.generatePin();
+			let person: any;
+
+			if(email) {
+				person = await Person.findOne({ where: { email }, transaction })
+			} else {
+				person = await Person.findOne({ where: { cpf }, transaction })
+			}
+
+			await Person.update({ recovery_pin: pin }, { where: { id: person.id }, transaction });
+			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "account-recovery" }, transaction });
+			await EmailSender.sendMail(person.email, mailTemplate, [ person.name, pin ]);
+
+			await transaction?.commit();
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, {});
+		} catch (err) {
+			await transaction?.rollback();
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+		}
+	}
+
+	public verifyRecoveryPin = async (req: Request, res: Response) => {
+		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
+		try {
+			const requestValidator: RequestValidator = new RequestValidator();
+
+			const errors: ValidationError[] = requestValidator.extractErrors(req);
+			if(errors.length) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
+				return;
+			}
+
+			const { pin, email = null, cpf = null }: any = req.query;
+			let person: any;
+
+			if(email) {
+				person = await Person.findOne({ where: { email, recovery_pin: pin }, transaction });
+				if(!person) {
+					const type: any = RequestStatus.errors.BAD_REQUEST;
+					MessageFactory.buildResponse(ErrorMessage, res, type, { error: 'Invalid pin or e-mail.' });
+					return;
+				}
+			} else {
+				person = await Person.findOne({ where: { cpf, recovery_pin: pin }, transaction });
+				if(!person) {
+					const type: any = RequestStatus.errors.BAD_REQUEST;
+					MessageFactory.buildResponse(ErrorMessage, res, type, { error: 'Invalid pin or e-mail.' });
+					return;
+				}
+			}
+
+			await transaction?.commit();
+			const type: any = RequestStatus.successes.ACCEPTED;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { pin, email, cpf, id: person.id });
+		} catch (err) {
+			await transaction?.rollback();
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+		}
+	}
+
+	public accountRecovery = async (req: Request, res: Response) => {
+		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
+		try {
+			const requestValidator: RequestValidator = new RequestValidator();
+
+			const errors: ValidationError[] = requestValidator.extractErrors(req);
+			if(errors.length) {
+				const type = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
+				return;
+			}
+
+			const { password, pin, id }: any = req.body;
+			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
+
+			let person: any = await Person.findOne({ where: { id, recovery_pin: pin }, transaction });
+			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "password-changed" }, transaction })
+			await Person.update({ recovery_pin: null, password: encodedPassword, salt, password_old: person.password, password_changed: new Date(), salt_old: person.salt, updated_at: new Date() }, { where: { id, recovery_pin: pin }, transaction })
+			await EmailSender.sendMail(person.email, mailTemplate, [ person.name ]);
+			person = await Person.findOne({ where: { id }, transaction });
+			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
+
+			await transaction?.commit();
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person, token: jwt })
+		} catch (err) {
+			await transaction?.rollback();
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 }

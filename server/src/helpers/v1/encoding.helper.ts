@@ -18,6 +18,10 @@ export default class EncodingHelper {
     return comparePassword === encodedPassword;
   }
 
+  public static generatePin = (): number => {
+    return Math.floor(900000 * Math.random()) + 100000;
+  }
+
   public static generateGuid = (): string => {
     return uuidv4()
   }

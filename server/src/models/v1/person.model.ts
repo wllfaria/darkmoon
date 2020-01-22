@@ -4,7 +4,7 @@ import { Table, Model, Column, DataType, HasMany, CreatedAt, UpdatedAt, DeletedA
 import Address from './address.model';
 import Card from './card.model';
 
-@Table({ tableName: "persons" })
+@Table({ tableName: "people" })
 export default class Person extends Model<Person> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id!: number;
@@ -18,6 +18,8 @@ export default class Person extends Model<Person> {
   email!: string;
   @Column({ type: DataType.BOOLEAN })
   email_confirmed!: boolean;
+  @Column({ type: DataType.INTEGER })
+  recovery_pin!: number;
   @Column({ type: DataType.STRING })
   password!: string;
   @Column({ type: DataType.STRING })
@@ -26,6 +28,8 @@ export default class Person extends Model<Person> {
   password_changed!: Date;
   @Column({ type: DataType.TEXT })
   salt!: string;
+  @Column({ type: DataType.STRING })
+  salt_old!: string;
   @CreatedAt
   created_at!: Date;
   @UpdatedAt
