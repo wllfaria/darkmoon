@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import 'mocha';
 import 'ts-mocha';
-import EncodingHelper from '../../../../src/helpers/v1/encodingHelper.helper';
+import EncodingHelper from '../../../../src/helpers/v1/encoding.helper';
 
 describe('EncodingHelper', () => {
   describe('encodePassword', () => {
@@ -38,8 +38,23 @@ describe('EncodingHelper', () => {
     })
   })
   describe('generateGuid', () => {
-    it('Expect to be a string.', () => {
+    it('Expect to be a string', () => {
       expect(EncodingHelper.generateGuid()).to.be.a('string');
+    })
+  })
+  describe('decodeJWT', () => {
+    it('Expect to be valid', () => {
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.be.a('object');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('id');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('name');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('iat');
+      expect(EncodingHelper.decodeJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6InRlc3RlIHVzZXIgb25lIiwiaWF0IjoxNTc5NjAwMzc4LCJleHAiOjIxODU5Nzk5NzkxMzN9.X9PcPWnuywKdJ9df8MpdgzRBnyrki7GDpB0b6MPqVyM")).to.have.property('exp');
+    })
+  })
+  describe('signJWT', () => {
+    it('Expect to be valid', () => {
+      expect(EncodingHelper.signJWT({ test: "test" })).to.be.a('string');
+      expect(EncodingHelper.signJWT({ hello: "world" })).to.be.a('string');
     })
   })
 })
