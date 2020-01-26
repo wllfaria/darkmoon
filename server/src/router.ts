@@ -37,11 +37,17 @@ export default class Router {
 
 	private makePeopleRoutes = (): void => {
 		this.app.route('/people')
-			.post(cors(), this.requestValidator.personValidator('create'), this.personController.create)
+			.post(cors(), this.requestValidator.personValidator('create'), this.personController.create);
 		this.app.route('/people/lazy')
 			.post(cors(), this.requestValidator.personValidator('lazy'), this.personController.lazyCreate);
 		this.app.route('/people/auth')
-			.post(cors(), this.requestValidator.personValidator('auth'), this.personController.login)
+			.post(cors(), this.requestValidator.personValidator('auth'), this.personController.login);
+		this.app.route('/people/confirm-email')
+			.post(cors(), this.requestValidator.personValidator('confirm-email'), this.personController.confirmEmail);
+		this.app.route('/people/recovery')
+			.get(cors(), this.requestValidator.personValidator('recovery-pin'), this.personController.verifyRecoveryPin)
+			.post(cors(), this.requestValidator.personValidator('recovery-mail'), this.personController.accountRecoveryMail)
+			.put(cors(), this.requestValidator.personValidator('recovery-password'), this.personController.accountRecovery);
 	}
 
 	private makeAddressRoutes = (): void => {

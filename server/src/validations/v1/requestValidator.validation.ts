@@ -1,4 +1,4 @@
-import { body, validationResult, ValidationError, ResultFactory, Result, ValidationChain, query } from 'express-validator';
+import { body, validationResult, ValidationError, Result, ValidationChain, query } from 'express-validator';
 import { Request, Response } from 'express';
 
 export default class RequestValidator {
@@ -178,6 +178,74 @@ export default class RequestValidator {
 						.isLength({ min: 1 }).withMessage('Card Owner should not be a empty string.')
 				]
 			}
+			case "confirm-email": {
+				return [
+					body()
+						.exists().withMessage('Body doesn\'t exists.'),
+					body('guid')
+						.exists().withMessage('Guid doesn\'t exists.')
+						.isString().withMessage('Guid should be a string.')
+						.isUUID(4).withMessage('Guid should be a UUID.')
+						.isLength({ min: 1 }).withMessage('Guid should not be a empty string.')
+				]
+			}
+			case "recovery-mail": {
+				return [
+					body()
+						.exists().withMessage('Body doesn\'t exists.'),
+					body('email')
+						.optional()
+						.isString().withMessage('Email should be a string.')
+						.isLength({ min: 1 }).withMessage('Email should not be empty.')
+						.custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
+					body('cpf')
+						.optional()
+						.isInt().withMessage('Cpf must contain only numbers.')
+						.isLength({ min: 11, max: 11 }).withMessage('Cpf should have 11 characters.')
+				]
+			}
+			case "recovery-pin": {
+				return [
+					query()
+						.exists().withMessage('Body doesn\'t exists.'),
+					query('pin')
+						.exists().withMessage('Pin doesn\'t exists.')
+						.isInt().withMessage('Pin must contain only numbers.')
+						.isLength({ min: 6, max: 6 }).withMessage('Pin must have only 6 charaters.'),
+					query('email')
+						.optional()
+						.isString().withMessage('Email should be a string.')
+						.isLength({ min: 1 }).withMessage('Email should not be empty.')
+						.custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
+					query('cpf')
+						.optional()
+						.isInt().withMessage('Cpf must contain only numbers.')
+						.isLength({ min: 11, max: 11 }).withMessage('Cpf should have 11 characters.')
+				]
+			}
+			case "recovery-password": {
+				return [
+					body()
+						.exists().withMessage('Body doesn\'t exists.'),
+					body('pin')
+						.exists().withMessage('Pin doesn\'t exists.')
+						.isInt().withMessage('Pin must contain only numbers.')
+						.isLength({ min: 6, max: 6 }).withMessage('Pin must have only 6 charaters.'),
+					body('id')
+						.exists().withMessage('Id doesn\'t exists.')
+						.isInt().withMessage('Id must contain only numbers.')
+						.isLength({ min: 1 }).withMessage('Id must have at least 1 charater.'),
+					body('password')
+						.exists().withMessage('Password doesn\'t exists.')
+						.isString().withMessage('Password should be a string.')
+						.isLength({ min: 8 }).withMessage('Password should have at least 8 characters.'),
+					body('confirmation')
+						.exists().withMessage('Confirmation doesn\'t exists.')
+						.isString().withMessage('Confirmation should be a string.')
+						.isLength({ min: 8 }).withMessage('Confirmation should have at least 8 characters.')
+						.custom((confirmation, { req }) => { if(confirmation === req.body.password) { return confirmation } else { throw new Error('Confirmation must match with the password.') } }),
+				]
+			}
 			default: {
 				return [
 					body()
@@ -189,7 +257,7 @@ export default class RequestValidator {
 
 	public addressValidator = (option: string) => {
 		switch (option) {
-			case "create":
+			case "create": {
 				return [
 					body().exists().withMessage('Request body doesn\'t exists.'),
 					body('zip_code').exists().withMessage('Missing Zip code').isInt().withMessage('Zip code must be numeric'),
@@ -199,14 +267,17 @@ export default class RequestValidator {
 					body('state').exists().withMessage('Missing state'),
 					body('number').exists().withMessage('Missing number').isInt().withMessage('Number must be numeric')
 				]
-			case "getbyid":
+			}
+			case "getbyid": {
 				return [
 					query('id').exists().withMessage('Missing id on query string')
 				]
-			default:
+			}
+			default: {
 				return [
 					body().exists().withMessage("Body inexistent.")
 				]
+			}
 		}
 	}
 	

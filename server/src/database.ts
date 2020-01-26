@@ -13,7 +13,7 @@ import ProductImage from './models/v1/productImage.model';
 import EmailConfirmation from './models/v1/emailConfirmation.model';
 import EmailTemplate from './models/v1/emailTemplate.model';
 import EmailType from './models/v1/emailType.model';
-import EmailSender from './helpers/v1/emailSender.helper';
+import DatabaseSetup from './databaseSetup';
 
 export class Database {
   repository: Sequelize | undefined;
@@ -48,6 +48,7 @@ export class Database {
     });
     this.addModels();
     // this.repository.sync({ force: true })
+    // DatabaseSetup.setupTables(); 
   }
 
   public getTransaction = async () => {

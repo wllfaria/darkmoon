@@ -12,12 +12,15 @@ export default class RequestStatus {
         }
     }
 
-    public static readonly successes: {
+    public static readonly successes = {
         OK: {
             status: 200
         },
         CREATE: {
             status: 201
+        },
+        ACCEPTED: {
+            status: 202
         }
     }
 } 
