@@ -17,6 +17,7 @@ import Address from "../../models/v1/address.model";
 import Card from "../../models/v1/card.model";
 import RequestStatus from "../../helpers/v1/requestStatus.helper";
 import EmailTemplate from "../../models/v1/emailTemplate.model";
+import EventListener from "../../helpers/v1/eventListener.helper";
 
 export default class PersonController {
 	public create = async (req: Request, res: Response) => {
@@ -49,7 +50,8 @@ export default class PersonController {
 			const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
-			await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid]);
+			await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid], transaction);
+			await EventListener.registerEvent('user', 'register', `User ${person.name} has successfully registered.`, transaction);
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
@@ -78,7 +80,7 @@ export default class PersonController {
 			
 			const verifiedToken = EncodingHelper.verifyJWT(token);
 
-			const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email }})
+			const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email }});
 			const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
 
 			if (authenticated) {
@@ -125,6 +127,7 @@ export default class PersonController {
 			if(req.body.card != null) {
 				await Card.create({ person_id: person.id, number: card_number, flag_id: flag, expiration, owner }, { transaction });
 			}
+			await EventListener.registerEvent('user', 'lazy-register', `User ${person.name} has successfully lazy registered.`, transaction)
 
 			await transaction?.commit();
 			const successType: any = RequestStatus.successes.OK;
@@ -148,7 +151,8 @@ export default class PersonController {
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
 			const updatedPerson: any = await Person.findOne({ where: { id: person.id }}) 
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
-			await EmailSender.sendMail(updatedPerson.email, mailTemplate, [personFirstName, guid]);
+			await EmailSender.sendMail(updatedPerson.email, mailTemplate, [personFirstName, guid], transaction);
+			await EventListener.registerEvent('user', 'finish-register', `User ${name} has successfully finished his lazy registration.`, transaction)
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
@@ -178,6 +182,8 @@ export default class PersonController {
 			const confirmation: any = await EmailConfirmation.findOne({ where: { guid }, transaction })
 			await EmailConfirmation.update({ guid: null, updated_at: new Date(), deleted_at: new Date() }, { where: { guid, id: confirmation.id }, transaction });
 			await Person.update({ email_confirmed: true }, { where: { id: confirmation.person_id }});
+			const person: any = await  Person.findOne({ where: { id: confirmation.person_id }, transaction });
+			await EventListener.registerEvent('user', 'email-confirmation', `User ${person.name} successfully confirmed his email.`, transaction)
 
 			await transaction?.commit();
 			const type: any = RequestStatus.successes.ACCEPTED;
@@ -213,7 +219,7 @@ export default class PersonController {
 
 			await Person.update({ recovery_pin: pin }, { where: { id: person.id }, transaction });
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "account-recovery" }, transaction });
-			await EmailSender.sendMail(person.email, mailTemplate, [ person.name, pin ]);
+			await EmailSender.sendMail(person.email, mailTemplate, [ person.name, pin ], transaction);
 
 			await transaction?.commit();
 			const type: any = RequestStatus.successes.OK;
@@ -284,7 +290,8 @@ export default class PersonController {
 			let person: any = await Person.findOne({ where: { id, recovery_pin: pin }, transaction });
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "password-changed" }, transaction })
 			await Person.update({ recovery_pin: null, password: encodedPassword, salt, password_old: person.password, password_changed: new Date(), salt_old: person.salt, updated_at: new Date() }, { where: { id, recovery_pin: pin }, transaction })
-			await EmailSender.sendMail(person.email, mailTemplate, [ person.name ]);
+			await EmailSender.sendMail(person.email, mailTemplate, [ person.name ], transaction);
+			await EventListener.registerEvent("user", "recovery", `User ${person.name} successfully recovered his password.`,transaction)
 			person = await Person.findOne({ where: { id }, transaction });
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 

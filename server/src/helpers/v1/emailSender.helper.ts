@@ -1,6 +1,8 @@
 import nodemailer, { Transport, Transporter } from 'nodemailer';
 import '../../env';
 import { MailOptions } from 'nodemailer/lib/json-transport';
+import EventListener from './eventListener.helper';
+import { Transaction } from 'sequelize/types';
 
 export default class EmailSender {
 	private static createTransporter = () => {
@@ -26,7 +28,7 @@ export default class EmailSender {
 		return template;
 	}
 
-	public static sendMail = (email: string, template: any, links: string[]) => {
+	public static sendMail = (email: string, template: any, links: string[], transaction: Transaction | undefined) => {
 		const transporter: Transporter = EmailSender.createTransporter()
 		const replacedTemplate: any = EmailSender.replaceLinks(template, links);
 		const mailOptions: MailOptions = {
@@ -36,8 +38,12 @@ export default class EmailSender {
 			html: replacedTemplate.html
 		}
 		return new Promise((resolve, reject) => {
-			transporter.sendMail(mailOptions, (err: any, info: any) => {
-			err ? reject(err) : resolve(info);
+			transporter.sendMail(mailOptions, async (err: any, info: any) => {
+				if (err) {
+					reject(err)
+				}
+				await EventListener.registerEvent('email', 'email-sent', `Email successfully sent to ${email}.`, transaction)
+				resolve(info);
 			})
 		})
 	}

@@ -14,6 +14,9 @@ import EmailConfirmation from './models/v1/emailConfirmation.model';
 import EmailTemplate from './models/v1/emailTemplate.model';
 import EmailType from './models/v1/emailType.model';
 import DatabaseSetup from './databaseSetup';
+import EventEntity from './models/v1/eventEntity.model';
+import EventType from './models/v1/eventType.model';
+import Event from './models/v1/event.model';
 
 export class Database {
   repository: Sequelize | undefined;
@@ -35,7 +38,7 @@ export class Database {
     return new Database();
   }
 
-  private initialize = () => {
+  private initialize = async () => {
     this.repository = new Sequelize(config.database, config.username, config.password, {
       dialect: "mysql",
       host: config.host,
@@ -47,8 +50,8 @@ export class Database {
       }
     });
     this.addModels();
-    // this.repository.sync({ force: true })
-    // DatabaseSetup.setupTables(); 
+    await this.repository.sync({ force: true })
+    await DatabaseSetup.setupTables(); 
   }
 
   public getTransaction = async () => {
@@ -63,6 +66,9 @@ export class Database {
       EmailConfirmation,
       EmailTemplate,
       EmailType,
+      Event,
+      EventEntity,
+      EventType,
       Gender,
       Person,
       ProductImage,
