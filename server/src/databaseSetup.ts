@@ -2,7 +2,9 @@ import EmailTemplate from "./models/v1/emailTemplate.model";
 import EmailType from "./models/v1/emailType.model";
 import EventEntity from "./models/v1/eventEntity.model";
 import EventType from "./models/v1/eventType.model";
-import SetupEmailTemplates from "./resources/v1/setup/emailTemplates";
+import PasswordChangedEmail from "./resources/v1/setup/emailTemplates/passwordChanged";
+import EmailConfirmationEmail from "./resources/v1/setup/emailTemplates/emailConfirmation";
+import AccountRecoveryEmail from "./resources/v1/setup/emailTemplates/accountRecovery";
 
 export default class DatabaseSetup {
     public static setupTables = async () => {
@@ -17,9 +19,13 @@ export default class DatabaseSetup {
     }
 
     private static createEmailTemplates = async () => {
-        await EmailTemplate.create({ type_id: 1, name: "email-confirmation", sender: "Howl da Darkmoon", email: "willians@williansfaria.dev", subject: "Boas vindas", html: SetupEmailTemplates.templates.emailConfirmation })
-        await EmailTemplate.create({ type_id: 1, name: "account-recovery", sender: "Darkmoon", email: "willians@williansfaria.dev", subject: "Recuperar Conta", html: SetupEmailTemplates.templates.accountRecovery })
-        await EmailTemplate.create({ type_id: 1, name: "password-changed", sender: "Darkmoon", email: "willians@williansfaria.dev", subject: "Senha Alterada", html: SetupEmailTemplates.templates.passwordChanged })
+        const emailConfirmationEmail: EmailConfirmationEmail = new EmailConfirmationEmail();
+        const accountRecoveryEmail: AccountRecoveryEmail = new AccountRecoveryEmail();
+        const passwordChangedEmail: PasswordChangedEmail = new PasswordChangedEmail();
+        
+        await EmailTemplate.create({ type_id: emailConfirmationEmail.getType(), name: emailConfirmationEmail.getName(), sender: emailConfirmationEmail.getSender(), email: emailConfirmationEmail.getEmail(), subject: emailConfirmationEmail.getSubject(), html: emailConfirmationEmail.getHTML() });
+        await EmailTemplate.create({ type_id: accountRecoveryEmail.getType(), name: accountRecoveryEmail.getName(), sender: accountRecoveryEmail.getSender(), email: accountRecoveryEmail.getEmail(), subject: accountRecoveryEmail.getSubject(), html: accountRecoveryEmail.getHTML() });
+        await EmailTemplate.create({ type_id: passwordChangedEmail.getType(), name: passwordChangedEmail.getName(), sender: passwordChangedEmail.getSender(), email: passwordChangedEmail.getEmail(), subject: passwordChangedEmail.getSubject(), html: passwordChangedEmail.getHTML() });
     }
 
     private static createEventEntities = async () => {
