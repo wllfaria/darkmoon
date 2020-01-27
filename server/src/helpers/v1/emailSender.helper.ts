@@ -28,7 +28,7 @@ export default class EmailSender {
 		return template;
 	}
 
-	public static sendMail = (email: string, template: any, links: string[], transaction: Transaction | undefined) => {
+	public static sendMail = (email: string, template: any, links: string[]) => {
 		const transporter: Transporter = EmailSender.createTransporter()
 		const replacedTemplate: any = EmailSender.replaceLinks(template, links);
 		const mailOptions: MailOptions = {
@@ -42,7 +42,7 @@ export default class EmailSender {
 				if (err) {
 					reject(err)
 				}
-				await EventListener.registerEvent('email', 'email-sent', `Email successfully sent to ${email}.`, transaction)
+				await EventListener.registerEvent('email', 'email-sent', `Email successfully sent to ${email}.`)
 				resolve(info);
 			})
 		})
