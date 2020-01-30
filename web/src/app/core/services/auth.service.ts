@@ -11,13 +11,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem("currentUser"))
+      JSON.parse(localStorage.getItem("DARKMOONUSER"))
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get loggedUserValue(): any {
-    const user = JSON.parse(localStorage.getItem("dshrtnduser"));
+  public get loggedUser(): any {
+    const user = JSON.parse(localStorage.getItem("DARKMOONUSER"));
     if (user) {
       return this.currentUserSubject.next(user);
     }

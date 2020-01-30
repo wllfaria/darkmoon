@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ShirtsService } from "src/app/core/services/shirts.service";
+import { Skus } from 'src/app/models/skus.model';
 
 @Component({
   selector: "app-cart",
@@ -9,7 +10,7 @@ import { ShirtsService } from "src/app/core/services/shirts.service";
 export class CartComponent implements OnInit {
   constructor(private shirtsService: ShirtsService) {}
 
-  private loading: boolean;
+  private cartLoading: boolean;
   private isCartOpen: boolean;
   private isCartEmpty: boolean;
   private products: any[];
@@ -17,53 +18,48 @@ export class CartComponent implements OnInit {
   private suggestion: any;
   private totalPrice: number;
 
+  private cartLoaded: boolean;
+
   ngOnInit() {
-    this.isCartOpen = false;
-    this.loading = true;
+    this.setLoading();
     this.totalPrice = 0;
   }
 
+  checkLoading = () => {
+    if(
+      this.cartLoaded
+    ) { 
+      this.cartLoading = false;
+    }
+  }
+
+  setLoading = () => {
+    this.cartLoaded = false;
+    this.cartLoading = true;
+  }
+
   toggleCart(): void {
-    this.loading = true;
+    this.setLoading();
     this.getCurrentCart();
     this.isCartOpen = !this.isCartOpen;
   }
 
   getCurrentCart(): void {
+    this.setLoading();
+
     let currentCart = JSON.parse(window.localStorage.getItem("DARKMOONCART"));
+
     if (!currentCart || !currentCart.cart.length) {
       this.isCartEmpty = true;
-      this.loading = false;
+      this.cartLoaded = true;
+      this.checkLoading();
       // this.getSuggestion();
       return;
     }
+    
     this.products = currentCart.cart;
-    this.loading = false;
-    this.isCartEmpty = false;
-    this.getProductsData();
-  }
-
-  getProductsData(): void {
-    this.products.forEach(product => {
-      this.shirtsService.getByUrl(product.url).subscribe(
-        response => {
-          product["sku"] = response.data[0].sku;
-          product["price"] = response.data[0].price;
-          product["type"] = response.data[0].product_type;
-          product["model"] = response.data[0].model;
-          product["gender"] = response.data[0].gender;
-          product["images"] = response.data[0].images;
-        },
-        error => {
-          this.cartHasError = true;
-        },
-        () => {
-          setTimeout(() => {
-            this.calculateCartPrice();
-          }, 1500)
-        }
-      );
-    });
+    this.cartLoaded = true;
+    this.checkLoading();
   }
 
   calculateCartPrice() {
@@ -75,36 +71,22 @@ export class CartComponent implements OnInit {
     }
   }
 
-  getSuggestion(): void {
-    this.shirtsService.getAll().subscribe(
-      response => {
-        this.suggestion = response.data[0];
-      },
-      error => {
-        this.cartHasError = true;
-      },
-      () => {
-      }
-    );
-  }
+  removeFromCart = (index: number): void => {
+    this.setLoading();
 
-  removeFromCart(index: number): void {
-    this.loading = true;
-    let currentCart = JSON.parse(window.localStorage.getItem("DARKMOONCART"));
+    let currentCart: any = JSON.parse(window.localStorage.getItem("DARKMOONCART"));
     currentCart.cart.splice(index, 1);
     this.products = currentCart.cart;
     window.localStorage.removeItem("DARKMOONCART");
+
     if (!this.products) {
       this.isCartEmpty = true;
-      this.loading = false;
+      this.cartLoaded = true;
+      this.checkLoading();
       return;
-    } else {
-      window.localStorage.setItem(
-        "DARKMOONCART",
-        JSON.stringify({ cart: this.products })
-      );
-      this.loading = false;
     }
+
+    window.localStorage.setItem("DARKMOONCART", JSON.stringify({ cart: this.products }));
     this.getCurrentCart();
   }
 }

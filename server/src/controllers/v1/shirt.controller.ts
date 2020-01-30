@@ -12,13 +12,14 @@ import SuccessMessage from "../../models/v1/MessageFactory/successMessage";
 import { Database } from "../../database";
 import RequestStatus from "../../helpers/v1/requestStatus.helper";
 import { ValidationError } from "express-validator";
+import Query = require("mysql/lib/protocol/sequences/Query");
 
 export default class ShirtController {
 	public get = async (_req: Request, res: Response) => {
 		try {
-			let results = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
+			let shirts: Sku[] = await Sku.findAll({ include: [ProductType, { model: Shirt, include: [Gender, ProductModel] }, ProductImage] });
 			let type = RequestStatus.successes.OK;
-			MessageFactory.buildResponse(SuccessMessage, res, type, results);
+			MessageFactory.buildResponse(SuccessMessage, res, type, shirts);
 		} catch (err) {
 			let type = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
@@ -35,7 +36,7 @@ export default class ShirtController {
 		}
 		try {
 			const { url } = req.query;
-			const result = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
+			const result: Promise<Shirt> = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
 			let type = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, result);
 		} catch (e) {
@@ -64,17 +65,28 @@ export default class ShirtController {
 				transaction 
 			});
 		
-			const shirt = await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
+			const shirt: Shirt = await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
 			images.forEach(async (image: any) => {
 				await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
 			});
 			await transaction?.commit();
-			let type = RequestStatus.successes.OK;
+			let type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { ok: true });
 		} catch (err) {
 			await transaction?.rollback();
 			const errorType: any = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+		}
+	}
+
+	public getDistinct = async (_req: Request, res: Response) => {
+		try {
+			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }});
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, distinctShirts)
+		} catch (err) {
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 }

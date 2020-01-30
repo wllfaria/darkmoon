@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { TopImages } from "src/app/models/topImages";
+import { Skus } from 'src/app/models/skus.model';
 
 @Component({
   selector: "app-product-card",
@@ -7,20 +7,13 @@ import { TopImages } from "src/app/models/topImages";
   styleUrls: ["./product-card.component.scss"]
 })
 export class ProductCardComponent implements OnInit {
-  @Input() name: string;
-  @Input() url: string;
-  @Input() sku: number;
-  @Input() price: number;
-  @Input() productType: any;
-  @Input() model: any;
-  @Input() gender: any;
-  @Input() images: any[];
+  @Input() product: Skus;
 
   loading: boolean = false;
 
   constructor() {}
 
   ngOnInit() {
-    console.log(this.productType)
+    
   }
 }

@@ -1,22 +1,10 @@
-<main *ngIf="contentLoading">Carregando</main>
-<main *ngIf="!contentLoading">
-  <app-banner></app-banner>
-  <div class="my--max">
-    <div class="container">
-      <h2 class="mb--big">Camisetas</h2>
-      <div class="d--grid grid--6col">
-        <app-product-card
-          *ngFor="let product of products"
-          [sku]="product.id"
-          [name]="product.product_name"
-          [url]="product.product_url"
-          [productType]="product.type"
-          [model]="product.shirt[0].model"
-          [gender]="product.shirt[0].gender"
-          [images]="product.images"
-          [price]="product.shirt[0].price"
-        ></app-product-card>
-      </div>
-    </div>
-  </div>
+<main *requestError="requestError">
+	<p *ngIf="errBlock">
+		{{ errorText }}
+	</p>
+	<div class="home__above__the__folder">
+		<div class="home__logo__middle">
+			<h1 class="home__giant__logo">Darkmoon</h1>
+		</div>
+	</div>
 </main>

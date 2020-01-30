@@ -1,3 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./app/themes/reset.scss";
 @import "./app/themes/styles.scss";
+@import './app/themes/_spacings.scss';
+@import './app/themes/variables.scss';
+
+.container {
+    width: 95%;
+    margin: 0 auto;
+  
+    &--small {
+        width: 75%;
+        margin: 0 auto;
+    }
+}
+
+.fullpage-illustration {
+    width: 40%;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.btn {
+    outline: none;
+    cursor: pointer;
+
+    &.btn-primary {
+        border:none;
+        background: $color-text;
+        color: $color-light-gray;
+        padding: ($padding / 2) $padding;
+    }
+}
+
+.d-flex {
+    display: flex;
+
+    &.flex-direction-column {
+        flex-direction: column;
+    }
+
+    &.justify-content-center {
+        justify-content: center;
+    }
+
+    &.align-items-center {
+        align-items: center;
+    }
+}
+
+@import "./app/themes/_responsive.scss";

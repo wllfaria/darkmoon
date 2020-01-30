@@ -31,6 +31,8 @@ export default class Router {
 		this.app.route('/shirts')
 			.get(cors(), this.shirtController.get)
 			.post(cors(), this.requestValidator.shirtValidator('create'), this.shirtController.create);
+		this.app.route('/shirts/distinct')
+			.get(cors(), this.shirtController.getDistinct);
 		this.app.route('/shirts/:url')
 			.get(cors(), this.requestValidator.shirtValidator('getbyurl'), this.shirtController.getByUrl)
 	}

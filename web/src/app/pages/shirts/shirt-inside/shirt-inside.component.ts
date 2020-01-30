@@ -3,11 +3,11 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ShirtsService } from "src/app/core/services/shirts.service";
 
 @Component({
-  selector: "app-product",
-  templateUrl: "./product.component.html",
-  styleUrls: ["./product.component.scss"]
+  selector: "app-shirt-inside",
+  templateUrl: "./shirt-inside.component.html",
+  styleUrls: ["./shirt-inside.component.scss"]
 })
-export class ProductComponent implements OnInit {
+export class ShirtInsideComponent implements OnInit {
   constructor(
     private router: Router,
     private shirtsService: ShirtsService,
