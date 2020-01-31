@@ -1,0 +1,12 @@
+.btn {
+    outline: none;
+    cursor: pointer;
+
+    &--primary {
+        @extend .btn;
+        border:none;
+        background: $color-text;
+        color: $color-light-gray;
+        padding: ($padding / 2) $padding;
+    }
+}

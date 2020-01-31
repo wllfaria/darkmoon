@@ -14,7 +14,7 @@ import { PipesModule } from "./pipes/pipes.module";
 import { DirectivesModule } from "./core/directives/directives.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthenticationModule } from './pages/authentication/authentication.module';
 import { ShirtsComponent } from './pages/shirts/shirts.component';
 import ErrorInterceptor from './core/interceptors/error-interceptor';

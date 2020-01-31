@@ -1,26 +1,12 @@
-<!-- <div class="login__modal">
-  <div class="login__loading" *ngIf="loading"></div>
-  <div class="login__modal__title">
-    <fa-icon [icon]="faSearch" [classes]="['login__modal__icon']"></fa-icon><h1>Recuperar senha</h1>
-  </div>
-  <form [formGroup]="recoveryForm" (submit)="recovery()">
-    <div class="margin__input">
-      <div [@animateInput]="animateEmail ? 'animated' : 'still'" class="input">
-        <input formControlName="emailCpf" [@border]="animateEmail ? 'active' : 'inactive'" name="email" type="text" class="input__field" (focus)="animateLabel()" (focusout)="animateLabel()">
-        <label [@animateLabel]="animateEmail ? 'up' : 'down'" class="input__label">DIGITE SEU E-MAIL OU CPF</label>
-      </div>
-      <div *ngIf="controls.emailCpf.errors">
-        <div *ngIf="controls.emailCpf.touched || controls.emailCpf.dirty && controls.emailCpf.errors.required" class="form--error">Por favor, informe um e-mail ou CPF.</div>
-      </div>
-    </div>
-    <div class="login__button">
-      <button class="btn btn--outline"><p>Recuperar Senha</p></button>
-      <div>
-        <a routerLink="/login">Voltar para login.</a>
-      </div>
-    </div>
-  </form>
-</div> -->
-<p>
-  RECOVERY WORKS!
-</p>
+<form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()">
+	<div>
+		<label for="emailCpf">Email ou CPF</label>
+		<input 
+			type="text" 
+			formControlName="emailCpf"
+		>
+	</div>
+	<div>
+		<button>Recuperar</button>
+	</div>
+</form>

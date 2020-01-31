@@ -9,10 +9,8 @@ import { RouterModule } from "@angular/router";
 import { ProductLoaderComponent } from "./loaders/product-loader/product-loader.component";
 import { CartComponent } from "./cart/cart.component";
 import { CartLoaderComponent } from "./loaders/cart-loader/cart-loader.component";
-import { DirectivesModule } from "../core/directives/directives.module";
-import { LoadingCartDirective } from "../core/directives/loading-cart.directive";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RequestErrorComponent } from './request-error/request-error.component';
+import { RequestErrorComponent } from './errors/request-error/request-error.component';
 
 @NgModule({
 	declarations: [

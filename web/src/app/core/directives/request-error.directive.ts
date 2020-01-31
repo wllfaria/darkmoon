@@ -1,5 +1,5 @@
 import { Directive, ComponentFactory, ComponentRef, Input, TemplateRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-import { RequestErrorComponent } from 'src/app/components/request-error/request-error.component';
+import { RequestErrorComponent } from 'src/app/components/errors/request-error/request-error.component';
 
 @Directive({
   selector: '[requestError]'
