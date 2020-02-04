@@ -10,7 +10,7 @@ export default class Event extends Model<Event> {
     type_id!: number;
     @ForeignKey(() => EventEntity)
     entity_id!: number;
-    @Column({ type: DataType.STRING, allowNull: false, unique: true })
+    @Column({ type: DataType.STRING, allowNull: false })
     description!: string;
     @CreatedAt
     created_at!: Date;

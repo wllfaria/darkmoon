@@ -10,9 +10,9 @@ export default class EventListener {
     public static registerEvent = async (entity:string, type: string, description: string) => {
         const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
         try {
-            const fullEntity: any = await EventEntity.findOne({ where: { name: entity }, transaction });
-            const fullType: any = await EventType.findOne({ where: { name: type }, transaction });
-            const event: any = await Event.create({ type_id: fullType?.id, entity_id: fullEntity?.id, description }, { transaction });
+            const fullEntity: EventEntity | null = await EventEntity.findOne({ where: { name: entity }, transaction });
+            const fullType: EventType | null = await EventType.findOne({ where: { name: type }, transaction });
+            const event: Event | null = await Event.create({ type_id: fullType?.id, entity_id: fullEntity?.id, description }, { transaction });
 
             await transaction?.commit();
             return event;

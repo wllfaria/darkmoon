@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from
 import { RegexService } from 'src/app/core/services/regex.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import SenderLoginInterface from 'src/app/models/senders/senderLogin.model';
 
 @Component({
 	selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private subs: SubSink = new SubSink();
 	private requestError: boolean;
+	private loginData: SenderLoginInterface;
 
 	public loginForm: FormGroup;
 	public formLoading: boolean;
@@ -42,9 +44,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 
 		this.formLoading = true;
-		const { email, password }: any = this.loginForm.value; 
+		this.loginData = <SenderLoginInterface>this.loginForm.value;
 
-		this.subs.add(this.authService.login(email, password).subscribe(
+		this.subs.add(this.authService.login(this.loginData).subscribe(
 			(res: HttpResponse<any>) => {
 				if(!res.ok) {
 					this.requestError = true;

@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 export class ShirtsService {
 	constructor(private http: HttpClient) {}
 
-	private API_URL: string = 'environment.api';
+	private API_URL: string = environment.api;
 
 	public getAll = (): Observable<any> => {
 		return this.http.get<any>(`${this.API_URL}/shirts`);

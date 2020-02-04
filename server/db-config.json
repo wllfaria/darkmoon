@@ -1,6 +1,6 @@
 {
-    "host": "dhrtnd.cuw3zchdvumf.us-east-2.rds.amazonaws.com",
-    "username": "admin",
-    "password": "(xc53fPrD<';=uxg",
-    "database": "db_darkmoon"
+    "database": "db_darkmoon",
+    "password": "Wfaria10#",
+    "username": "root",
+    "host": "localhost" 
 }

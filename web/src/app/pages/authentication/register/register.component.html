@@ -1,5 +1,12 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 	<div>
+		<label for="name">Name</label>
+		<input 
+			type="text"
+			formControlName="name"
+		>
+	</div>
+	<div>
 		<label for="email">Email</label>
 		<input 
 			type="text"
@@ -21,10 +28,10 @@
 		>
 	</div>
 	<div>
-		<label for="passwordConfirmation">Confirmation</label>
+		<label for="confirmation">Confirmation</label>
 		<input 
 			type="text" 
-			formControlName="passwordConfirmation"
+			formControlName="confirmation"
 		>
 	</div>
 	<div>

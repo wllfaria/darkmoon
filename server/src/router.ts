@@ -40,10 +40,14 @@ export default class Router {
 	private makePeopleRoutes = (): void => {
 		this.app.route('/people')
 			.post(cors(), this.requestValidator.personValidator('create'), this.personController.create);
+		this.app.route('/people/:id')
+			.get(cors(), this.requestValidator.personValidator('get-by-id'), this.personController.getById);
 		this.app.route('/people/lazy')
 			.post(cors(), this.requestValidator.personValidator('lazy'), this.personController.lazyCreate);
 		this.app.route('/people/auth')
-			.post(cors(), this.requestValidator.personValidator('auth'), this.personController.login);
+			.post(cors(), this.requestValidator.personValidator('auth'), this.personController.auth);
+		this.app.route('/people/login')
+			.post(cors(), this.requestValidator.personValidator('login'), this.personController.login)
 		this.app.route('/people/confirm-email')
 			.post(cors(), this.requestValidator.personValidator('confirm-email'), this.personController.confirmEmail);
 		this.app.route('/people/recovery')

@@ -23,6 +23,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "js-brasil": "^2.0.7",
+    "jwt-decode": "^2.2.0",
     "ng-brazil": "^1.4.7",
     "rxjs": "~6.4.0",
     "subsink": "^1.0.1",

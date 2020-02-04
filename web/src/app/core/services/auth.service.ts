@@ -1,37 +1,48 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { environment } from 'src/environments/environment';
+import SenderRegisterInterface from 'src/app/models/senders/senderRegister.model';
+import SenderLoginInterface from 'src/app/models/senders/senderLogin.model';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
 	providedIn: "root"
 })
 export class AuthService {
-	private currentUserSubject: BehaviorSubject<any>;
-	private currentUser: Observable<any>;
 	private API_URL = environment.api;
 	private httpOptions = {
 		headers: new HttpHeaders({ "Content-Type": "application/json" })
 	};
 
-	constructor(private http: HttpClient) {
-		this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem("DARKMOONUSER")));
-		this.currentUser = this.currentUserSubject.asObservable();
-	}
+	constructor(private http: HttpClient) {}
 
-	public get loggedUser(): any {
+	public get getLoggedUser(): any {
 		const user = JSON.parse(localStorage.getItem("DARKMOONUSER"));
 		if (user) {
-			return this.currentUserSubject.next(user);
+			try {
+				return jwt_decode(user.token);
+			} catch (err) {
+				console.log('teste')
+				return null;
+			}
 		}
-		return this.currentUserSubject.value;
+		return user;
 	}
 
-	public setLoggedUser = (token): void => {
+	public setLoggedUser = (token: string): void => {
 		localStorage.setItem('DARKMOONUSER', JSON.stringify({ token }));
 	}
 
-	public login = (email: string, password: string): Observable<any> => {
-		return this.http.post<any>(`${this.API_URL}/people/login`, { email, password }, this.httpOptions);
+	public login = (loginData: SenderLoginInterface): Observable<any> => {
+		return this.http.post<any>(`${this.API_URL}/people/login`, { email: loginData.email, password: loginData.password }, this.httpOptions);
+	}
+
+	public register = (registerData: SenderRegisterInterface): Observable<any> => {
+		return this.http.post<any>(
+			`${this.API_URL}/people`, 
+			{ name: registerData.name, email: registerData.email, cpf: registerData.cpf, password: registerData.password, confirmation: registerData.confirmation }, 
+			this.httpOptions
+		);
 	}
 }

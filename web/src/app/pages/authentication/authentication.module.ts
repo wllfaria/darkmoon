@@ -7,6 +7,7 @@ import { RecoveryComponent } from './recovery/recovery.component';
 import { AuthenticationComponent } from './authentication.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from 'src/app/core/directives/directives.module';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 export const ROUTES: Routes = [
 	{

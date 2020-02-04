@@ -1,14 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  state,
-  style,
-  trigger,
-  transition,
-  animate
-} from '@angular/animations';
-import { faAngleRight, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-authentication',
@@ -17,8 +9,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AuthenticationComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.getLoggedUser();
+  }
+
+  private getLoggedUser = (): void => {
+    if(this.authService.getLoggedUser) {
+      this.router.navigate(['']);
+    }
   }
 }
