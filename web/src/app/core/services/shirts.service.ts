@@ -7,15 +7,19 @@ import { Observable } from "rxjs";
   providedIn: "root"
 })
 export class ShirtsService {
-  constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) {}
 
-  private API_URL: string = environment.api;
+	private API_URL: string = environment.api;
 
-  getAll(): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/shirts`);
-  }
+	public getAll = (): Observable<any> => {
+		return this.http.get<any>(`${this.API_URL}/shirts`);
+	}
 
-  getByUrl(url: string): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/shirts/${url}`);
-  }
+	public getDistinct = (): Observable<any> => {
+		return this.http.get<any>(`${this.API_URL}/shirts/distinct`);
+	}
+
+	public getByUrl = (url: string): Observable<any> => {
+		return;
+	}
 }

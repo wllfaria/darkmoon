@@ -1,0 +1,12 @@
+<form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()">
+	<div>
+		<label for="emailCpf">Email ou CPF</label>
+		<input 
+			type="text" 
+			formControlName="emailCpf"
+		>
+	</div>
+	<div>
+		<button>Recuperar</button>
+	</div>
+</form>

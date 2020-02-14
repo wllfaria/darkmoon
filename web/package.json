@@ -22,12 +22,16 @@
     "@fortawesome/angular-fontawesome": "^0.4.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "js-brasil": "^2.0.7",
+    "jwt-decode": "^2.2.0",
+    "ng-brazil": "^1.4.7",
     "rxjs": "~6.4.0",
+    "subsink": "^1.0.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.803.22",
+    "@angular-devkit/build-angular": "^0.803.24",
     "@angular/cli": "~8.3.20",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",

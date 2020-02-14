@@ -1,3 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
-@import "./app/themes/reset.scss";
-@import "./app/themes/styles.scss";
+@import "./app/themes/reset";
+@import './app/themes/variables';
+@import "./app/themes/styles";
+@import './app/themes/spacings';
+@import './app/themes/buttons';
+@import './app/themes/displays';
+
+.container {
+    width: 95%;
+    margin: 0 auto;
+  
+    &--small {
+        width: 75%;
+        margin: 0 auto;
+    }
+
+    &--fluid {
+        $containerPadding: 16px;
+
+        width: 100%;
+        padding-left: $containerPadding;
+        padding-right: $containerPadding;
+    }
+}
+
+.fullpage--illustration {
+    width: 40%;
+}
+
+@import "./app/themes/_responsive.scss";

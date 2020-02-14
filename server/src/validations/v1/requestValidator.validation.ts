@@ -110,6 +110,21 @@ export default class RequestValidator {
 					body('password')
 						.exists().withMessage('Password doesn\'t exists.')
 						.isString().withMessage('Password should be a string.')
+						.isLength({ min: 8 }).withMessage('Password should have at least 8 characters.')
+				]
+			}
+			case "login": {
+				return [
+					body()
+						.exists().withMessage('Body doesn\'t exists.'),
+					body('email')
+						.exists().withMessage('Email doesn\'t exists.')
+						.isString().withMessage('Email should be a string.')
+						.custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
+					body('password')
+						.exists().withMessage('Password doesn\'t exists.')
+						.isString().withMessage('Password should be a string.')
+						.isLength({ min: 8 }).withMessage('Password should have at least 8 characters.')
 				]
 			}
 			case "lazy": {
@@ -244,6 +259,16 @@ export default class RequestValidator {
 						.isString().withMessage('Confirmation should be a string.')
 						.isLength({ min: 8 }).withMessage('Confirmation should have at least 8 characters.')
 						.custom((confirmation, { req }) => { if(confirmation === req.body.password) { return confirmation } else { throw new Error('Confirmation must match with the password.') } }),
+				]
+			}
+			case "get-by-url": {
+				return [
+					query()
+						.exists().withMessage('Query does\'t exists.'),
+					query('id')
+						.exists().withMessage('Id doesn\'t exists.')
+						.isInt().withMessage('Id should be an integer.')
+						.isLength({ min: 1 }).withMessage('Id should have at least 1 number.')
 				]
 			}
 			default: {

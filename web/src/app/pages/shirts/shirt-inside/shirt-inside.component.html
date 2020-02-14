@@ -1,0 +1,69 @@
+<div class="product" *productLoading="loading">
+    <div class="product__inner">
+      <div class="product__inner--left">
+        <div class="product__inner__title">
+          <h1>{{ product.name }}</h1>
+        </div>
+        <div class="product__inner__info"></div>
+      </div>
+      <div class="product__inner--middle">
+        <div class="product__inner__image">
+          <img [src]="productPreview.url" [alt]="productPreview.alt" [title]="productPreview.alt"/>
+        </div>
+      </div>
+      <div class="product__inner--right">
+        <div class="product__inner__previews">
+          <div
+            *ngFor="let image of product.images"
+            [ngClass]="{
+              product__inner__previews__circle: true,
+              active: productPreview === image.url
+            }"
+            (click)="changePreview(image)"
+          ></div>
+        </div>
+        <div class="product__inner__details">
+          <h2 class="product__inner__details__price">R${{ product.price }}</h2>
+          <p class="product__inner__details__description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
+            vitae recusandae nobis magni veritatis.
+          </p>
+          <div class="product__inner__details__sizes"></div>
+          <button class="product__inner__details__cart" (click)="addToCart()">
+            Adicionar ao carrinho +
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="product__suggestions">
+      <div class="product__suggestions__title">
+        <h2>Veja também</h2>
+      </div>
+      <div class="product__suggestions__cards">
+        <div
+          class="product__suggestions__cards__card"
+          *ngFor="let suggestion of suggestions"
+          [routerLink]="[
+            '/',
+            suggestion.model | models,
+            suggestion.category,
+            suggestion.gender | genders,
+            suggestion.url
+          ]"
+        >
+          <div class="product__suggestion__cards__card--left">
+            <h2 class="product__suggestion__cards__card--left__title">
+              {{ suggestion.name }}
+            </h2>
+            <h3 class="product__suggestion__cards__card--left__price">
+              R${{ suggestion.price }}
+            </h3>
+          </div>
+          <div class="product__suggestion__cards__card--right">
+            <img [src]="suggestion.images[0].url" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

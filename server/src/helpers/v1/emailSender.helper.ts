@@ -29,8 +29,11 @@ export default class EmailSender {
 	}
 
 	public static sendMail = (email: string, template: any, links: string[]) => {
+		console.log('sending mail')
 		const transporter: Transporter = EmailSender.createTransporter()
+		console.log('transporter')
 		const replacedTemplate: any = EmailSender.replaceLinks(template, links);
+		console.log('replaced')
 		const mailOptions: MailOptions = {
 			from: `${replacedTemplate.sender} <${replacedTemplate.email}>`,
 			to: email,
@@ -40,9 +43,11 @@ export default class EmailSender {
 		return new Promise((resolve, reject) => {
 			transporter.sendMail(mailOptions, async (err: any, info: any) => {
 				if (err) {
+					console.log(err)
 					reject(err)
 				}
 				await EventListener.registerEvent('email', 'email-sent', `Email successfully sent to ${email}.`)
+				console.log('info', info)
 				resolve(info);
 			})
 		})

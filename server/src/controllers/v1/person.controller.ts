@@ -23,55 +23,69 @@ export default class PersonController {
 	public create = async (req: Request, res: Response) => {
 		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
 		try {
+			console.log('creating')
+			
 			const requestValidator: RequestValidator = new RequestValidator();
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, { error: errors});
+				const type: any = RequestStatus.errors.BAD_REQUEST
+				MessageFactory.buildResponse(ErrorMessage, res, type, { error: errors});
 				return;
 			}
+
+			console.log('passed validations')
 
 			const { name, email, cpf, password }: any = req.body;
 			const personFirstName = name.split(' ')[0];
 			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
 			const guid: string = EncodingHelper.generateGuid();
+
+			console.log(personFirstName);
+			console.log('passed static classes')
 			
 			const existentPerson = await Person.findOne({ where: { email, cpf }, transaction });
 			if(existentPerson && !existentPerson.password) {
 				this.finishCreate(req, res, existentPerson);
 				return;
 			} else if (existentPerson && existentPerson.password) {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, `User with email: ${existentPerson.email} already exists.`);
+				const type: any = RequestStatus.errors.BAD_REQUEST
+				MessageFactory.buildResponse(ErrorMessage, res, type, `User with email: ${existentPerson.email} already exists.`);
 				return;
 			}
+
+			console.log('creating fully')
 			
 			const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
+			console.log(person);
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
+			console.log('confirmation made')
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
-			await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid]);
+			console.log(mailTemplate)
+			// await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid]);
+			console.log('sendMail')
 			await EventListener.registerEvent('user', 'register', `User ${person.name} has successfully registered.`);
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes.OK;
-			MessageFactory.buildResponse(SuccessMessage, res, successType, { person: person, token: jwt });
+			console.log('commited')
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person: person, token: jwt });
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors.INTERNAL;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 
-	public login = async (req: Request, res: Response) => {
+	public auth = async (req: Request, res: Response) => {
 		try {
 			const requestValidator: RequestValidator = new RequestValidator();
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST;
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
 				return;
 			}
 
@@ -83,21 +97,60 @@ export default class PersonController {
 			const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email }})
 			const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
 
-			if (authenticated) {
-				const successType: any = RequestStatus.successes.OK;
-				MessageFactory.buildResponse(SuccessMessage, res, successType, { person });
-			} else {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST;
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, 'Invalid password.');
+			if (!authenticated) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, 'Invalid password.');
+				return;
 			}
+				
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person });
 		} catch (err) {
 			if(err instanceof jwt.JsonWebTokenError) {
 				err = err.message;
 			} else {
 				err = 'Email Invalid.';
 			}
-			const errorType: any = RequestStatus.errors.BAD_REQUEST;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+			const type: any = RequestStatus.errors.BAD_REQUEST;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+		}
+	}
+
+	public login = async (req: Request, res: Response) => {
+		try {
+			const requestValidator: RequestValidator = new RequestValidator();
+
+			const errors: ValidationError[] = requestValidator.extractErrors(req);
+			if(errors.length) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;		
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
+				return
+			}
+
+			const { email, password }: any = req.body;
+			const person: Person | null = await Person.findOne({ where: { email }});
+
+			if(!person) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;		
+				MessageFactory.buildResponse(ErrorMessage, res, type, { errors: 'User with proved email doesn\'t exists.' });
+				return
+			}
+
+			const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
+
+			if (!authenticated) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, 'Invalid password.');	
+				return;
+			}
+			
+			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
+
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person, token: jwt });
+		} catch (err) {
+			const type: any = RequestStatus.errors.BAD_REQUEST;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 
@@ -108,8 +161,8 @@ export default class PersonController {
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST;		
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
+				const type: any = RequestStatus.errors.BAD_REQUEST;		
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
 				return
 			}
 
@@ -117,8 +170,8 @@ export default class PersonController {
 			
 			const existentPerson = await Person.findOne({ where: { email, cpf }});
 			if(existentPerson) {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST;
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, `User with email: ${email} already exists.`);
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, `User with email: ${email} already exists.`);
 				return;
 			}
 
@@ -130,12 +183,12 @@ export default class PersonController {
 			await EventListener.registerEvent('user', 'lazy-register', `User ${person.name} has successfully lazy registered.`);
 
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes.OK;
-			MessageFactory.buildResponse(SuccessMessage, res, successType, { person });
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person });
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors.INTERNAL;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 
@@ -156,12 +209,12 @@ export default class PersonController {
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
-			const successType: any = RequestStatus.successes.OK;
-			MessageFactory.buildResponse(SuccessMessage, res, successType, { person: updatedPerson, token: jwt })
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person: updatedPerson, token: jwt })
 		} catch (err) {
 			await transaction?.rollback();
-			const errorType: any = RequestStatus.errors.INTERNAL;
-			MessageFactory.buildResponse(ErrorMessage, res, errorType, err);
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
 
@@ -172,8 +225,8 @@ export default class PersonController {
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
 			if(errors.length) {
-				const errorType: any = RequestStatus.errors.BAD_REQUEST;		
-				MessageFactory.buildResponse(ErrorMessage, res, errorType, errors);
+				const type: any = RequestStatus.errors.BAD_REQUEST;		
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
 				return;
 			}
 
@@ -300,6 +353,28 @@ export default class PersonController {
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person, token: jwt })
 		} catch (err) {
 			await transaction?.rollback();
+			const type: any = RequestStatus.errors.INTERNAL;
+			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+		}
+	}
+
+	public getById = async (req: Request, res: Response) => {
+		try {
+			const requestValidator: RequestValidator = new RequestValidator();
+
+			const errors: ValidationError[] = requestValidator.extractErrors(req);
+			if(errors.length) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, { errors });
+				return;
+			}
+			const { id } = req.query;
+
+			const person: Person | null = await Person.findOne({ where: { id: id }, include: [Address, Card] });
+
+			const type: any = RequestStatus.successes.OK;
+			MessageFactory.buildResponse(SuccessMessage, res, type, { person })
+		} catch (err) {
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}

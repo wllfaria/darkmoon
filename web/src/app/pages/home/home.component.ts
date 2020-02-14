@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { Tops } from "src/app/models/tops";
 import { ShirtsService } from "../../core/services/shirts.service";
+import { Skus } from 'src/app/models/skus.model';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-home",
@@ -11,37 +12,47 @@ export class HomeComponent implements OnInit {
 
   constructor(private shirtsService: ShirtsService) {}
 
-  private contentLoading: boolean;
-  private products: any[];
-  private productsLoading: boolean;
+  private shirts: Skus[]
+  private pageLoading: boolean;
+  private requestError: boolean;
+  
+  // Everything that needs to be fetched;
+  private shirtsLoaded: boolean;
 
   ngOnInit() {
-    this.setPageLoading();
-    this.getAllProducts();
+    this.setLoading();
+    this.getDistinctShirts();
   }
 
-  setPageLoading() {
-    this.contentLoading = true;
-    this.productsLoading = true;
+  setLoading = () => {
+    this.pageLoading = true;
   }
 
-  checkLoading() {
+  checkLoading = () => {
     if(
-      !this.productsLoading
+      this.shirtsLoaded
     ) {
-      this.contentLoading = false;
+      this.pageLoading = false;
     }
   }
 
-  getAllProducts() {
-    this.shirtsService.getAll().subscribe(res => {
-      this.products = res.data;
-      console.log(res.data);
-    },
-    error => {},
-    () => {
-      this.productsLoading = false;
-      this.checkLoading();
-    }
-  )}
+  getDistinctShirts = () => {
+    this.shirtsService.getDistinct().subscribe(
+      (res: HttpResponse<any>) => {
+        if(!res.ok) {
+          this.requestError = true;
+          return;
+        }
+        this.shirts = res.body;
+        console.log(res);
+      },
+      (error: HttpErrorResponse) => {
+        this.requestError = true;
+      },
+      () => {
+        this.shirtsLoaded = true;
+        this.checkLoading();
+      }
+    )
+  }
 }

@@ -7,32 +7,25 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { TemplateComponent } from "./template/template.component";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
-import { ProductComponent } from "./pages/product/product.component";
-import { ProductListComponent } from "./pages/product-list/product-list.component";
 
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ComponentsModule } from "./components/components.module";
 import { PipesModule } from "./pipes/pipes.module";
 import { DirectivesModule } from "./core/directives/directives.module";
-import { LoginComponent } from './pages/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './pages/login/register/register.component';
-import { RecoveryComponent } from './pages/login/recovery/recovery.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AuthenticationModule } from './pages/authentication/authentication.module';
+import { ShirtsComponent } from './pages/shirts/shirts.component';
+import ErrorInterceptor from './core/interceptors/error-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     TemplateComponent,
-    ProductComponent,
     NotFoundComponent,
-    ProductListComponent,
-    LoginComponent,
-    RegisterComponent,
-    RecoveryComponent,
-
+    ShirtsComponent,
   ],
   imports: [
     ComponentsModule,
@@ -47,7 +40,9 @@ import { RecoveryComponent } from './pages/login/recovery/recovery.component';
     BrowserModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -14,14 +14,8 @@
       <div>
         <fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
       </div>
-      <div class="header__user">
-        <fa-icon [icon]="faUser" [classes]="['header__right__icon']"></fa-icon>
-        <div class="header__dropdown">
-          <div>
-            <button class="btn">Entrar</button>
-
-          </div>
-        </div>
+      <div class="header__user" *ngIf="loggedUser">
+        <fa-icon routerLink="autenticacao/registro" [icon]="faUser" [classes]="['header__right__icon']"></fa-icon>
       </div>
     </div>
   </div>
