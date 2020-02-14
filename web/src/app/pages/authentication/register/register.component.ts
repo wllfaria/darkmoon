@@ -1,78 +1,151 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Query } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegexService } from 'src/app/core/services/regex.service';
-import { NgBrazilValidators } from 'ng-brazil';
 import { SubSink } from 'subsink';
-import { AuthService } from 'src/app/core/services/auth.service';
-import SenderRegisterInterface from 'src/app/models/senders/senderRegister.model';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Router, NavigationEnd, RouterEvent } from '@angular/router';
+import { PersonService } from 'src/app/core/services/person.service';
+import { ISenderRegister } from 'src/app/models/serverRequests/senderRegister.model';
+import { Router } from '@angular/router';
+import { faArrowRight, IconDefinition, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs';
+import { IPerson } from 'src/app/models/person.model';
+import { Store, ActionsSubject, Action } from '@ngrx/store';
+import { IAppState } from 'src/app/core/store/state/app.state';
+import { IFormState } from 'src/app/core/store/state/form.state';
+import { tap, map, takeUntil, filter } from 'rxjs/operators';
+import { RegisterPerson, PersonActions, RegisterPersonSuccess, EPersonActions, RegisterPersonFailed } from 'src/app/core/store/actions/person.action';
+import { IPersonState } from 'src/app/core/store/state/person.state';
+import { selectRegisterForm } from 'src/app/core/store/selectors/form.selector';
+import { selectLoggedPerson } from 'src/app/core/store/selectors/person.selector';
+import { UpdateRegisterForm, UpdateRegisterFormSuccess } from 'src/app/core/store/actions/form.action';
+import { Actions, ofType } from '@ngrx/effects';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+	selector: 'app-register',
+	templateUrl: './register.component.html',
+	styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 	constructor(
 		private formBuilder: FormBuilder,
 		private regexService: RegexService,
-		private authService: AuthService,
-		private router: Router
-	) {}
+		private personService: PersonService,
+		private router: Router,
+		private store$: Store<IAppState>,
+		private actions$: ActionsSubject
+	) {
+		this.registerForm$ = this.store$.select(selectRegisterForm);
+		this.loggedPerson$ = this.store$.select(selectLoggedPerson);
+	}
+
+	// ! Ngrx definitions
+	private registerForm$: Observable<FormGroup>;
+	private loggedPerson$: Observable<IPerson>;
 
 	private subs: SubSink = new SubSink();
 
-	private formLoading: boolean;
+	public formLoading: boolean;
 
-  	public registerForm: FormGroup;
+	public registerForm: FormGroup;
+	public formComplete: boolean;
+	public showPassword: boolean;
+	public showConfirmation: boolean;
+	public passwordsMatch: boolean;
+	public userAlreadyExists: boolean;
+	public requestError: boolean;
+
+	// ! Icons
+	public arrowRightIcon: IconDefinition = faArrowRight;
+	public eyeIcon: IconDefinition = faEye;
+	public eyeSlashIcon: IconDefinition = faEyeSlash;
 
 	ngOnInit() {
 		this.createForm();
+		this.setupPage();
+		this.patchStoreForm();
+		this.storeSubscriptions();
+		this.registerPersonSuccessActionSubscription();
+		this.registerPersonFailedActionSubscription();
 	}
 
 	private createForm = (): void => {
 		this.registerForm = this.formBuilder.group({
 			name: ['', [Validators.required, Validators.minLength(1)]],
-			email: ['', [Validators.required, Validators.pattern(this.regexService.emailRegex())]],
+			email: ['', [Validators.required, Validators.pattern(this.regexService.emailRegex)]],
 			password: ['', [Validators.required, Validators.minLength(8)]],
 			confirmation: ['', [Validators.required, Validators.minLength(8)]],
-			cpf: ['', [Validators.required, NgBrazilValidators.cpf]]
-		})
+			cpf: ['', [Validators.required, Validators.pattern(this.regexService.cpfRegex)]]
+		},
+		{ validators: this.checkPasswords });
+		this.checkFormCompletion();
 	}
 
-	public get formControls() { return this.registerForm.controls }
-	  
+	public get formControls() { return this.registerForm.controls; }
+
+	private patchStoreForm = (): void => {
+		this.registerForm$.pipe(map((registerForm$: FormGroup): void => this.registerForm.patchValue(registerForm$)));
+	}
+
+	private storeSubscriptions = (): void => {
+		this.subs.add(this.registerForm$.subscribe((registerForm: FormGroup) => {
+			if (!registerForm) { return; }
+			this.registerForm.patchValue(registerForm);
+		}));
+
+		this.subs.add(this.loggedPerson$.subscribe((loggedPerson: IPerson) => {
+			if (loggedPerson) {
+				this.router.navigate(['']);
+			}
+		}));
+	}
+
+	private registerPersonSuccessActionSubscription = (): void => {
+		this.subs.add(this.actions$.pipe(ofType(EPersonActions.RegisterPersonSuccess)).subscribe((action: RegisterPersonSuccess): void => {
+			this.formLoading = false;
+			this.personService.setLoggedUser(action.payload.body.token);
+		}));
+	}
+
+	private registerPersonFailedActionSubscription = (): void => {
+		this.subs.add(this.actions$.pipe(ofType(EPersonActions.RegisterPersonFailed)).subscribe((action: RegisterPersonFailed): void => {
+			this.formLoading = false;
+			action.payload.status < 500 ? this.userAlreadyExists = true : this.requestError = true;
+		}));
+	}
+
+	private setupPage = (): void => {
+		this.showPassword = false;
+		this.formLoading = false;
+	}
+
+	private checkFormCompletion = (): void => {
+		this.subs.add(this.registerForm.valueChanges.subscribe((): void => {
+			this.registerForm.valid && this.passwordsMatch ? this.formComplete = true : this.formComplete = false;
+		}));
+	}
+
+	private checkPasswords = (registerForm: FormGroup): void => {
+		const password: string = registerForm.get('password').value;
+		const confirmation: string = registerForm.get('confirmation').value;
+		password === confirmation ? this.passwordsMatch = true : this.passwordsMatch = false;
+	}
+
 	public onSubmit = (): void => {
-		if(this.registerForm.invalid) {
-			return;
-		}
-
 		this.formLoading = true;
-		const registerData: SenderRegisterInterface = <SenderRegisterInterface>this.registerForm.value;
-
-		this.registerUser(registerData);
+		if (this.registerForm.invalid) { return; }
+		const registerData: ISenderRegister = this.registerForm.value as ISenderRegister;
+		this.store$.dispatch(new UpdateRegisterForm(this.registerForm.value));
+		this.store$.dispatch(new RegisterPerson(registerData));
 	}
 
-	private registerUser = (registerData: SenderRegisterInterface): void => {
-		this.authService.register(registerData).subscribe(
-			(res: HttpResponse<any>): void => {
-				if(res.ok) {
-					this.setLoggedUser(res.body.token);
-					this.navigateUser();
-				}
-			},
-			(error: HttpErrorResponse): void => {},
-			(): void => {}
-		)
+	public togglePasswordVisibility = (elementReference: any): void => {
+		this.showPassword = !this.showPassword;
+		this.showPassword ? elementReference.type = 'text' : elementReference.type = 'password';
 	}
 
-	private setLoggedUser = (token: string): void => {
-		this.authService.setLoggedUser(token);
-	}
-
-	private navigateUser = (): void => {
-		this.router.navigate(['']);
+	public toggleConfirmationVisibility = (elementReference: any): void => {
+		this.showConfirmation = !this.showConfirmation;
+		this.showConfirmation ? elementReference.type = 'text' : elementReference.type = 'password';
 	}
 
 	ngOnDestroy() {

@@ -1,23 +1,24 @@
 <header>
-  <div class="header">
-    <div class="header__left">
-      <div class="header__left__hamburger">
-        <div class="header__left__hamburger__line"></div>
-        <div class="header__left__hamburger__line"></div>
-        <div class="header__left__hamburger__line"></div>
-      </div>
-      <div class="header__left__logo">
-        <h2 routerLink="/">Darkmoon</h2>
-      </div>
-    </div>
-    <div class="header__right">
-      <div>
-        <fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
-      </div>
-      <div class="header__user" *ngIf="loggedUser">
-        <fa-icon routerLink="autenticacao/registro" [icon]="faUser" [classes]="['header__right__icon']"></fa-icon>
-      </div>
-    </div>
-  </div>
+	<div class="header">
+		<div class="header__left">
+			<div class="header__left__hamburger">
+				<div class="header__left__hamburger__line"></div>
+				<div class="header__left__hamburger__line"></div>
+				<div class="header__left__hamburger__line"></div>
+			</div>
+			<div class="header__left__logo">
+				<h2 routerLink="/">Darkmoon</h2>
+			</div>
+		</div>
+		<div class="header__right">
+			<div>
+				<fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
+			</div>
+			<div class="header__user" *ngIf="!loggedUser">
+				<fa-icon routerLink="autenticacao/registro" [icon]="faUser" [classes]="['header__right__icon']">
+				</fa-icon>
+			</div>
+		</div>
+	</div>
 </header>
 <app-cart></app-cart>

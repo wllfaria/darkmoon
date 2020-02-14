@@ -1,0 +1,41 @@
+.position {
+
+    &--absolute {
+        @extend .position;
+        position: absolute;
+    }
+}
+
+@for $i from 0 through 100 {
+    .top--#{$i}--percentage {
+        top: $i * 1%;
+    }
+
+    .top--#{$i} {
+        top: $i * 1px;
+    }
+    
+    .right--#{$i}--percentage {
+        right: $i * 1%;
+    }
+
+    .right--#{$i} {
+        right: $i * 1px;
+    }
+
+    .bottom--#{$i}--percentage {
+        bottom: $i * 1%;
+    }
+
+    .bottom--#{$i} {
+        bottom: $i * 1px;
+    }
+
+    .left--#{$i}--percentage {
+        left: $i * 1%;
+    }
+
+    .left--#{$i} {
+        left: $i * 1px;
+    }
+}

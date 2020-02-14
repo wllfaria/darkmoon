@@ -7,7 +7,8 @@ import { RecoveryComponent } from './recovery/recovery.component';
 import { AuthenticationComponent } from './authentication.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from 'src/app/core/directives/directives.module';
-import { AuthGuard } from 'src/app/core/guards/auth.guard';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 export const ROUTES: Routes = [
 	{
@@ -32,7 +33,7 @@ export const ROUTES: Routes = [
 			}
 		]
 	}
-]
+];
 
 @NgModule({
 	declarations: [
@@ -44,8 +45,10 @@ export const ROUTES: Routes = [
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
+		FontAwesomeModule,
 		DirectivesModule,
-		RouterModule.forChild(ROUTES)
+		RouterModule.forChild(ROUTES),
+		NgxMaskModule.forChild()
 	]
 })
 export class AuthenticationModule { }

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { Database } from "../../database";
 import RequestValidator from "../../validations/v1/requestValidator.validation";
 import EncodingHelper from "../../helpers/v1/encoding.helper";
@@ -23,8 +22,6 @@ export default class PersonController {
 	public create = async (req: Request, res: Response) => {
 		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
 		try {
-			console.log('creating')
-			
 			const requestValidator: RequestValidator = new RequestValidator();
 
 			const errors: ValidationError[] = requestValidator.extractErrors(req);
@@ -34,17 +31,14 @@ export default class PersonController {
 				return;
 			}
 
-			console.log('passed validations')
-
 			const { name, email, cpf, password }: any = req.body;
+			let newCpf = cpf.replace(/\./g, '');
+			newCpf = cpf.replace(/\-/g, '');
 			const personFirstName = name.split(' ')[0];
-			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
+			const { salt, encodedPassword }: { [key: string]: string } = EncodingHelper.encodePassword(password);
 			const guid: string = EncodingHelper.generateGuid();
-
-			console.log(personFirstName);
-			console.log('passed static classes')
 			
-			const existentPerson = await Person.findOne({ where: { email, cpf }, transaction });
+			const existentPerson = await Person.findOne({ where: { email }, transaction });
 			if(existentPerson && !existentPerson.password) {
 				this.finishCreate(req, res, existentPerson);
 				return;
@@ -53,23 +47,16 @@ export default class PersonController {
 				MessageFactory.buildResponse(ErrorMessage, res, type, `User with email: ${existentPerson.email} already exists.`);
 				return;
 			}
-
-			console.log('creating fully')
 			
-			const person: any = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
-			console.log(person);
+			const person: Person = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
-			console.log('confirmation made')
-			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
-			console.log(mailTemplate)
+			const mailTemplate: EmailTemplate | null = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
 			// await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid]);
-			console.log('sendMail')
 			await EventListener.registerEvent('user', 'register', `User ${person.name} has successfully registered.`);
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
-			console.log('commited')
-			const type: any = RequestStatus.successes.OK;
+			const type: { [key: string]: string | number } = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person: person, token: jwt });
 		} catch (err) {
 			await transaction?.rollback();
@@ -92,18 +79,18 @@ export default class PersonController {
 			const { email, password }: any = req.body;
 			const token: string = <string>req.headers.authorization;
 			
-			const verifiedToken = EncodingHelper.verifyJWT(token);
+			const verifiedToken: string | any = EncodingHelper.verifyJWT(token);
 
-			const person: any = await Person.findOne({ where: { id: verifiedToken.id, email: email }})
-			const authenticated: boolean = EncodingHelper.decodePassword(person.password, password, person.salt);
+			const person: Person | null = await Person.findOne({ where: { id: verifiedToken.id, email: email }})
+			const authenticated: boolean = EncodingHelper.decodePassword(person?.password, password, person?.salt);
 
 			if (!authenticated) {
-				const type: any = RequestStatus.errors.BAD_REQUEST;
+				const type: { [key: string]: string | number } = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, type, 'Invalid password.');
 				return;
 			}
 				
-			const type: any = RequestStatus.successes.OK;
+			const type: { [key: string]: string | number } = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person });
 		} catch (err) {
 			if(err instanceof jwt.JsonWebTokenError) {
@@ -111,7 +98,7 @@ export default class PersonController {
 			} else {
 				err = 'Email Invalid.';
 			}
-			const type: any = RequestStatus.errors.BAD_REQUEST;
+			const type: { [key: string]: string | number } = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
@@ -368,7 +355,7 @@ export default class PersonController {
 				MessageFactory.buildResponse(ErrorMessage, res, type, { errors });
 				return;
 			}
-			const { id } = req.query;
+			const { id } = req.params;
 
 			const person: Person | null = await Person.findOne({ where: { id: id }, include: [Address, Card] });
 

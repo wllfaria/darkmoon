@@ -1,40 +1,179 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form class="authform px--64 px--sm--24 py--24 py--sm--24" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+	<div class="authform--loading" *ngIf="formLoading"></div>
 	<div>
-		<label for="name">Name</label>
-		<input 
-			type="text"
-			formControlName="name"
-		>
+		<p>Faça seu</p>
+		<h1 class="font__size--48 mb--16 mb--sm--16">Registro</h1>
 	</div>
 	<div>
-		<label for="email">Email</label>
-		<input 
-			type="text"
-			formControlName="email"
-		>
+		<div class="float__label mb--8 mb--sm--8 font__weight--bold">
+			<input 
+				id="name" 
+				name="name" 
+				class="border__radius--4" 
+				type="text" 
+				placeholder="name" 
+				formControlName="name"
+			>
+			<label for="name">Nome</label>
+		</div>
+		<div *ngIf="formControls.name.errors">
+			<div *ngIf="(formControls.name.touched || formControls.name.dirty) && formControls.name.errors.required">
+				<p class="color--red font__size--12 my--8 my--sm--8">Por favor, nos diga seu nome.</p>
+			</div>
+		</div>
 	</div>
 	<div>
-		<label for="cpf">CPF</label>
-		<input 
-			type="text"
-			formControlName="cpf"
-		>
+		<div class="float__label mb--8 mb--sm--8 font__weight--bold">
+			<input 
+				id="email" 
+				name="email" 
+				class="border__radius--4" 
+				type="text" 
+				placeholder="email" 
+				formControlName="email"
+			>
+			<label for="email">Email</label>
+		</div>
+		<div *ngIf="formControls.email.errors">
+			<div *ngIf="(formControls.email.touched || formControls.email.dirty) && formControls.email.errors.required">
+				<p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite seu e-mail.</p>
+			</div>
+			<div *ngIf="(formControls.email.touched || formControls.email.dirty) && formControls.email.errors.pattern">
+				<p class="color--red font__size--12 my--8 my--sm--8">Este e-mail não é válido.</p>
+			</div>
+		</div>
 	</div>
 	<div>
-		<label for="password">Password</label>
-		<input 
-			type="text" 
-			formControlName="password"
-		>
+		<div class="float__label mb--8 mb--sm--8 font__weight--bold">
+			<input 
+				id="cpf" 
+				name="cpf" 
+				class="border__radius--4" 
+				type="text" 
+				placeholder="cpf" 
+				formControlName="cpf"
+				mask="000.000.000-00"
+			>
+			<label for="cpf">CPF</label>
+		</div>
+		<div *ngIf="formControls.cpf.errors">
+			<div *ngIf="(formControls.cpf.touched || formControls.cpf.dirty) && formControls.cpf.errors.required">
+				<p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite seu CPF.</p>
+			</div>
+			<div *ngIf="(formControls.cpf.touched || formControls.cpf.dirty) && formControls.cpf.errors.pattern">
+				<p class="color--red font__size--12 my--8 my--sm--8">Este CPF não é válido.</p>
+			</div>
+		</div>
 	</div>
 	<div>
-		<label for="confirmation">Confirmation</label>
-		<input 
-			type="text" 
-			formControlName="confirmation"
-		>
+		<div class="float__label mb--8 mb--sm--8 font__weight--bold">
+			<input 
+				id="password" 
+				name="password" 
+				class="border__radius--4" 
+				type="password" 
+				placeholder="password" 
+				formControlName="password"
+				#password
+			>
+			<label for="password">Senha</label>
+			<fa-icon 
+				*ngIf="!showPassword"
+				(click)="togglePasswordVisibility(password)"
+				[icon]="eyeSlashIcon" 
+				size="lg" 
+				[classes]="[
+					'position--absolute', 
+					'top--50--percentage', 
+					'right--8', 
+					'transform__translatey--50--percentage--negative', 
+					'cursor--pointer'
+				]"
+			></fa-icon>
+			<fa-icon 
+				*ngIf="showPassword" 
+				(click)="togglePasswordVisibility(password)"
+				[icon]="eyeIcon" 
+				size="lg" 
+				[classes]="[
+					'position--absolute', 
+					'top--50--percentage', 
+					'right--8', 
+					'transform__translatey--50--percentage--negative', 
+					'cursor--pointer'
+				]"
+			></fa-icon>
+		</div>
+		<div *ngIf="formControls.password.errors">
+			<div *ngIf="(formControls.password.touched || formControls.password.dirty) && formControls.password.errors.required">
+				<p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite uma senha.</p>
+			</div>
+			<div *ngIf="(formControls.password.touched || formControls.password.dirty) && formControls.password.errors.minlength">
+				<p class="color--red font__size--12 my--8 my--sm--8">Sua senha deve conter no mínimo 8 caracteres.</p>
+			</div>
+		</div>
 	</div>
 	<div>
-		<button>Registrar</button>
+		<div class="float__label mb--8 mb--sm--8 font__weight--bold">
+			<input 
+				id="confirmation" 
+				name="confirmation" 
+				class="border__radius--4" 
+				type="password" 
+				placeholder="confirmation" 
+				formControlName="confirmation"
+				#confirmation
+			>
+			<label for="confirmation">Confirmação</label>
+			<fa-icon 
+				*ngIf="!showConfirmation"
+				(click)="toggleConfirmationVisibility(confirmation)"
+				[icon]="eyeSlashIcon" 
+				size="lg" 
+				[classes]="[
+					'position--absolute', 
+					'top--50--percentage', 
+					'right--8', 
+					'transform__translatey--50--percentage--negative', 
+					'cursor--pointer'
+				]"
+			></fa-icon>
+			<fa-icon 
+				*ngIf="showConfirmation" 
+				(click)="toggleConfirmationVisibility(confirmation)"
+				[icon]="eyeIcon" 
+				size="lg" 
+				[classes]="[
+					'position--absolute', 
+					'top--50--percentage', 
+					'right--8', 
+					'transform__translatey--50--percentage--negative', 
+					'cursor--pointer'
+				]"
+			></fa-icon>
+		</div>
+		<div *ngIf="(formControls.confirmation.touched || formControls.confirmation.dirty) && !passwordsMatch">
+			<p class="color--red font__size--12 my--8 my--sm--8">Sua senha e confirmação precisam ser iguais.</p>
+		</div>
+	</div>
+	<div class="mb--16 mb--sm--16">
+		<a routerLink="/autenticacao/login" class="font__size--12">Já faz parte do culto? Faça seu login.</a>
+	</div>
+	<div *ngIf="userAlreadyExists">
+		<p class="color--red font__size--12 my--8 my--sm--8">Já existe uma conta com esse e-mail. <span routerLink="/autenticacao/recuperar-conta">Esqueceu sua senha?</span></p>
+	</div>
+	<div class="d--flex justify__content--center">
+		<button 
+			[ngClass]="{
+				'btn--outline': true, 
+				'border__radius--24': true, 
+				'text__transform--uppercase': true, 
+				'font__weight--bold': true,
+				'btn--outline--fill': formComplete
+			}"
+			[disabled]="!formComplete || formLoading"
+		>
+			<fa-icon [icon]="arrowRightIcon"></fa-icon>
+		</button>
 	</div>
 </form>

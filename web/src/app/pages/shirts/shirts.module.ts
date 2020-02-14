@@ -9,27 +9,27 @@ const ROUTES: Routes = [
 		path: '',
 		component: ShirtsListComponent
 	},
-	{ 
-		path: 'unisex', 
+	{
+		path: 'unisex',
 		pathMatch: 'full',
-		redirectTo: '' 
+		redirectTo: ''
 	},
-	{ 
-		path: 'masculino', 
-		component: ShirtsListComponent 
+	{
+		path: 'masculino',
+		component: ShirtsListComponent
 	},
-	{ 
-		path: 'feminino', 
-		component: ShirtsListComponent 
+	{
+		path: 'feminino',
+		component: ShirtsListComponent
 	},
 	{
 		path: 'longsleeve/unisex',
 		pathMatch: 'full',
 		redirectTo: 'longsleeve'
 	},
-	{ 
-		path: 'longsleeve', 
-		component: ShirtsListComponent 
+	{
+		path: 'longsleeve',
+		component: ShirtsListComponent
 	},
 	{
 		path: 'longsleeve/masculino',
@@ -41,7 +41,7 @@ const ROUTES: Routes = [
 	},
 	{
 		path: 'longsleeve/unisex/:product',
-		pathMatch: "full",
+		pathMatch: 'full',
 		redirectTo: 'longsleeve/:product'
 	},
 	{
@@ -56,12 +56,12 @@ const ROUTES: Routes = [
 		path: 'longsleeve/masculino/:product',
 		component: ShirtInsideComponent
 	},
-]
+];
 
 
 @NgModule({
 	declarations: [
-		ShirtsListComponent, 
+		ShirtsListComponent,
 		ShirtInsideComponent
 	],
 	imports: [

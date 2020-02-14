@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize-typescript';
+import { Sequelize, Repository } from 'sequelize-typescript';
 import * as config from '../db-config.json';
 import Person from './models/v1/person.model';
 import Address from './models/v1/address.model';
@@ -50,12 +50,12 @@ export class Database {
       }
     });
     this.addModels();
-    await this.repository.sync({ force: true })
-    await DatabaseSetup.setupTables(); 
+    // await this.repository.sync({ force: true });
+    // await DatabaseSetup.setupTables(); 
   }
 
   public getTransaction = async () => {
-    return await this.repository?.transaction()
+    return await this.repository?.transaction();
   }
 
   private addModels = () => {

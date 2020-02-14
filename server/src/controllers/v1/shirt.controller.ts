@@ -81,7 +81,7 @@ export default class ShirtController {
 
 	public getDistinct = async (_req: Request, res: Response) => {
 		try {
-			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }});
+			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }, include: [ ProductImage ] });
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, distinctShirts)
 		} catch (err) {

@@ -1,0 +1,49 @@
+.transform {
+    &__translatex {
+        @extend .transform;
+
+        @for $i from 0 through 100 {
+            &--#{$i}--percentage {
+                @extend .transform__translatex;
+                transform: translateX($i * 1%);
+
+                &--negative {
+                    transform: translateX(-$i * 1%);
+                }
+            }
+
+            &--#{$i} {
+                @extend .transform__translatex;
+                transform: translateX($i * 1px);
+
+                &--negative {
+                    transform: translateX(-$i * 1px);
+                }
+            }
+        }
+    }
+
+    &__translatey {
+        @extend .transform;
+
+        @for $i from 0 through 100 {
+            &--#{$i}--percentage {
+                @extend .transform__translatey;
+                transform: translateY($i * 1%);
+
+                &--negative {
+                    transform: translateY(-$i * 1%);
+                }
+            }
+
+            &--#{$i} {
+                @extend .transform__translatey;
+                transform: translateY($i * 1px);
+
+                &--negative {
+                    transform: translateY(-$i * 1px);
+                }
+            }
+        }
+    }
+}

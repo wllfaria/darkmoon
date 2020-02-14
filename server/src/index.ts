@@ -3,16 +3,19 @@ import Router from "./router";
 import * as bodyParser from 'body-parser'
 import './env';
 import { Database } from "./database";
+import * as swaggerDoc from '../swagger.json'
 
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express');
 const server = express();
 const router = new Router(server);
 const port = process.env.PORT || 3333;
 const database = new Database();
+server.use('/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
+server.use(cors());
 
-server.use(bodyParser.urlencoded({ extended: false }))
-server.use(bodyParser.json())
-server.use(cors())
 router.initializeRoutes();
 
 server.get('/', cors(), (_req, res) => {

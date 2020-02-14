@@ -1,83 +1,5 @@
 @import "./variables.scss";
 
-footer {
-  background: $color-text;
-
-  .footer {
-    width: calc(100vw - 157px);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 20px;
-    padding: 30px 0;
-
-    .footer__left {
-      .footer__left__title {
-        font-size: $h3;
-        margin-bottom: 20px;
-        color: $color-light-gray;
-      }
-
-      .footer__left__description {
-        color: $color-light-gray;
-      }
-    }
-    .footer__middle {
-      .footer__middle__title {
-        font-size: $h3;
-        margin-bottom: 20px;
-        color: $color-light-gray;
-      }
-
-      .footer__middle__menu {
-        list-style: none;
-
-        li {
-          color: $color-light-gray;
-          margin-bottom: 8px;
-          cursor: pointer;
-        }
-      }
-    }
-    .footer__right {
-      .footer__right__title {
-        font-size: $h3;
-        margin-bottom: 20px;
-        color: $color-light-gray;
-      }
-
-      .footer__right__description {
-        color: $color-light-gray;
-        margin-bottom: 20px;
-      }
-      .footer__right__newsletter {
-        margin-bottom: 70px;
-
-        .footer__right__newsletter__input {
-          padding: 10px;
-          margin-right: 20px;
-          width: calc(100% - 120px);
-        }
-
-        .footer__right__newsletter__button {
-          padding: 10px 20px;
-          font-weight: bold;
-          font-size: $paragraph;
-          background: $color-dark-gray;
-          border: none;
-          outline: none;
-        }
-      }
-
-      .footer__right__social {
-        .footer__right__social__title {
-          color: $color-light-gray;
-        }
-      }
-    }
-  }
-}
-
 header {
   .header {
     padding-top: 10px;
@@ -109,7 +31,7 @@ header {
 
       .header__left__logo {
         h2 {
-          font-size: $h4;
+          font-size: 30px;
           cursor: pointer;
         }
       }

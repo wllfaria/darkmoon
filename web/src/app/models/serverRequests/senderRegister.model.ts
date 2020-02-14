@@ -1,4 +1,4 @@
-export default interface SenderRegisterInterface{
+export interface ISenderRegister{
     name: string;
     email: string;
     password: string;

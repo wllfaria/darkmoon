@@ -1,0 +1,6 @@
+.cursor {
+    &--pointer {
+        @extend .cursor;
+        cursor: pointer;
+    }
+}

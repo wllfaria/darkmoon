@@ -1,5 +1,3 @@
-@media (max-width: 767px) {
-    .fullpage-illustration {
-        width: 70%;
-    }
-}
+//! Mobile
+@import './responsive/mobile/styles';
+@import './responsive/mobile/spacings';

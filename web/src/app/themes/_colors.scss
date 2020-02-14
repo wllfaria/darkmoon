@@ -1,0 +1,11 @@
+.bg {
+
+    &--gray {
+    @extend .bg;
+
+        &--default {
+            @extend .bg--gray;
+            background: $color-gray-default;
+        }
+    }
+}

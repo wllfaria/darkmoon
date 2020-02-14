@@ -1,4 +1,4 @@
-import { body, validationResult, ValidationError, Result, ValidationChain, query } from 'express-validator';
+import { body, validationResult, ValidationError, Result, ValidationChain, query, param } from 'express-validator';
 import { Request, Response } from 'express';
 
 export default class RequestValidator {
@@ -295,7 +295,7 @@ export default class RequestValidator {
 			}
 			case "getbyid": {
 				return [
-					query('id').exists().withMessage('Missing id on query string')
+					param('id').exists().withMessage('Missing id on query string')
 				]
 			}
 			default: {
