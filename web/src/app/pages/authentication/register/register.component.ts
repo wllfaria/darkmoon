@@ -8,18 +8,19 @@ import { Router } from '@angular/router';
 import { faArrowRight, IconDefinition, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { IPerson } from 'src/app/models/person.model';
-import { Store, ActionsSubject, Action } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 import { IAppState } from 'src/app/core/store/state/app.state';
-import { IFormState } from 'src/app/core/store/state/form.state';
-import { tap, map, takeUntil, filter } from 'rxjs/operators';
-import { RegisterPerson, PersonActions, RegisterPersonSuccess, EPersonActions, RegisterPersonFailed } from 'src/app/core/store/actions/person.action';
-import { IPersonState } from 'src/app/core/store/state/person.state';
+import { map } from 'rxjs/operators';
+import {
+	RegisterPerson,
+	RegisterPersonSuccess,
+	EPersonActions,
+	RegisterPersonFailed
+} from 'src/app/core/store/actions/person.action';
 import { selectRegisterForm } from 'src/app/core/store/selectors/form.selector';
 import { selectLoggedPerson } from 'src/app/core/store/selectors/person.selector';
-import { UpdateRegisterForm, UpdateRegisterFormSuccess } from 'src/app/core/store/actions/form.action';
-import { Actions, ofType } from '@ngrx/effects';
-import { HttpErrorResponse } from '@angular/common/http';
-
+import { UpdateRegisterForm } from 'src/app/core/store/actions/form.action';
+import { ofType } from '@ngrx/effects';
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',

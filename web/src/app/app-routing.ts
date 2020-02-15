@@ -9,7 +9,7 @@ export const ROUTER: Routes = [
 		component: TemplateComponent,
 		children: [
 			{ path: '', pathMatch: 'full', component: HomeComponent },
-			{ path: 'camisetas', loadChildren: './pages/shirts/shirts.module#ShirtsModule' },
+			{ path: 'camisetas', loadChildren: () => import('./pages/shirts/shirts.module').then(m => m.ShirtsModule) },
 		]
 	},
 	{

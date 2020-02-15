@@ -19,9 +19,9 @@ export class HeaderComponent implements OnInit {
 		private userService: UserService
 	) { }
 
-	@ViewChild(CartComponent, { static: false }) cart: CartComponent;
+	@ViewChild(CartComponent) cart: CartComponent;
 
-	private loggedUser: any;
+	public loggedUser: any;
 	private parsedToken: any;
 
 
