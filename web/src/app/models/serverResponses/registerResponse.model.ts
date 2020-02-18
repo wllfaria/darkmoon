@@ -1,6 +1,6 @@
 import { IPerson } from '../person.model';
 
-export interface IPersonRegisterResponse {
+export interface IRegisterResponse {
 	person: IPerson;
 	token: string;
 }

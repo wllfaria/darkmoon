@@ -1,4 +1,4 @@
-export interface ISenderLogin {
+export interface ILoginRequest {
 	email: string;
 	password: string;
 }

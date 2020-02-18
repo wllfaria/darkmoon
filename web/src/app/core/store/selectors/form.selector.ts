@@ -9,3 +9,8 @@ export const selectRegisterForm = createSelector(
 	selectForms,
 	(state: IFormState): FormGroup => state.registerForm
 );
+
+export const selectLoginForm = createSelector(
+	selectForms,
+	(state: IFormState): FormGroup => state.loginForm
+);

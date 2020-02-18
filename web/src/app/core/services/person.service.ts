@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ISenderRegister } from 'src/app/models/serverRequests/senderRegister.model';
-import { ISenderLogin } from 'src/app/models/serverRequests/senderLogin.model';
 import * as jwt_decode from 'jwt-decode';
+import { ILoginRequest } from 'src/app/models/serverRequests/loginRequest.model';
+import { IRegisterRequest } from 'src/app/models/serverRequests/registerRequest.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -27,7 +27,6 @@ export class PersonService {
 			try {
 				return jwt_decode(user.token);
 			} catch (err) {
-				console.log('teste');
 				return null;
 			}
 		}
@@ -38,11 +37,11 @@ export class PersonService {
 		localStorage.setItem('DARKMOONUSER', JSON.stringify({ token }));
 	}
 
-	public login = (loginData: ISenderLogin): Observable<any> => {
+	public login = (loginData: ILoginRequest): Observable<any> => {
 		return this.http.post<any>(`${this.API_URL}/people/login`, { email: loginData.email, password: loginData.password }, this.httpOptions);
 	}
 
-	public register = (registerData: ISenderRegister): Observable<any> => {
+	public register = (registerData: IRegisterRequest): Observable<any> => {
 		return this.http.post<any>(
 			`${this.API_URL}/people`,
 			{

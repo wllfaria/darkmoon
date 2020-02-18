@@ -12,6 +12,12 @@ export const formReducer = (
 				registerForm: action.payload
 			};
 		}
+		case EFormActions.UpdateLoginForm: {
+			return {
+				...state,
+				loginForm: action.payload
+			};
+		}
 		default: {
 			return state;
 		}

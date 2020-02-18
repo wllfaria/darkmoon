@@ -3,24 +3,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegexService } from 'src/app/core/services/regex.service';
 import { SubSink } from 'subsink';
 import { PersonService } from 'src/app/core/services/person.service';
-import { ISenderRegister } from 'src/app/models/serverRequests/senderRegister.model';
 import { Router } from '@angular/router';
 import { faArrowRight, IconDefinition, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { IPerson } from 'src/app/models/person.model';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { IAppState } from 'src/app/core/store/state/app.state';
-import { map } from 'rxjs/operators';
 import {
+	EPersonActions,
 	RegisterPerson,
 	RegisterPersonSuccess,
-	EPersonActions,
 	RegisterPersonFailed
 } from 'src/app/core/store/actions/person.action';
 import { selectRegisterForm } from 'src/app/core/store/selectors/form.selector';
 import { selectLoggedPerson } from 'src/app/core/store/selectors/person.selector';
 import { UpdateRegisterForm } from 'src/app/core/store/actions/form.action';
 import { ofType } from '@ngrx/effects';
+import { IRegisterRequest } from 'src/app/models/serverRequests/registerRequest.model';
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
@@ -45,13 +44,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
 	private subs: SubSink = new SubSink();
 
-	public formLoading: boolean;
-
 	public registerForm: FormGroup;
+	public formLoading: boolean;
 	public formComplete: boolean;
 	public showPassword: boolean;
 	public showConfirmation: boolean;
 	public passwordsMatch: boolean;
+
+	// ! Error definitions
 	public userAlreadyExists: boolean;
 	public requestError: boolean;
 
@@ -63,7 +63,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.createForm();
 		this.setupPage();
-		this.patchStoreForm();
 		this.storeSubscriptions();
 		this.registerPersonSuccessActionSubscription();
 		this.registerPersonFailedActionSubscription();
@@ -77,14 +76,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 			confirmation: ['', [Validators.required, Validators.minLength(8)]],
 			cpf: ['', [Validators.required, Validators.pattern(this.regexService.cpfRegex)]]
 		},
-		{ validators: this.checkPasswords });
+			{ validators: this.checkPasswords });
 		this.checkFormCompletion();
 	}
 
 	public get formControls() { return this.registerForm.controls; }
 
-	private patchStoreForm = (): void => {
-		this.registerForm$.pipe(map((registerForm$: FormGroup): void => this.registerForm.patchValue(registerForm$)));
+	public navigate = (pageUrl: string): void => {
+		this.router.navigate([pageUrl]);
 	}
 
 	private storeSubscriptions = (): void => {
@@ -94,24 +93,27 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		}));
 
 		this.subs.add(this.loggedPerson$.subscribe((loggedPerson: IPerson) => {
-			if (loggedPerson) {
-				this.router.navigate(['']);
-			}
+			if (!loggedPerson) { return; }
+			this.router.navigate(['']);
 		}));
 	}
 
 	private registerPersonSuccessActionSubscription = (): void => {
-		this.subs.add(this.actions$.pipe(ofType(EPersonActions.RegisterPersonSuccess)).subscribe((action: RegisterPersonSuccess): void => {
-			this.formLoading = false;
-			this.personService.setLoggedUser(action.payload.body.token);
-		}));
+		this.subs.add(this.actions$.pipe(
+			ofType(EPersonActions.RegisterPersonSuccess)).subscribe((action: RegisterPersonSuccess): void => {
+				this.formLoading = false;
+				this.personService.setLoggedUser(action.payload.body.token);
+			}
+		));
 	}
 
 	private registerPersonFailedActionSubscription = (): void => {
-		this.subs.add(this.actions$.pipe(ofType(EPersonActions.RegisterPersonFailed)).subscribe((action: RegisterPersonFailed): void => {
-			this.formLoading = false;
-			action.payload.status < 500 ? this.userAlreadyExists = true : this.requestError = true;
-		}));
+		this.subs.add(this.actions$.pipe(
+			ofType(EPersonActions.RegisterPersonFailed)).subscribe((action: RegisterPersonFailed): void => {
+				this.formLoading = false;
+				action.payload.status < 500 ? this.userAlreadyExists = true : this.requestError = true;
+			}
+		));
 	}
 
 	private setupPage = (): void => {
@@ -134,19 +136,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	public onSubmit = (): void => {
 		this.formLoading = true;
 		if (this.registerForm.invalid) { return; }
-		const registerData: ISenderRegister = this.registerForm.value as ISenderRegister;
+		const registerData: IRegisterRequest = this.registerForm.value as IRegisterRequest;
 		this.store$.dispatch(new UpdateRegisterForm(this.registerForm.value));
 		this.store$.dispatch(new RegisterPerson(registerData));
 	}
 
-	public togglePasswordVisibility = (elementReference: any): void => {
+	public togglePasswordVisibility = (passwordElementReference: any): void => {
 		this.showPassword = !this.showPassword;
-		this.showPassword ? elementReference.type = 'text' : elementReference.type = 'password';
+		this.showPassword ? passwordElementReference.type = 'text' : passwordElementReference.type = 'password';
 	}
 
-	public toggleConfirmationVisibility = (elementReference: any): void => {
+	public toggleConfirmationVisibility = (confirmationElementReference: any): void => {
 		this.showConfirmation = !this.showConfirmation;
-		this.showConfirmation ? elementReference.type = 'text' : elementReference.type = 'password';
+		this.showConfirmation ? confirmationElementReference.type = 'text' : confirmationElementReference.type = 'password';
 	}
 
 	ngOnDestroy() {

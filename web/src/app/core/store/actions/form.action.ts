@@ -3,14 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 export enum EFormActions {
 	UpdateRegisterForm = '[Form] Update Register Form',
-	UpdateRegisterFormSuccess = '[Form] Update Register Form Success',
-	UpdateRegisterFormFailed = '[Form] Update Register Form Failed',
-	GetForms = '[Form] Get Forms',
-}
-
-export class GetForms implements Action {
-	public readonly type: EFormActions = EFormActions.GetForms;
-	constructor(public payload: FormGroup) { }
+	UpdateLoginForm = '[Form] Update Login Form'
 }
 
 export class UpdateRegisterForm implements Action {
@@ -18,14 +11,9 @@ export class UpdateRegisterForm implements Action {
 	constructor(public payload: FormGroup) { }
 }
 
-export class UpdateRegisterFormSuccess implements Action {
-	public readonly type: EFormActions = EFormActions.UpdateRegisterFormSuccess;
+export class UpdateLoginForm implements Action {
+	public readonly type: EFormActions = EFormActions.UpdateLoginForm;
 	constructor(public payload: FormGroup) { }
 }
 
-export class UpdateRegisterFormFailed implements Action {
-	public readonly type: EFormActions = EFormActions.UpdateRegisterFormFailed;
-	constructor(public payload: FormGroup) { }
-}
-
-export type FormActions = | GetForms | UpdateRegisterForm | UpdateRegisterFormSuccess | UpdateRegisterFormFailed;
+export type FormActions = | UpdateRegisterForm | UpdateLoginForm;

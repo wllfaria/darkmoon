@@ -1,7 +1,7 @@
 @import './app/themes/variables';
-@import "./app/themes/responsive";
-@import "./app/themes/reset";
-@import "./app/themes/styles";
+@import './app/themes/responsive';
+@import './app/themes/reset';
+@import './app/themes/styles';
 @import './app/themes/spacings';
 @import './app/themes/fonts';
 @import './app/themes/positions';
@@ -13,67 +13,66 @@
 @import './app/themes/inputs';
 @import './app/themes/colors';
 
-
 @media all and (min-width: 768px) {
-    .container {
-        width: 95%;
-        margin: 0 auto;
-    
-        &--small {
-            width: 75%;
-            margin: 0 auto;
-        }
-    
-        &--fluid {
-            $containerPadding: 16px;
-    
-            width: 100%;
-            padding-left: $containerPadding;
-            padding-right: $containerPadding;
-        }
-    }
-    
-    .fullpage--illustration {
-        width: 40%;
-    }
-    
-    .authform {
-        width: 400px;
-        max-width: 400px;
-        background-color: white;
-        position: relative;
-        overflow: hidden;
+	.container {
+		width: 95%;
+		margin: 0 auto;
 
-        .authform--loading {
-            height: 5px;
-            background: $color-text;
-            width: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation-name: 'loadingBar';
-            animation-duration: 1500ms;
-            animation-timing-function: cubic-bezier(0.38, 0.12, 1, 0.62);
-            animation-iteration-count: infinite;
-        }
-    }
+		&--small {
+			width: 75%;
+			margin: 0 auto;
+		}
 
-    @keyframes loadingBar {
-        0% {
-            width: 0;
-            left: 0;
-        }
-        40% {
-            width: 130px;
-            left: 0;
-        }
-        70% {
-            width: 240px;
-            left: 140%;
-        }
-        100% {
-            width: 240px;
-            left: 140%;
-        }
-    }
+		&--fluid {
+			$containerPadding: 16px;
+
+			width: 100%;
+			padding-left: $containerPadding;
+			padding-right: $containerPadding;
+		}
+	}
+
+	.fullpage--illustration {
+		width: 40%;
+	}
+
+	.authform {
+		width: 400px;
+		max-width: 400px;
+		background-color: white;
+		position: relative;
+		overflow: hidden;
+
+		.authform--loading {
+			height: 5px;
+			background: $color-text;
+			width: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			animation-name: 'loadingBar';
+			animation-duration: 1500ms;
+			animation-timing-function: cubic-bezier(0.38, 0.12, 1, 0.62);
+			animation-iteration-count: infinite;
+		}
+	}
+
+	@keyframes loadingBar {
+		0% {
+			width: 0;
+			left: 0;
+		}
+		40% {
+			width: 130px;
+			left: 0;
+		}
+		70% {
+			width: 240px;
+			left: 140%;
+		}
+		100% {
+			width: 240px;
+			left: 140%;
+		}
+	}
 }

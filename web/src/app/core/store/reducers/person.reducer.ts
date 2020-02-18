@@ -15,6 +15,15 @@ export const personReducer = (
 		case EPersonActions.RegisterPersonFailed: {
 			return state;
 		}
+		case EPersonActions.LoginPersonSuccess: {
+			return {
+				...state,
+				loggedPerson: action.payload.body.person
+			};
+		}
+		case EPersonActions.LoginPersonFailed: {
+			return state;
+		}
 		default: {
 			return state;
 		}

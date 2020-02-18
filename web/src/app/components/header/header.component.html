@@ -15,7 +15,7 @@
 				<fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
 			</div>
 			<div class="header__user" *ngIf="!loggedUser">
-				<fa-icon routerLink="autenticacao/registro" [icon]="faUser" [classes]="['header__right__icon']">
+				<fa-icon routerLink="auth/login" [icon]="faUser" [classes]="['header__right__icon']">
 				</fa-icon>
 			</div>
 		</div>
