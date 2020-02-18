@@ -1,12 +1,10 @@
-<form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()">
-	<div>
-		<label for="emailCpf">Email ou CPF</label>
-		<input 
-			type="text" 
-			formControlName="emailCpf"
-		>
-	</div>
-	<div>
-		<button>Recuperar</button>
-	</div>
-</form>
+<app-recovery-email 
+	*ngIf="!pinReceived && !resetPassword" 
+	(pinReceivedEmitter)="listenPinReceived($event)"
+></app-recovery-email>
+<app-recovery-pin 
+	*ngIf="pinReceived && !resetPassword" 
+	(pinConfirmedEmitter)="listenPinConfirmed($event)"
+	[personEmail]="personEmail"
+></app-recovery-pin>
+<app-recovery-password *ngIf="pinReceived && resetPassword"></app-recovery-password>

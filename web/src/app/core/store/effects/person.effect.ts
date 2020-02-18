@@ -10,7 +10,13 @@ import {
 	RegisterPersonFailed,
 	LoginPerson,
 	LoginPersonSuccess,
-	LoginPersonFailed
+	LoginPersonFailed,
+	RecoveryAccount,
+	RecoveryAccountSuccess,
+	RecoveryAccountFailed,
+	RecoveryPin,
+	RecoveryPinSuccess,
+	RecoveryPinFailed
 } from '../actions/person.action';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -40,6 +46,30 @@ export class PersonEffect {
 			.pipe(
 				map((res: HttpResponse<ILoginResponse>): LoginPersonSuccess => new LoginPersonSuccess(res)),
 				catchError((err: HttpErrorResponse): Observable<LoginPersonFailed> => of(new LoginPersonFailed(err)))
+			);
+		})
+	);
+
+	@Effect()
+	recoveryAccount$ = this.actions$.pipe(
+		ofType<RecoveryAccount>(EPersonActions.RecoveryAccount),
+		switchMap(({ payload }) => {
+			return this.personService.recoveryAccount(payload)
+			.pipe(
+				map((res: HttpResponse<any>): RecoveryAccountSuccess => new RecoveryAccountSuccess(res)),
+				catchError((err: HttpErrorResponse): Observable<RecoveryAccountFailed> => of(new RecoveryAccountFailed(err)))
+			);
+		})
+	);
+
+	@Effect()
+	recoveryPin$ = this.actions$.pipe(
+		ofType<RecoveryPin>(EPersonActions.RecoveryPin),
+		switchMap(({ payload }) => {
+			return this.personService.confirmRecoveryPin(payload)
+			.pipe(
+				map((res: HttpResponse<any>): RecoveryPinSuccess => new RecoveryPinSuccess(res)),
+				catchError((err: HttpErrorResponse): Observable<RecoveryPinFailed> => of(new RecoveryPinFailed(err)))
 			);
 		})
 	);

@@ -14,3 +14,8 @@ export const selectLoginForm = createSelector(
 	selectForms,
 	(state: IFormState): FormGroup => state.loginForm
 );
+
+export const selectRecoveryForm = createSelector(
+	selectForms,
+	(state: IFormState): FormGroup => state.recoveryForm
+);

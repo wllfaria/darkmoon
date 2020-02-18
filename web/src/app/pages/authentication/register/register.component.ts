@@ -66,6 +66,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		this.storeSubscriptions();
 		this.registerPersonSuccessActionSubscription();
 		this.registerPersonFailedActionSubscription();
+		this.checkFormCompletion();
 	}
 
 	private createForm = (): void => {
@@ -77,7 +78,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 			cpf: ['', [Validators.required, Validators.pattern(this.regexService.cpfRegex)]]
 		},
 			{ validators: this.checkPasswords });
-		this.checkFormCompletion();
 	}
 
 	public get formControls() { return this.registerForm.controls; }
@@ -89,12 +89,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	private storeSubscriptions = (): void => {
 		this.subs.add(this.registerForm$.subscribe((registerForm: FormGroup) => {
 			if (!registerForm) { return; }
-			this.registerForm.patchValue(registerForm);
+			this.registerForm.patchValue({
+				name: registerForm.value.name,
+				email: registerForm.value.email,
+				cpf: registerForm.value.cpf,
+			});
 		}));
 
 		this.subs.add(this.loggedPerson$.subscribe((loggedPerson: IPerson) => {
 			if (!loggedPerson) { return; }
-			this.router.navigate(['']);
+			this.navigate('');
 		}));
 	}
 
@@ -137,7 +141,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		this.formLoading = true;
 		if (this.registerForm.invalid) { return; }
 		const registerData: IRegisterRequest = this.registerForm.value as IRegisterRequest;
-		this.store$.dispatch(new UpdateRegisterForm(this.registerForm.value));
+		this.store$.dispatch(new UpdateRegisterForm(this.registerForm));
 		this.store$.dispatch(new RegisterPerson(registerData));
 	}
 

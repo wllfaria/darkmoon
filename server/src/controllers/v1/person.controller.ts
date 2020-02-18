@@ -247,19 +247,19 @@ export default class PersonController {
 				return;
 			}
 
-			const { email = null, cpf = null }: any = req.body;
+			const { email }: any = req.body;
 			const pin: number = EncodingHelper.generatePin();
-			let person: any;
+			const person: any = await Person.findOne({ where: { email }, transaction })
 
-			if(email) {
-				person = await Person.findOne({ where: { email }, transaction })
-			} else {
-				person = await Person.findOne({ where: { cpf }, transaction })
+			if (!person) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
+				return;
 			}
 
 			await Person.update({ recovery_pin: pin }, { where: { id: person.id }, transaction });
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "account-recovery" }, transaction });
-			await EmailSender.sendMail(person.email, mailTemplate, [ person.name, pin ]);
+			// await EmailSender.sendMail(person.email, mailTemplate, [ person.name, pin ]);
 
 			await transaction?.commit();
 			const type: any = RequestStatus.successes.OK;
@@ -283,28 +283,18 @@ export default class PersonController {
 				return;
 			}
 
-			const { pin, email = null, cpf = null }: any = req.query;
-			let person: any;
-
-			if(email) {
-				person = await Person.findOne({ where: { email, recovery_pin: pin }, transaction });
-				if(!person) {
-					const type: any = RequestStatus.errors.BAD_REQUEST;
-					MessageFactory.buildResponse(ErrorMessage, res, type, { error: 'Invalid pin or e-mail.' });
-					return;
-				}
-			} else {
-				person = await Person.findOne({ where: { cpf, recovery_pin: pin }, transaction });
-				if(!person) {
-					const type: any = RequestStatus.errors.BAD_REQUEST;
-					MessageFactory.buildResponse(ErrorMessage, res, type, { error: 'Invalid pin or e-mail.' });
-					return;
-				}
+			console.log('entered here')
+			const { pin, email }: any = req.body;
+			const person: any = await Person.findOne({ where: { email, recovery_pin: pin }, transaction });
+			if (!person) {
+				const type: any = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, { error: 'Invalid pin or e-mail.' });
+				return;
 			}
 
 			await transaction?.commit();
 			const type: any = RequestStatus.successes.ACCEPTED;
-			MessageFactory.buildResponse(SuccessMessage, res, type, { pin, email, cpf, id: person.id });
+			MessageFactory.buildResponse(SuccessMessage, res, type, { pin, email, id: person.id });
 		} catch (err) {
 			await transaction?.rollback();
 			const type: any = RequestStatus.errors.INTERNAL;

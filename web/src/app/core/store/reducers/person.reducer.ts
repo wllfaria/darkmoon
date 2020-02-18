@@ -24,6 +24,18 @@ export const personReducer = (
 		case EPersonActions.LoginPersonFailed: {
 			return state;
 		}
+		case EPersonActions.RecoveryAccountSuccess: {
+			return state;
+		}
+		case EPersonActions.RecoveryAccountFailed: {
+			return state;
+		}
+		case EPersonActions.RecoveryPinSuccess: {
+			return state;
+		}
+		case EPersonActions.RecoveryPinFailed: {
+			return state;
+		}
 		default: {
 			return state;
 		}

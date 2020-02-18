@@ -221,18 +221,18 @@ export default class RequestValidator {
 			}
 			case "recovery-pin": {
 				return [
-					query()
+					body()
 						.exists().withMessage('Body doesn\'t exists.'),
-					query('pin')
+					body('pin')
 						.exists().withMessage('Pin doesn\'t exists.')
 						.isInt().withMessage('Pin must contain only numbers.')
 						.isLength({ min: 6, max: 6 }).withMessage('Pin must have only 6 charaters.'),
-					query('email')
+					body('email')
 						.optional()
 						.isString().withMessage('Email should be a string.')
 						.isLength({ min: 1 }).withMessage('Email should not be empty.')
 						.custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
-					query('cpf')
+					body('cpf')
 						.optional()
 						.isInt().withMessage('Cpf must contain only numbers.')
 						.isLength({ min: 11, max: 11 }).withMessage('Cpf should have 11 characters.')

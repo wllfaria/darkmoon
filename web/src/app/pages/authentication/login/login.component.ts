@@ -67,6 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.storeSubscriptions();
 		this.loginPersonSuccessActionSubscription();
 		this.loginPersonFailedActionSubscription();
+		this.checkFormCompletion();
 	}
 
 	private createForm = (): void => {
@@ -74,7 +75,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 			email: ['', [Validators.required, Validators.pattern(this.regexService.emailRegex)]],
 			password: ['', [Validators.required, Validators.minLength(8)]]
 		});
-		this.checkFormCompletion();
 	}
 
 	public get formControls() { return this.loginForm.controls; }
@@ -83,7 +83,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.formLoading = true;
 		if (this.loginForm.invalid) { return; }
 		const loginData: ILoginRequest = this.loginForm.value as ILoginRequest;
-		this.store$.dispatch(new UpdateLoginForm(this.loginForm));
 		this.store$.dispatch(new LoginPerson(loginData));
 	}
 
@@ -94,6 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private checkFormCompletion = (): void => {
 		this.subs.add(this.loginForm.valueChanges.subscribe((): void => {
+			this.store$.dispatch(new UpdateLoginForm(this.loginForm));
 			this.loginForm.valid ? this.formComplete = true : this.formComplete = false;
 		}));
 	}
@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 		this.subs.add(this.loggedPerson$.subscribe((loggedPerson: IPerson) => {
 			if (!loggedPerson) { return; }
-			this.router.navigate(['']);
+			this.navigate('');
 		}));
 	}
 

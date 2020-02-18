@@ -9,6 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from 'src/app/core/directives/directives.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { RecoveryPinComponent } from './recovery/recovery-pin/recovery-pin.component';
+import { RecoveryEmailComponent } from './recovery/recovery-email/recovery-email.component';
+import { RecoveryPasswordComponent } from './recovery/recovery-password/recovery-password.component';
 
 export const ROUTES: Routes = [
 	{
@@ -40,7 +43,10 @@ export const ROUTES: Routes = [
 		LoginComponent,
 		RegisterComponent,
 		RecoveryComponent,
-		AuthenticationComponent
+		AuthenticationComponent,
+		RecoveryPinComponent,
+		RecoveryEmailComponent,
+		RecoveryPasswordComponent
 	],
 	imports: [
 		CommonModule,

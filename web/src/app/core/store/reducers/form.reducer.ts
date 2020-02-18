@@ -18,6 +18,12 @@ export const formReducer = (
 				loginForm: action.payload
 			};
 		}
+		case EFormActions.UpdateRecoveryForm: {
+			return {
+				...state,
+				recoveryForm: action.payload
+			};
+		}
 		default: {
 			return state;
 		}

@@ -51,9 +51,10 @@ export default class Router {
 		this.server.route('/v1/people/confirm-email')
 			.post(cors(), this.requestValidator.personValidator('confirm-email'), this.personController.confirmEmail);
 		this.server.route('/v1/people/recovery')
-			.get(cors(), this.requestValidator.personValidator('recovery-pin'), this.personController.verifyRecoveryPin)
 			.post(cors(), this.requestValidator.personValidator('recovery-mail'), this.personController.accountRecoveryMail)
 			.put(cors(), this.requestValidator.personValidator('recovery-password'), this.personController.accountRecovery);
+		this.server.route('/v1/people/recovery/pin')
+			.post(cors(), this.requestValidator.personValidator('recovery-pin'), this.personController.verifyRecoveryPin)
 	}
 
 	private makeAddressRoutes = (): void => {
