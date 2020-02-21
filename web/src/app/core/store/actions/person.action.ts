@@ -7,6 +7,8 @@ import { ILoginResponse } from 'src/app/models/serverResponses/loginResponse.mod
 import { IRecoveryRequest } from 'src/app/models/serverRequests/recoveryRequest.model';
 import { IRecoveryPinRequest } from 'src/app/models/serverRequests/recoveryPinRequest.model';
 import { IRecoveryPinResponse } from 'src/app/models/serverResponses/recoveryPinResponse.model';
+import { IRecoveryPasswordRequest } from 'src/app/models/serverRequests/recoveryPasswordRequest.model';
+import { IRecoveryPasswordResponse } from 'src/app/models/serverResponses/recoveryPasswordResponse.model';
 
 export enum EPersonActions {
 	RegisterPerson = '[Person] Register Person',
@@ -20,7 +22,10 @@ export enum EPersonActions {
 	RecoveryAccountFailed = '[Person] Recovery Account Failed',
 	RecoveryPin = '[Person] Recovery Pin',
 	RecoveryPinSuccess = '[Person] Recovery Pin Success',
-	RecoveryPinFailed = '[Person] Recovery Pin Failed'
+	RecoveryPinFailed = '[Person] Recovery Pin Failed',
+	RecoveryPassword = '[Person] Recovery Password',
+	RecoveryPasswordSuccess = '[Person] Recovery Password Success',
+	RecoveryPasswordFailed = '[Person] Recovery Password Failed'
 }
 
 export class RegisterPerson implements Action {
@@ -83,16 +88,34 @@ export class RecoveryPinFailed implements Action {
 	constructor(public payload: HttpErrorResponse) { }
 }
 
+export class RecoveryPassword implements Action {
+	public readonly type: EPersonActions.RecoveryPassword = EPersonActions.RecoveryPassword;
+	constructor(public payload: IRecoveryPasswordRequest) { }
+}
+
+export class RecoveryPasswordSuccess implements Action {
+	public readonly type: EPersonActions.RecoveryPasswordSuccess = EPersonActions.RecoveryPasswordSuccess;
+	constructor(public payload: HttpResponse<IRecoveryPasswordResponse>) { }
+}
+
+export class RecoveryPasswordFailed implements Action {
+	public readonly type: EPersonActions.RecoveryPasswordFailed = EPersonActions.RecoveryPasswordFailed;
+	constructor(public payload: HttpErrorResponse) { }
+}
+
 export type PersonActions =
-| RegisterPerson
-| RegisterPersonSuccess
-| RegisterPersonFailed
-| LoginPerson
-| LoginPersonSuccess
-| LoginPersonFailed
-| RecoveryAccount
-| RecoveryAccountSuccess
-| RecoveryAccountFailed
-| RecoveryPin
-| RecoveryPinSuccess
-| RecoveryPinFailed;
+	| RegisterPerson
+	| RegisterPersonSuccess
+	| RegisterPersonFailed
+	| LoginPerson
+	| LoginPersonSuccess
+	| LoginPersonFailed
+	| RecoveryAccount
+	| RecoveryAccountSuccess
+	| RecoveryAccountFailed
+	| RecoveryPin
+	| RecoveryPinSuccess
+	| RecoveryPinFailed
+	| RecoveryPassword
+	| RecoveryPasswordSuccess
+	| RecoveryPasswordFailed;

@@ -36,6 +36,15 @@ export const personReducer = (
 		case EPersonActions.RecoveryPinFailed: {
 			return state;
 		}
+		case EPersonActions.RecoveryPasswordSuccess: {
+			return {
+				...state,
+				loggedPerson: action.payload.body.person
+			};
+		}
+		case EPersonActions.RecoveryPinFailed: {
+			return state;
+		}
 		default: {
 			return state;
 		}

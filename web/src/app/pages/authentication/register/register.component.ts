@@ -77,7 +77,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 			confirmation: ['', [Validators.required, Validators.minLength(8)]],
 			cpf: ['', [Validators.required, Validators.pattern(this.regexService.cpfRegex)]]
 		},
-			{ validators: this.checkPasswords });
+		{
+			validators: this.checkPasswords
+		});
 	}
 
 	public get formControls() { return this.registerForm.controls; }

@@ -7,4 +7,7 @@
 	(pinConfirmedEmitter)="listenPinConfirmed($event)"
 	[personEmail]="personEmail"
 ></app-recovery-pin>
-<app-recovery-password *ngIf="pinReceived && resetPassword"></app-recovery-password>
+<app-recovery-password 
+	*ngIf="pinReceived && resetPassword"
+	[personIdentifier]="personIdentifier"
+></app-recovery-password>

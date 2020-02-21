@@ -115,7 +115,6 @@ export class RecoveryPinComponent implements OnInit, OnDestroy {
 		this.subs.add(this.actions$.pipe(
 			ofType(EPersonActions.RecoveryPinSuccess)).subscribe((action: RecoveryPinSuccess): void => {
 				this.formLoading = false;
-				console.log(action.payload);
 				this.pinConfirmedEmitter.emit(action.payload.body);
 			}
 		));

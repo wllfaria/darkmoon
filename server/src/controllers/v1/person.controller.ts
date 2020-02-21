@@ -283,7 +283,6 @@ export default class PersonController {
 				return;
 			}
 
-			console.log('entered here')
 			const { pin, email }: any = req.body;
 			const person: any = await Person.findOne({ where: { email, recovery_pin: pin }, transaction });
 			if (!person) {
@@ -314,13 +313,14 @@ export default class PersonController {
 				return;
 			}
 
-			const { password, pin, id }: any = req.body;
+			const { password, pin, id, email }: any = req.body;
 			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
 
+			console.log('========================')
 			let person: any = await Person.findOne({ where: { id, recovery_pin: pin }, transaction });
-			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "password-changed" }, transaction })
+			// const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "password-changed" }, transaction })
 			await Person.update({ recovery_pin: null, password: encodedPassword, salt, password_old: person.password, password_changed: new Date(), salt_old: person.salt, updated_at: new Date() }, { where: { id, recovery_pin: pin }, transaction })
-			await EmailSender.sendMail(person.email, mailTemplate, [ person.name ]);
+			// await EmailSender.sendMail(person.email, mailTemplate, [ person.name ]);
 			await EventListener.registerEvent("user", "recovery", `User ${person.name} successfully recovered his password.`);
 			person = await Person.findOne({ where: { id }, transaction });
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
