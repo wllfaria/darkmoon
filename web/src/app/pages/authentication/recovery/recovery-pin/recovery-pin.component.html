@@ -1,0 +1,51 @@
+<form [formGroup]="recoveryPinForm" (ngSubmit)="onSubmit()" class="authform px--64 px--sm--24 py--24 py--sm--24">
+	<div *requestError="requestError">
+		<div class="authform--loading" *ngIf="formLoading"></div>
+		<div>
+			<p>Confirme seu</p>
+			<h1 class="font__size--48 mb--16 mb--sm--16">Pin</h1>
+		</div>
+		<div>
+			<div>
+				<div class="float__label mb--8 mb--sm--8 font__weight--bold">
+					<input id="pin" name="pin" placeholder="pin" formControlName="pin" type="text"
+						class="border__radius--4">
+					<label for="pin">Pin</label>
+				</div>
+				<div *ngIf="formControls.pin.errors">
+					<div *ngIf="
+					(formControls.pin.touched || formControls.pin.dirty)
+					&& formControls.pin.errors.required">
+						<p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite seu pin.</p>
+					</div>
+					<div *ngIf="
+					(formControls.pin.touched || formControls.pin.dirty)
+					&& formControls.pin.errors.pattern">
+						<p class="color--red font__size--12 my--8 my--sm--8">O pin deve conter somente números.</p>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="mb--16 mb--sm--16">
+					<a (click)="navigate('/auth/login')" class="font__size--12 cursor--pointer">Não perdeu sua conta? Faça seu login.</a>
+				</div>
+				<div *ngIf="incorrectPin">
+					<p
+						class="color--red cursor--pointer font__size--12 my--8 my--sm--8">Este pin não é válido, verifique o pin recebido por e-mail.</p>
+				</div>
+			</div>
+			<div class="d--flex justify__content--center">
+				<button 
+				[ngClass]="{
+					'btn--outline': true,
+					'border__radius--24': true,
+					'text__transform--uppercase': true,
+					'font__weight--bold': true,
+					'btn--outline--fill': formComplete
+				}" [disabled]="!formComplete && formLoading">
+					<fa-icon [icon]="arrowRightIcon"></fa-icon>
+				</button>
+			</div>
+		</div>
+	</div>
+</form>

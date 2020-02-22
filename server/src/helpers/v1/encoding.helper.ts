@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4'
 import '../../env';
 
 export default class EncodingHelper {
-  public static encodePassword = (password: string): any => {
+  public static encodePassword = (password: string): { [key: string]: string } => {
     const salt = EncodingHelper.generateSalt();
     const encodedPassword = EncodingHelper.processPassword(password, salt);
     return {
@@ -13,7 +13,7 @@ export default class EncodingHelper {
     };
   }
 
-  public static decodePassword = (comparePassword: string, password: string, salt: string): boolean => {
+  public static decodePassword = (comparePassword: string | undefined, password: string | undefined, salt: string | undefined): boolean => {
     const encodedPassword = EncodingHelper.processPassword(password, salt);
     return comparePassword === encodedPassword;
   }
@@ -30,11 +30,11 @@ export default class EncodingHelper {
     return jwt.sign(person, <jwt.Secret>process.env.JWTSECRETKEY, { expiresIn: Math.floor(Date.now() + Number(process.env.JWTEXPIRATION))})
   }
 
-  public static verifyJWT = (token: string): any => {
+  public static verifyJWT = (token: string): string | any => {
     return jwt.verify(token, <jwt.Secret>process.env.JWTSECRETKEY)
   }
 
-  public static decodeJWT = (token: string): any => {
+  public static decodeJWT = (token: string): string | { [key: string]: any } | null => {
     return jwt.decode(token);
   }
 
@@ -42,7 +42,7 @@ export default class EncodingHelper {
     return crypto.randomBytes(Number(process.env.CRYPTOSALT)).toString(process.env.CRYPTOSTRING);
   }
 
-  private static processPassword = (password: string, salt: string): string => {
-    return crypto.pbkdf2Sync(<crypto.BinaryLike>password, salt, Number(process.env.CRYPTOITERATIONS), Number(process.env.CRYPTOKEYLEN), <string>process.env.CRYPTOALGORITHM).toString(process.env.CRYPTOSTRING)
+  private static processPassword = (password: string | undefined, salt: string | undefined): string => {
+    return crypto.pbkdf2Sync(<crypto.BinaryLike>password, <crypto.BinaryLike>salt, Number(process.env.CRYPTOITERATIONS), Number(process.env.CRYPTOKEYLEN), <string>process.env.CRYPTOALGORITHM).toString(process.env.CRYPTOSTRING)
   }
 }

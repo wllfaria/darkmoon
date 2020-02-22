@@ -32,7 +32,7 @@ export default class Sku extends Model<Sku> {
   type!: ProductType;
 
   @HasMany(() => Shirt)
-  shirt!: Shirt[];
+  shirts!: Shirt[];
   @HasMany(() => ProductImage)
   images!: ProductImage[];
 }

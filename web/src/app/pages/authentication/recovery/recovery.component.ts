@@ -1,35 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { IRecoveryPinResponse } from 'src/app/models/serverResponses/recoveryPinResponse.model';
 
 @Component({
-  selector: 'app-recovery',
-  templateUrl: './recovery.component.html',
-  styleUrls: ['./recovery.component.scss']
+	selector: 'app-recovery',
+	templateUrl: './recovery.component.html',
+	styleUrls: ['./recovery.component.scss']
 })
 export class RecoveryComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder) { }
+	constructor() { }
 
-  public recoveryForm: FormGroup;
+	// ! General variable definitions
+	public pinReceived: boolean;
+	public resetPassword: boolean;
+	public personEmail: string;
+	public personIdentifier: IRecoveryPinResponse;
 
-  ngOnInit() {
-    this.createForm();
-  }
+	ngOnInit() {
+		this.setupPage();
+	}
 
-  createForm() {
-    this.recoveryForm = this.formBuilder.group({
-      emailCpf: ['', [Validators.required]]
-    })
-  }
+	public listenPinReceived = (personEmail: string): void => {
+		this.pinReceived = true;
+		this.personEmail = personEmail;
+	}
 
-  public get formControls() { return this.recoveryForm.controls }
+	public listenPinConfirmed = (personIdentifier: IRecoveryPinResponse): void => {
+		this.resetPassword = true;
+		this.personIdentifier = personIdentifier;
+	}
 
-
-  public onSubmit = (): void => {
-    console.log(this.recoveryForm.value)
-    if(this.recoveryForm.invalid) {
-      return;
-    }
-  }
+	private setupPage = (): void => {
+		this.pinReceived = false;
+		this.resetPassword = false;
+	}
 
 }

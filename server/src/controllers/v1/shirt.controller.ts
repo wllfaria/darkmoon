@@ -26,17 +26,17 @@ export default class ShirtController {
 		}
 	}
 
-	public getByUrl = (req: Request, res: Response) => {
-		const requestValidator: RequestValidator = new RequestValidator();
-		const errors = requestValidator.extractErrors(req);
-		if (errors.length) {
-			let type = RequestStatus.errors.BAD_REQUEST;
-			MessageFactory.buildResponse(ErrorMessage, res, type, errors);
-			return;
-		}
+	public getByUrl = async (req: Request, res: Response) => {
 		try {
-			const { url } = req.query;
-			const result: Promise<Shirt> = Shirt.findOne({ include: [{ model: Sku, where: { product_url: url } }] });
+			const requestValidator: RequestValidator = new RequestValidator();
+			const errors = requestValidator.extractErrors(req);
+			if (errors.length) {
+				let type = RequestStatus.errors.BAD_REQUEST;
+				MessageFactory.buildResponse(ErrorMessage, res, type, errors);
+				return;
+			}
+			const { url } = req.params;
+			const result: Sku | null = await Sku.findOne({ include: [ProductImage, ProductType], where: { product_url: url } });
 			let type = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, result);
 		} catch (e) {
@@ -58,13 +58,13 @@ export default class ShirtController {
 
 			const { productName, productUrl, productType, avaliable, price, size, model, gender, images } = req.body;
 			const skuResult: Sku = await Sku.create(
-			{
-				product_name: productName, product_url: productUrl, type_id: productType, avaliable
-			}, 
-			{ 
-				transaction 
-			});
-		
+				{
+					product_name: productName, product_url: productUrl, type_id: productType, avaliable
+				},
+				{
+					transaction
+				});
+
 			const shirt: Shirt = await Shirt.create({ sku_id: skuResult.id, price, size, model_id: model, gender_id: gender }, { transaction });
 			images.forEach(async (image: any) => {
 				await ProductImage.create({ url: image.url, sku_id: skuResult.id, alt: image.alt }, { transaction })
@@ -81,7 +81,7 @@ export default class ShirtController {
 
 	public getDistinct = async (_req: Request, res: Response) => {
 		try {
-			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }});
+			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }, include: [ProductImage] });
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, distinctShirts)
 		} catch (err) {

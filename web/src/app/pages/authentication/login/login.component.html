@@ -1,24 +1,85 @@
-<div *requestError="requestError">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input 
-                type="text"
-                formControlName="email"
-            >
-            <div *ngIf="formControls.email.errors && formControls.email.touched">
-                <div *ngIf="formControls.email.errors.pattern">NOT EMAILS</div>
+<form [formGroup]="loginForm" class="authform px--64 px--sm--24 py--24 py--sm--24" (ngSubmit)="onSubmit()">
+    <div *requestError="requestError">
+        <div class="authform--loading" *ngIf="formLoading"></div>
+        <div>
+            <p>Faça seu</p>
+            <h1 class="font__size--48 mb--16 mb--sm--16">Login</h1>
+        </div>
+        <div>
+            <div class="float__label mb--8 mb--sm--8 font__weight--bold">
+                <input id="email" name="email" placeholder="email" formControlName="email" class="border__radius--4"
+                    type="text" />
+                <label for="email">Email</label>
+            </div>
+            <div *ngIf="formControls.email.errors">
+                <div *ngIf="
+                (formControls.email.touched || formControls.email.dirty)
+                && formControls.email.errors.required">
+                    <p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite seu e-mail.</p>
+                </div>
+                <div *ngIf="
+                (formControls.email.touched || formControls.email.dirty)
+                && formControls.email.errors.pattern">
+                    <p class="color--red font__size--12 my--8 my--sm--8">Este e-mail não é válido.</p>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-                type="text"
-                formControlName="password"
-            >
+        <div>
+            <div class="float__label mb--8 mb--sm--8 font__weight--bold">
+                <input id="password" name="password" placeholder="password" formControlName="password" type="password"
+                    class="border__radius--4" #password />
+                <label for="password">Senha</label>
+                <fa-icon *ngIf="!showPassword" (click)="togglePasswordVisibility(password)" [icon]="eyeSlashIcon"
+                    size="lg" [classes]="[
+                    'position--absolute',
+                    'top--50--percentage',
+                    'right--8',
+                    'transform__translatey--50--percentage--negative',
+                    'cursor--pointer'
+                ]"></fa-icon>
+                <fa-icon *ngIf="showPassword" (click)="togglePasswordVisibility(password)" [icon]="eyeIcon" size="lg"
+                    [classes]="[
+                    'position--absolute',
+                    'top--50--percentage',
+                    'right--8',
+                    'transform__translatey--50--percentage--negative',
+                    'cursor--pointer'
+                ]"></fa-icon>
+            </div>
+            <div *ngIf="formControls.password.errors">
+                <div *ngIf="
+                (formControls.password.touched || formControls.password.dirty)
+                && formControls.password.errors.required">
+                    <p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite sua senha.</p>
+                </div>
+                <div *ngIf="
+                (formControls.password.touched || formControls.password.dirty)
+                && formControls.password.errors.minlength">
+                    <p class="color--red font__size--12 my--8 my--sm--8">Sua senha deve conter no mínimo 8 caracteres.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <button>Entrar</button>
+        <div class="mb--16 mb--sm--16">
+            <a (click)="navigate('/auth/registro')" class="font__size--12 cursor--pointer">Não faz parte do culto? Faça
+                seu registro.</a>
         </div>
-    </form>
-</div>
+        <div *ngIf="wrongEmailOrPassword">
+            <p (click)="navigate('/auth/recuperar-conta')"
+                class="color--red cursor--pointer font__size--12 my--8 my--sm--8">Email ou senha errados. Deseja
+                recuperar
+                sua conta?</p>
+        </div>
+        <div class="d--flex justify__content--center">
+            <button [ngClass]="{
+                'btn--outline': true,
+                'border__radius--24': true,
+                'text__transform--uppercase': true,
+                'font__weight--bold': true,
+                'btn--outline--fill': formComplete
+            }" [disabled]="!formComplete || formLoading">
+                <fa-icon [icon]="arrowRightIcon"></fa-icon>
+            </button>
+        </div>
+    </div>
+</form>

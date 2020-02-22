@@ -1,4 +1,4 @@
-import { body, validationResult, ValidationError, Result, ValidationChain, query } from 'express-validator';
+import { body, validationResult, ValidationError, Result, ValidationChain, query, param } from 'express-validator';
 import { Request, Response } from 'express';
 
 export default class RequestValidator {
@@ -53,7 +53,7 @@ export default class RequestValidator {
 			}
 			case 'getbyurl': {
 				return [
-					body('url')
+					param('url')
 						.exists().withMessage('Product url doesn\'t exists.')
 						.isString().withMessage('Product url should be a string.')
 						.isLength({ min: 1 }).withMessage('Product url should have at least 1 character.')
@@ -221,18 +221,18 @@ export default class RequestValidator {
 			}
 			case "recovery-pin": {
 				return [
-					query()
+					body()
 						.exists().withMessage('Body doesn\'t exists.'),
-					query('pin')
+					body('pin')
 						.exists().withMessage('Pin doesn\'t exists.')
 						.isInt().withMessage('Pin must contain only numbers.')
 						.isLength({ min: 6, max: 6 }).withMessage('Pin must have only 6 charaters.'),
-					query('email')
+					body('email')
 						.optional()
 						.isString().withMessage('Email should be a string.')
 						.isLength({ min: 1 }).withMessage('Email should not be empty.')
 						.custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
-					query('cpf')
+					body('cpf')
 						.optional()
 						.isInt().withMessage('Cpf must contain only numbers.')
 						.isLength({ min: 11, max: 11 }).withMessage('Cpf should have 11 characters.')
@@ -246,6 +246,11 @@ export default class RequestValidator {
 						.exists().withMessage('Pin doesn\'t exists.')
 						.isInt().withMessage('Pin must contain only numbers.')
 						.isLength({ min: 6, max: 6 }).withMessage('Pin must have only 6 charaters.'),
+					body('email')
+						.optional()
+						.isString().withMessage('Email should be a string.')
+						.isLength({ min: 1 }).withMessage('Email should not be empty.')
+						.custom(email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)).withMessage('Email is invalid.'),
 					body('id')
 						.exists().withMessage('Id doesn\'t exists.')
 						.isInt().withMessage('Id must contain only numbers.')
@@ -295,7 +300,7 @@ export default class RequestValidator {
 			}
 			case "getbyid": {
 				return [
-					query('id').exists().withMessage('Missing id on query string')
+					param('id').exists().withMessage('Missing id on query string')
 				]
 			}
 			default: {

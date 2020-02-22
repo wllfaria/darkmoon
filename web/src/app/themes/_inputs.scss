@@ -1,0 +1,63 @@
+input {
+    outline: none;
+    background: $color-gray-default;
+    border: none;
+    font-size: 18px;
+    width: 100%;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding-top: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+    &::placeholder {
+        color: #a3a3a3;
+        font-weight: bold;
+        opacity: 0;
+    }
+
+    &:focus {
+        border: 2px solid $color-text;
+        padding-top: 12px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    &:hover {
+        background: $color-gray-medium;
+    }
+
+    &[type="password"] {
+        padding-right: 40px;
+    }
+
+    &[type="password"] ~ fa-icon {
+        display: none;
+    }
+
+    &[type="password"]:focus ~ fa-icon, &:not(:placeholder-shown) ~ fa-icon {
+        display: block;
+    }
+}
+
+.float__label {
+    position: relative;
+
+    input:focus + label, input:not(:placeholder-shown) + label {
+        top: 12px;
+        font-size: 10px;
+        color: $color-text;
+    }
+
+    label {
+        cursor: text;
+        position: absolute;
+        text-transform: uppercase;
+        font-size: 14px;
+        color: $color-gray-dark;
+        top: 50%;
+        left: 8px;
+        transform: translateY(-50%);
+        transition: all 150ms;
+    }
+}

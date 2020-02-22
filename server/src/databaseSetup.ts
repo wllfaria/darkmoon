@@ -73,7 +73,7 @@ export default class DatabaseSetup {
     }
 
     private static createShirts = async () => {
-        await Shirt.create({ sku_id: 1, size: 'M', model_id: 1, gender_id: 1 })
+        await Shirt.create({ sku_id: 1, size: 'M', model_id: 1, gender_id: 1 });
     }
 
     private static createProductsImages = async () => {

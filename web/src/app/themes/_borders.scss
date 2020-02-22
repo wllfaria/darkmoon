@@ -1,0 +1,10 @@
+
+@for $i from 1 through 100 {
+    .border__radius--#{$i}--percentage {
+        border-radius: $i * 1%;
+    }
+
+    .border__radius--#{$i} {
+        border-radius: $i * 1px;
+    }
+}
