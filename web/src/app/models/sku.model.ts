@@ -12,7 +12,8 @@ export interface ISku {
 	created_at: Date;
 	updated_at: Date;
 	deleted_at: Date | null;
-	type_id: number;
+    type_id: number;
+    model_id: number;
 	images: IProductImage[];
 	type: IProductType;
 }

@@ -9,12 +9,9 @@ export const ROUTER: Routes = [
 		component: TemplateComponent,
 		children: [
 			{ path: '', pathMatch: 'full', component: HomeComponent },
-			{ path: 'camisetas', loadChildren: () => import('./pages/shirts/shirts.module').then(m => m.ShirtsModule) },
+            { path: 'p', loadChildren: () => import('./pages/products/products.module').then(m => m.ProductsModule) },
+            { path: 'u', loadChildren: () => import('./pages/authentication/authentication.module').then(m => m.AuthenticationModule) },
 		]
-	},
-	{
-		path: 'auth',
-		loadChildren: () => import('./pages/authentication/authentication.module').then(m => m.AuthenticationModule)
 	},
 	{ path: '**', component: NotFoundComponent }
 ];
