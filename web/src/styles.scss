@@ -14,6 +14,40 @@
 @import './app/themes/inputs';
 @import './app/themes/colors';
 
+
+.size {
+
+    &--unavailable {
+        @extend .size;
+        cursor: default;
+        border-color: $color-gray-dark;
+
+        p {
+            color: $color-gray-dark;
+        }
+
+        &::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: $color-gray-dark;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+        }
+    }
+
+    &--active {
+        @extend .size;
+        background: $color-text;
+
+        p {
+            color: $color-gray-default;
+        }
+    }
+}
+
 @media all and (min-width: 768px) {
 	.container {
 		width: 95%;

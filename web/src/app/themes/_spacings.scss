@@ -1,4 +1,4 @@
-@media all and (min-width: 768px) {
+@media all and (min-width: 767px) {
     @for $i from 1 through 100 {
         .h--#{$i} {
             height: $i * 1%;
@@ -16,11 +16,27 @@
             width: $i * 1%;
         }
 
+        .h--#{$i}--px {
+            height: $i * 1px;
+        }
+
+        .h--min--#{$i}--px {
+            min-height: $i * 1px;
+        }
+
+        .w--#{$i}--px {
+            width: $i * 1px;
+        }
+
+        .w--min--#{$i}--px {
+            min-width: $i * 1px;
+        }
+
         .p {
             &--#{$i} {
                 padding: $i * 1px;
             }
-            
+
             &x--#{$i} {
                 padding-right: $i * 1px;
                 padding-left: $i * 1px;
@@ -52,7 +68,7 @@
             &--#{$i} {
                 margin: $i * 1px;
             }
-            
+
             &x--#{$i} {
                 margin-right: $i * 1px;
                 margin-left: $i * 1px;
@@ -80,4 +96,5 @@
             }
         }
     }
+
 }

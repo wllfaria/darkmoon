@@ -22,8 +22,7 @@ export class ShirtsService {
 		return this.http.get<HttpResponse<ISku>>(`${this.API_URL}/shirts/distinct`);
 	}
 
-	public getByUrl = (productUrl: string): Observable<any> => {
-        console.log(productUrl);
+	public getByUrl = (productUrl: string): Observable<HttpResponse<ISku>> => {
 		return this.http.get<HttpResponse<ISku>>(`${this.API_URL}/shirts/${productUrl}`);
 	}
 }

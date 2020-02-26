@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const ROUTES: Routes = [
 	{
@@ -72,7 +74,9 @@ const ROUTES: Routes = [
 	],
 	imports: [
 		CommonModule,
-		RouterModule.forChild(ROUTES)
+        RouterModule.forChild(ROUTES),
+        NgxMaskModule.forChild(),
+        FontAwesomeModule
 	]
 })
 

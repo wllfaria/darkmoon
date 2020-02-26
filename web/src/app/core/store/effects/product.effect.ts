@@ -7,31 +7,25 @@ import { ShirtsService } from '../../services/shirts.service';
 import { ISku } from 'src/app/models/sku.model';
 import { GetCurrentProduct, EProductActions, GetCurrentProductSuccess, GetCurrentProductFailed } from '../actions/product.action';
 import { Action } from '@ngrx/store';
+import { ProductService } from '../../services/product.service';
 
 @Injectable()
 export class ProductEffect {
     @Effect()
     getCurrentProduct$ = this.actions$.pipe(
-        ofType<GetCurrentProduct>(EProductActions.GetCurrentProduct),
-        switchMap(({ payload }) => {
-            debugger;
+		ofType<GetCurrentProduct>(EProductActions.GetCurrentProduct),
+		switchMap(({ payload }): Observable<GetCurrentProductSuccess | GetCurrentProductFailed> => {
             console.log(payload);
-            return this.shirtsService.getByUrl(payload);
-    }))
-    // .pipe(
-	// 	ofType<GetCurrentProduct>(EProductActions.GetCurrentProduct),
-	// 	switchMap(({ payload }): Observable<GetCurrentProductSuccess | GetCurrentProductFailed> => {
-    //         console.log(payload);
-	// 		return this.shirtsService.getByUrl(payload)
-	// 		.pipe(
-	// 			map((res: HttpResponse<ISku>): GetCurrentProductSuccess => new GetCurrentProductSuccess(res)),
-	// 			catchError((err: HttpErrorResponse): Observable<GetCurrentProductFailed> => of(new GetCurrentProductFailed(err)))
-	// 		);
-	// 	})
-	// );
+			return this.productService.getCurrentProduct(payload)
+			.pipe(
+				map((res: HttpResponse<ISku>): GetCurrentProductSuccess => new GetCurrentProductSuccess(res)),
+				catchError((err: HttpErrorResponse): Observable<GetCurrentProductFailed> => of(new GetCurrentProductFailed(err)))
+			);
+		})
+	);
 
 	constructor(
-		private shirtsService: ShirtsService,
+		private productService: ProductService,
 		private actions$: Actions
 	) { }
 }

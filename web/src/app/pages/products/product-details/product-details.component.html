@@ -1,80 +1,74 @@
-<!-- <div class="product" *productLoading="loading">
-    <div class="product__inner">
-      <div class="product__inner--left">
-        <div class="product__inner__title">
-          <h1>{{ product.name }}</h1>
-        </div>
-        <div class="product__inner__info"></div>
-      </div>
-      <div class="product__inner--middle">
-        <div class="product__inner__image">
-          <img [src]="productPreview.url" [alt]="productPreview.alt" [title]="productPreview.alt"/>
-        </div>
-      </div>
-      <div class="product__inner--right">
-        <div class="product__inner__previews">
-          <div
-            *ngFor="let image of product.images"
-            [ngClass]="{
-              product__inner__previews__circle: true,
-              active: productPreview === image.url
-            }"
-            (click)="changePreview(image)"
-          ></div>
-        </div>
-        <div class="product__inner__details">
-          <h2 class="product__inner__details__price">R${{ product.price }}</h2>
-          <p class="product__inner__details__description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
-            vitae recusandae nobis magni veritatis.
-          </p>
-          <div class="product__inner__details__sizes"></div>
-          <button class="product__inner__details__cart" (click)="addToCart()">
-            Adicionar ao carrinho +
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="product__suggestions">
-      <div class="product__suggestions__title">
-        <h2>Veja também</h2>
-      </div>
-      <div class="product__suggestions__cards">
-        <div
-          class="product__suggestions__cards__card"
-          *ngFor="let suggestion of suggestions"
-          [routerLink]="[
-            '/',
-            suggestion.model | models,
-            suggestion.category,
-            suggestion.gender | genders,
-            suggestion.url
-          ]"
-        >
-          <div class="product__suggestion__cards__card--left">
-            <h2 class="product__suggestion__cards__card--left__title">
-              {{ suggestion.name }}
-            </h2>
-            <h3 class="product__suggestion__cards__card--left__price">
-              R${{ suggestion.price }}
-            </h3>
-          </div>
-          <div class="product__suggestion__cards__card--right">
-            <img [src]="suggestion.images[0].url" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-   -->
-<main>
+<div *ngIf="loading"></div>
+<main *ngIf="!loading" class="mt--32">
     <div class="container">
         <div class="row-no-gutters">
-            <div class="col-md-3 col-lg-push-3">
-                <!-- <img [src]="product.images[0]" -->
+            <div class="col-md-4 col-lg-push-4">
+                <img class="w--100 w--sm--100" [src]="previewImage.url" [alt]="previewImage.alt" />
             </div>
-            <div class="col-md-3 col-lg-pull-3">titulo</div>
-            <div class="col-md-3">preço</div>
+            <div class="col-md-4 col-lg-pull-4">
+                <h1 class="font__size--60">{{ product.product_name }}</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="pl--16">
+                    <div class="mt--100 mb--32">
+                        <div class="d--flex pt--100">
+                            <div *ngFor="let image of product.images" class="mr--8 cursor--pointer" (click)="setProductPreview(image)">
+                                <fa-icon [icon]="circleIcon" [classes]="image.id === previewImage.id ? ['color--dark'] : ['color--gray--dark']"></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt--32">
+                        <h2 class="font__size--48">R$ {{ product.price }}</h2>
+                    </div>
+                    <div class="pt--32 d--flex">
+                        <div
+                            *ngFor="let key of sizeKeys(sizeCount)"
+                            [ngClass]="{
+                                'mr--8': true,
+                                'w--50--px': true,
+                                'h--50--px': true,
+                                'border__radius--50--percentage': true,
+                                'border--1': true,
+                                'border--solid': true,
+                                'cursor--pointer': true,
+                                'border--dark': true,
+                                'position--relative': true,
+                                'size--unavailable': sizeCount[key] === 0,
+                                'size--active': key === selectedSize
+                            }"
+                            (click)="selectSize(key)"
+                        >
+                            <p class="font__size--24 font__weight--bold position--absolute top--50--percentage left--50--percentage transform__translatexy--50--percentage--negative">{{ key }}</p>
+                        </div>
+                    </div>
+                    <p *ngIf="sizeUnavailable" class="font__size--12 color--red mt--8">O tamanho selecionado não está disponível</p>
+                    <div class="row-no-gutters mt--32">
+                        <p class="font__weight--bold font__size--14">QUANTIDADE</p>
+                        <div class="d--flex align__items--center">
+                            <div (click)="decrementProductQuantity()" class="mr--16 cursor--pointer w--24--px h--24--px d--flex justify__content--center align__items--center">
+                                <fa-icon [icon]="minusIcon"></fa-icon>
+                            </div>
+                            <div>
+                                <p class="px--8 font__weight--bold font__size--20">{{ productQuantity }}</p>
+                            </div>
+                            <div (click)="incrementProductQuantity()" class="ml--16 cursor--pointer w--24--px h--24--px d--flex justify__content--center align__items--center">
+                                <fa-icon [icon]="plusIcon"></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-no-gutters mt--32">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="border--bottom d--flex cursor--pointer" (click)="addToCart()">
+                                <p class="mr--16">Adicionar ao carrinho</p>
+                                <fa-icon [icon]="plusIcon"></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
+<div [@cart] [hidden]="!showCart">
+    teste
+</div>

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { ISku } from 'src/app/models/sku.model';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { IGetCurrentProductRequest } from 'src/app/models/serverRequests/getCurrentProduct.model';
 
 export enum EProductActions {
     UpdateCurrentProduct = '[Product] Update Current Product',
@@ -16,7 +17,7 @@ export class UpdateCurrentProduct implements Action {
 
 export class GetCurrentProduct implements Action {
     public readonly type: EProductActions.GetCurrentProduct = EProductActions.GetCurrentProduct;
-    constructor(public payload: string) { }
+    constructor(public payload: IGetCurrentProductRequest) { }
 }
 
 export class GetCurrentProductSuccess implements Action {
