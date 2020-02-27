@@ -1,16 +1,15 @@
 import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany, ForeignKey, BelongsTo } from "sequelize-typescript";
-import Shirt from "./shirt.model";
 import ProductType from "./productType.model";
-import Sku from "./sku.model";
+import Shirt from "./shirt.model";
 
-@Table({ tableName: "models" })
-export default class ProductModel extends Model<ProductModel> {
+@Table({ tableName: "product_sizes" })
+export default class ProductSize extends Model<ProductSize> {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
   id!: number;
-  @ForeignKey(() => ProductType)
-  type_id!: number;
   @Column({ type: DataType.STRING, allowNull: false })
   name!: string;
+  @ForeignKey(() => ProductType)
+  type_id!: number;
   @CreatedAt
   created_at!: Date;
   @UpdatedAt
@@ -18,9 +17,9 @@ export default class ProductModel extends Model<ProductModel> {
   @DeletedAt
   deleted_at!: Date;
 
-  @BelongsTo(() => ProductType, 'type_id')
+  @BelongsTo(() => ProductType)
   type!: ProductType;
 
-  @HasMany(() => Sku)
-  sku!: Sku;
+  @HasMany(() => Shirt)
+  shirts!: Shirt[];
 }

@@ -10,7 +10,8 @@ export const ROUTER: Routes = [
 		children: [
 			{ path: '', pathMatch: 'full', component: HomeComponent },
             { path: 'p', loadChildren: () => import('./pages/products/products.module').then(m => m.ProductsModule) },
-            { path: 'u', loadChildren: () => import('./pages/authentication/authentication.module').then(m => m.AuthenticationModule) },
+            { path: 'a', loadChildren: () => import('./pages/authentication/authentication.module').then(m => m.AuthenticationModule) },
+            { path: 'u', loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule) }
 		]
 	},
 	{ path: '**', component: NotFoundComponent }

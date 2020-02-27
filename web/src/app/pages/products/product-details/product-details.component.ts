@@ -18,30 +18,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 @Component({
 	selector: 'app-product-details',
 	templateUrl: './product-details.component.html',
-    styleUrls: ['./product-details.component.scss'],
-    animations: [
-        trigger('cart', [
-            transition(
-                ':hidden', [
-                    style({
-                        transform: 'translateX(100%)',
-                        opacity: 0
-                    }),
-                    animate('300ms ease-out', style({transform: 'translateX(0)', opacity: 1}))
-                ]
-            ),
-            transition(
-                ':visible',
-                [
-                   style({
-                        transform: 'translateX(0)',
-                        opacity: 1
-                    }),
-                animate('300ms ease-out', style({transform: 'translateX(100%)', opacity: 0}))
-                ]
-            )
-        ])
-    ]
+    styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
 	constructor(

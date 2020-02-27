@@ -11,6 +11,7 @@ import Gender from "./models/v1/gender.model";
 import ProductModel from "./models/v1/productModel.model";
 import Shirt from "./models/v1/shirt.model";
 import ProductImage from "./models/v1/productImage.model";
+import ProductSize from "./models/v1/productSize.model";
 
 export default class DatabaseSetup {
     public static setupTables = async () => {
@@ -19,9 +20,10 @@ export default class DatabaseSetup {
         await DatabaseSetup.createEventsEntities();
         await DatabaseSetup.createEventsTypes();
         await DatabaseSetup.createProductsTypes();
-        await DatabaseSetup.createSkus();
+        await DatabaseSetup.createProductSizes();
         await DatabaseSetup.createGenders();
         await DatabaseSetup.createProductsModels();
+        await DatabaseSetup.createSkus();
         await DatabaseSetup.createShirts();
         await DatabaseSetup.createProductsImages();
     }
@@ -58,8 +60,12 @@ export default class DatabaseSetup {
         await ProductType.create({ name: 'shirt' });
     }
 
-    private static createSkus = async () => {
-        await Sku.create({ product_name: 'Warlock Oversized Hoodie', product_url: 'warlock-oversized-hoodie', type_id: 1, available: true, price: 59.99 });
+    private static createProductSizes = async () => {
+        await ProductSize.create({ name: "PP", type_id: 1 });
+        await ProductSize.create({ name: "P", type_id: 1 });
+        await ProductSize.create({ name: "M", type_id: 1 });
+        await ProductSize.create({ name: "G", type_id: 1 });
+        await ProductSize.create({ name: "GG", type_id: 1 });
     }
 
     private static createGenders = async () => {
@@ -72,8 +78,12 @@ export default class DatabaseSetup {
         await ProductModel.create({ type_id: 1, name: 'short-sleeve' });
     }
 
+    private static createSkus = async () => {
+        await Sku.create({ product_name: 'Warlock Oversized Hoodie', product_url: 'warlock-oversized-hoodie', type_id: 1, available: true, price: 59.99, gender_id: 1, model_id: 1 });
+    }
+
     private static createShirts = async () => {
-        await Shirt.create({ sku_id: 1, size: 'M', model_id: 1, gender_id: 1 });
+        await Shirt.create({ sku_id: 1, size_id: 1 });
     }
 
     private static createProductsImages = async () => {
