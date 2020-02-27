@@ -15,7 +15,7 @@ export class GetShirtByUrl implements Action {
 
 export class GetShirtByUrlSuccess implements Action {
 	public readonly type: EShirtActions.GetShirtByUrlSuccess = EShirtActions.GetShirtByUrlSuccess;
-	constructor(public payload: HttpResponse<ISku>) { }
+	constructor(public payload: HttpResponse<ISku[]>) { }
 }
 
 export class GetShirtByUrlFailed implements Action {

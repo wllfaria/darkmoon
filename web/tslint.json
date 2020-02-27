@@ -25,6 +25,7 @@
       true,
       "rxjs/Rx"
     ],
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     "interface-name": false,
     "max-classes-per-file": false,
     "max-line-length": [

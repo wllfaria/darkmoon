@@ -1,5 +1,10 @@
 .position {
 
+    &--relative {
+        @extend .position;
+        position: relative;
+    }
+
     &--absolute {
         @extend .position;
         position: absolute;
@@ -14,7 +19,7 @@
     .top--#{$i} {
         top: $i * 1px;
     }
-    
+
     .right--#{$i}--percentage {
         right: $i * 1%;
     }

@@ -1,17 +1,18 @@
 import { RouterReducerState } from '@ngrx/router-store';
 import { IPersonState, initialPersonState } from './person.state';
 import { IFormState, initialFormState } from './form.state';
+import { IProductState, initialProductState } from './product.state';
 import { IShirtState, initialShirtState } from './shirt.state';
 
 export interface IAppState {
-	router?: RouterReducerState;
+    router?: RouterReducerState;
 	people: IPersonState;
 	forms: IFormState;
-	shirts: IShirtState;
+    products: IProductState;
 }
 
 export const initialAppState: IAppState = {
 	people: initialPersonState,
 	forms: initialFormState,
-	shirts: initialShirtState
+    products: initialProductState
 };

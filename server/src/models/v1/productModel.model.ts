@@ -1,6 +1,7 @@
 import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany, ForeignKey, BelongsTo } from "sequelize-typescript";
 import Shirt from "./shirt.model";
 import ProductType from "./productType.model";
+import Sku from "./sku.model";
 
 @Table({ tableName: "models" })
 export default class ProductModel extends Model<ProductModel> {
@@ -20,6 +21,6 @@ export default class ProductModel extends Model<ProductModel> {
   @BelongsTo(() => ProductType, 'type_id')
   type!: ProductType;
 
-  @HasMany(() => Shirt)
-  shirt!: Shirt;
+  @HasMany(() => Sku)
+  sku!: Sku;
 }

@@ -2,6 +2,8 @@ import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMan
 import Shirt from "./shirt.model";
 import ProductType from "./productType.model";
 import ProductImage from "./productImage.model";
+import ProductModel from "./productModel.model";
+import Gender from "./gender.model";
 
 @Table({ tableName: "skus" })
 export default class Sku extends Model<Sku> {
@@ -13,6 +15,10 @@ export default class Sku extends Model<Sku> {
   product_url!: string;
   @ForeignKey(() => ProductType)
   type_id!: number;
+  @ForeignKey(() => ProductModel)
+  model_id!: number;
+  @ForeignKey(() => Gender)
+  gender_id!: number;
   @Column({ type: DataType.BOOLEAN, allowNull: false, unique: true })
   available!: boolean;
   @Column({ type: DataType.REAL, allowNull: false })
@@ -30,6 +36,10 @@ export default class Sku extends Model<Sku> {
 
   @BelongsTo(() => ProductType)
   type!: ProductType;
+  @BelongsTo(() => ProductModel)
+  model!: ProductType;
+  @BelongsTo(() => Gender)
+  gender!: Gender;
 
   @HasMany(() => Shirt)
   shirts!: Shirt[];

@@ -7,5 +7,47 @@
             @extend .bg--gray;
             background: $color-gray-default;
         }
+
+        &--medium {
+            @extend .bg--gray;
+            background: $color-gray-medium;
+        }
+
+        &--dark {
+            @extend .bg--gray;
+            background: $color-gray-dark;
+        }
+    }
+
+    &--dark {
+        @extend .bg;
+        background: $color-text;
+    }
+}
+
+.color {
+
+    &--gray {
+    @extend .color;
+
+        &--default {
+            @extend .color--gray;
+            color: $color-gray-default;
+        }
+
+        &--medium {
+            @extend .color--gray;
+            color: $color-gray-medium;
+        }
+
+        &--dark {
+            @extend .color--gray;
+            color: $color-gray-dark;
+        }
+    }
+
+    &--dark {
+        @extend .color;
+        color: $color-text;
     }
 }

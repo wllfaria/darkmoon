@@ -1,5 +1,5 @@
 import { Table, Model, Column, DataType, CreatedAt, UpdatedAt, DeletedAt, HasMany } from "sequelize-typescript";
-import Shirt from "./shirt.model";
+import Sku from "./sku.model";
 
 @Table({ tableName: "genders" })
 export default class Gender extends Model<Gender> {
@@ -14,6 +14,6 @@ export default class Gender extends Model<Gender> {
   @DeletedAt
   deleted_at!: Date;
 
-  @HasMany(() => Shirt)
-  shirt!: Shirt;
+  @HasMany(() => Sku)
+  sku!: Sku;
 }

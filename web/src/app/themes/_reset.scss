@@ -1,4 +1,4 @@
-@import './markpro.scss';
+@import "./markpro.scss";
 
 *,
 *::before,
@@ -28,4 +28,15 @@ h1 {
 
 label {
   display: block;
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: #333333;
+}
+
+::selection {
+  color: white;
+  background: #333333;
 }
