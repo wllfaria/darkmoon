@@ -7,4 +7,26 @@
     .border__radius--#{$i} {
         border-radius: $i * 1px;
     }
+
+    .border--#{$i} {
+        border-width: $i * 1px;
+    }
+}
+
+.border {
+
+    &--solid {
+        @extend .border;
+        border-style: solid;
+    }
+
+    &--dark {
+        @extend .border;
+        border-color: $color-text;
+    }
+
+    &--bottom {
+        @extend .border;
+        border-bottom: 1px solid $color-text;
+    }
 }

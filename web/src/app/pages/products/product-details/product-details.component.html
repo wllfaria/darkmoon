@@ -1,0 +1,71 @@
+<div *ngIf="loading"></div>
+<main *ngIf="!loading" class="mt--32">
+    <div class="container">
+        <div class="row-no-gutters">
+            <div class="col-md-4 col-lg-push-4">
+                <img class="w--100 w--sm--100" [src]="previewImage.url" [alt]="previewImage.alt" />
+            </div>
+            <div class="col-md-4 col-lg-pull-4">
+                <h1 class="font__size--60">{{ product.product_name }}</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="pl--16">
+                    <div class="mt--100 mb--32">
+                        <div class="d--flex pt--100">
+                            <div *ngFor="let image of product.images" class="mr--8 cursor--pointer" (click)="setProductPreview(image)">
+                                <fa-icon [icon]="circleIcon" [classes]="image.id === previewImage.id ? ['color--dark'] : ['color--gray--dark']"></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt--32">
+                        <h2 class="font__size--48">R$ {{ product.price }}</h2>
+                    </div>
+                    <div class="pt--32 d--flex">
+                        <div
+                            *ngFor="let key of sizeKeys(sizeCount)"
+                            [ngClass]="{
+                                'mr--8': true,
+                                'w--50--px': true,
+                                'h--50--px': true,
+                                'border__radius--50--percentage': true,
+                                'border--1': true,
+                                'border--solid': true,
+                                'cursor--pointer': true,
+                                'border--dark': true,
+                                'position--relative': true,
+                                'size--unavailable': sizeCount[key] === 0,
+                                'size--active': key === selectedSize
+                            }"
+                            (click)="selectSize(key)"
+                        >
+                            <p class="font__size--24 font__weight--bold position--absolute top--50--percentage left--50--percentage transform__translatexy--50--percentage--negative">{{ key }}</p>
+                        </div>
+                    </div>
+                    <p *ngIf="sizeUnavailable" class="font__size--12 color--red mt--8">O tamanho selecionado não está disponível</p>
+                    <div class="row-no-gutters mt--32">
+                        <p class="font__weight--bold font__size--14">QUANTIDADE</p>
+                        <div class="d--flex align__items--center">
+                            <div (click)="decrementProductQuantity()" class="mr--16 cursor--pointer w--24--px h--24--px d--flex justify__content--center align__items--center">
+                                <fa-icon [icon]="minusIcon"></fa-icon>
+                            </div>
+                            <div>
+                                <p class="px--8 font__weight--bold font__size--20">{{ productQuantity }}</p>
+                            </div>
+                            <div (click)="incrementProductQuantity()" class="ml--16 cursor--pointer w--24--px h--24--px d--flex justify__content--center align__items--center">
+                                <fa-icon [icon]="plusIcon"></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-no-gutters mt--32">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="border--bottom d--flex cursor--pointer" (click)="addToCart()">
+                                <p class="mr--16">Adicionar ao carrinho</p>
+                                <fa-icon [icon]="plusIcon"></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

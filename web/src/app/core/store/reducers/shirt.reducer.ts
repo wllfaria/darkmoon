@@ -1,20 +1,17 @@
-import { IShirtState } from '../state/shirt.state';
+import { IShirtState, initialShirtState } from '../state/shirt.state';
 import { ShirtActions, EShirtActions } from '../actions/shirt.action';
 
 export const shirtReducer = (
-	state: IShirtState,
+	state: IShirtState = initialShirtState,
 	action: ShirtActions
 ): IShirtState => {
 	switch (action.type) {
-		case EShirtActions.GetShirtByUrlSuccess: {
-			return {
-				...state,
-				currentShirt: action.payload.body
-			};
-		}
-		case EShirtActions.GetShirtByUrlFailed: {
-			return state;
-		}
+        case EShirtActions.GetShirtByUrlSuccess: {
+            return {
+                ...state,
+                allShirts: action.payload.body
+            }
+        }
 		default: {
 			return state;
 		}

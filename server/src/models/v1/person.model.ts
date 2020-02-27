@@ -41,12 +41,4 @@ export default class Person extends Model<Person> {
   addresses!: Address[];
   @HasMany(() => Card)
   cards!: Card[];
-
-  private generateSalt(): string {
-    return crypto.randomBytes(Number(process.env.CRYPTOSALT)).toString(String(process.env.CRYPTOSTRING));
-  }
-
-  private encodePassword(password: string, salt: string): string {
-    return crypto.pbkdf2Sync(<BinaryType>password, salt, Number(process.env.CRYPTOITERATIONS), Number(process.env.CRYPTOKEYLEN), String(process.env.CRYPTOALGORITHM)).toString(String(process.env.CRYPTOSTRING));
-  }
 }

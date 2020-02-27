@@ -1,9 +1,9 @@
 import { ISku } from 'src/app/models/sku.model';
 
 export interface IShirtState {
-	currentShirt: ISku;
+    allShirts: ISku[];
 }
 
 export const initialShirtState: IShirtState = {
-	currentShirt: null
+	allShirts: null
 };

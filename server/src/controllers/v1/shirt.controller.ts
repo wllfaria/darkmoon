@@ -13,6 +13,7 @@ import { Database } from "../../database";
 import RequestStatus from "../../helpers/v1/requestStatus.helper";
 import { ValidationError } from "express-validator";
 import Query = require("mysql/lib/protocol/sequences/Query");
+import ProductSize from "../../models/v1/productSize.model";
 
 export default class ShirtController {
 	public get = async (_req: Request, res: Response) => {
@@ -36,7 +37,16 @@ export default class ShirtController {
 				return;
 			}
 			const { url } = req.params;
-			const result: Sku | null = await Sku.findOne({ include: [ProductImage, ProductType], where: { product_url: url } });
+			const result: Sku | null = await Sku.findOne({ 
+				include: [
+					{ model: ProductImage }, 
+					{ model: ProductType }, 
+					{ model: ProductModel }, 
+					{ model: Shirt, include: [ ProductSize ]}, 
+					{ model: Gender }
+				], 
+				where: { product_url: url } 
+			});
 			let type = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, result);
 		} catch (e) {
@@ -81,7 +91,7 @@ export default class ShirtController {
 
 	public getDistinct = async (_req: Request, res: Response) => {
 		try {
-			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }, include: [ProductImage] });
+			const distinctShirts: Sku[] = await Sku.findAll({ where: { type_id: 1 }, include: [ProductImage, ProductType, ProductModel, Gender, Shirt] });
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, distinctShirts)
 		} catch (err) {

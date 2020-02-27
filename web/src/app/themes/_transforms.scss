@@ -45,5 +45,29 @@
                 }
             }
         }
+
+    }
+    &__translatexy {
+        @extend .transform;
+
+        @for $i from 0 through 100 {
+            &--#{$i}--percentage {
+                @extend .transform__translatexy;
+                transform: translateX($i * 1%) translateY($i * 1%);
+
+                &--negative {
+                    transform: translateX(-$i * 1%) translateY(-$i * 1%);
+                }
+            }
+
+            &--#{$i} {
+                @extend .transform__translatexy;
+                transform: translateX($i * 1px) translateY($i * 1px);
+
+                &--negative {
+                    transform: translateX(-$i * 1px) translateY(-$i * 1px);
+                }
+            }
+        }
     }
 }

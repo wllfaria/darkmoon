@@ -7,12 +7,13 @@ import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PersonEffect } from './store/effects/person.effect';
 import { appReducer } from './store/app.reducer';
+import { ProductEffect } from './store/effects/product.effect';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		StoreModule.forRoot(appReducer),
-		EffectsModule.forRoot([PersonEffect]),
+		EffectsModule.forRoot([PersonEffect, ProductEffect]),
 		StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : []
 	]

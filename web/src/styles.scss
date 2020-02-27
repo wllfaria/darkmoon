@@ -1,5 +1,6 @@
 @import './app/themes/variables';
 @import './app/themes/responsive';
+@import './app/themes/_bootstrap.min.css';
 @import './app/themes/reset';
 @import './app/themes/styles';
 @import './app/themes/spacings';
@@ -12,6 +13,40 @@
 @import './app/themes/displays';
 @import './app/themes/inputs';
 @import './app/themes/colors';
+
+
+.size {
+
+    &--unavailable {
+        @extend .size;
+        cursor: default;
+        border-color: $color-gray-dark;
+
+        p {
+            color: $color-gray-dark;
+        }
+
+        &::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: $color-gray-dark;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+        }
+    }
+
+    &--active {
+        @extend .size;
+        background: $color-text;
+
+        p {
+            color: $color-gray-default;
+        }
+    }
+}
 
 @media all and (min-width: 768px) {
 	.container {

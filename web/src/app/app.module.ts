@@ -15,10 +15,11 @@ import { DirectivesModule } from './core/directives/directives.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ShirtsComponent } from './pages/shirts/shirts.component';
+import { ProductsComponent } from './pages/products/products.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { CoreModule } from './core/core.module';
 import { ErrorInterceptor } from './core/interceptors/error-interceptor';
+import { UserComponent } from './pages/user/user.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -28,7 +29,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
 		HomeComponent,
 		TemplateComponent,
 		NotFoundComponent,
-		ShirtsComponent,
+		ProductsComponent,
+		UserComponent,
 	],
 	imports: [
 		ComponentsModule,

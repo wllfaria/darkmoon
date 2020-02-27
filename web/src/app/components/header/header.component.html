@@ -6,19 +6,20 @@
 				<div class="header__left__hamburger__line"></div>
 				<div class="header__left__hamburger__line"></div>
 			</div>
-			<div class="header__left__logo">
-				<h2 routerLink="/">Darkmoon</h2>
+			<div class="header__left__logo d--fled">
+                <h2 routerLink="/">DarkMoon</h2>
+                <!-- <img src="../../../assets/icons/" alt=""> -->
 			</div>
 		</div>
-		<div class="header__right">
+		<!-- <div class="header__right">
 			<div>
 				<fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
 			</div>
 			<div class="header__user" *ngIf="!loggedUser">
-				<fa-icon routerLink="auth/login" [icon]="faUser" [classes]="['header__right__icon']">
+				<fa-icon routerLink="u/login" [icon]="faUser" [classes]="['header__right__icon']">
 				</fa-icon>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </header>
 <app-cart></app-cart>
