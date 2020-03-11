@@ -18,6 +18,11 @@ import EventEntity from './models/v1/eventEntity.model';
 import EventType from './models/v1/eventType.model';
 import Event from './models/v1/event.model';
 import ProductSize from './models/v1/productSize.model';
+import Permissions from './models/v1/permissions.model';
+import PersonRoles from './models/v1/personRoles.model';
+import Roles from './models/v1/roles.model';
+import RolesPermissions from './models/v1/rolesPermissions.model';
+import { RolesPermissionsMap } from './rolesPermissionsMap';
 
 export class Database {
   repository: Sequelize | undefined;
@@ -71,11 +76,15 @@ export class Database {
       EventEntity,
       EventType,
       Gender,
+      Permissions,
       Person,
+      PersonRoles,
       ProductImage,
       ProductModel,
       ProductSize,
       ProductType,
+      Roles,
+      RolesPermissions,
       Shirt,
       Sku
     ]);
