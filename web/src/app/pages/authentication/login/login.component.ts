@@ -132,11 +132,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.router.navigate([pageUrl]);
 	}
 
-	public togglePasswordVisibility = (passwordElementReference: any): void => {
-		this.showPassword = !this.showPassword;
-		this.showPassword ? passwordElementReference.type = 'text' : passwordElementReference.type = 'password';
-	}
-
 	ngOnDestroy() {
 		this.subs.unsubscribe();
 	}

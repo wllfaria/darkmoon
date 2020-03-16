@@ -36,7 +36,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
 		ComponentsModule,
 		HttpClientModule,
 		CoreModule,
-		PipesModule,
+        PipesModule,
 		DirectivesModule,
 		FontAwesomeModule,
 		ReactiveFormsModule,
