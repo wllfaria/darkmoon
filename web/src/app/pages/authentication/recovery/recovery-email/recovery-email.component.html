@@ -7,23 +7,18 @@
 		</div>
 		<div>
 			<div>
-				<div class="float__label mb--8 mb--sm--8 font__weight--bold">
-					<input id="emailCpf" name="emailCpf" placeholder="emailCpf" formControlName="email" type="text"
-						class="border__radius--4">
-					<label for="emailCpf">Email</label>
-				</div>
-				<div *ngIf="formControls.email.errors">
-					<div *ngIf="
-					(formControls.email.touched || formControls.email.dirty)
-					&& formControls.email.errors.required">
-						<p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite seu e-mail.</p>
-					</div>
-					<div *ngIf="
-					(formControls.email.touched || formControls.email.dirty)
-					&& formControls.email.errors.pattern">
-						<p class="color--red font__size--12 my--8 my--sm--8">Este e-mail não é válido.</p>
-					</div>
-				</div>
+				<app-generic-input
+                    [inputName]="'email'"
+                    [inputId]="'email'"
+                    [inputPlaceholder]="'email'"
+                    [form]="recoveryForm"
+                    [inputControlName]="'email'"
+                    [inputDisplayText]="'email'"
+                    [inputType]="'text'"
+                    [requiredErrorMessage]="'Por favor, digite seu e-mail.'"
+                    [patternErrorMessage]="'Este e-mail não é válido.'"
+                    [isPassword]="false"
+                ></app-generic-input>
 			</div>
 			<div>
 				<div class="mb--16 mb--sm--16">
@@ -35,7 +30,7 @@
 				</div>
 			</div>
 			<div class="d--flex justify__content--center">
-				<button 
+				<button
 				[ngClass]="{
 					'btn--outline': true,
 					'border__radius--24': true,

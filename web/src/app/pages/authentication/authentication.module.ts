@@ -12,6 +12,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { RecoveryPinComponent } from './recovery/recovery-pin/recovery-pin.component';
 import { RecoveryEmailComponent } from './recovery/recovery-email/recovery-email.component';
 import { RecoveryPasswordComponent } from './recovery/recovery-password/recovery-password.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 export const ROUTES: Routes = [
 	{
@@ -46,13 +47,14 @@ export const ROUTES: Routes = [
 		AuthenticationComponent,
 		RecoveryPinComponent,
 		RecoveryEmailComponent,
-		RecoveryPasswordComponent
+        RecoveryPasswordComponent,
 	],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		FontAwesomeModule,
+        FontAwesomeModule,
 		DirectivesModule,
+        ComponentsModule,
 		RouterModule.forChild(ROUTES),
 		NgxMaskModule.forChild()
 	]
