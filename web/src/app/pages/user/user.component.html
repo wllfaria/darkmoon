@@ -1,6 +1,34 @@
 <div class="container">
     <div class="row-no-gutters">
-        <div class="col-md-2 col-lg-2">a</div>
+        <div class="col-md-2 col-lg-2">
+            <div class="mt--80">
+                <div class="mb--16">
+                    <a (click)="navigate('painel')" class="font__size--32 font__weight--bold cursor--pointer">
+                        <fa-icon [icon]="layerGroupIcon" [classes]="['mr--16']"></fa-icon>Painel
+                    </a>
+                </div>
+                <div class="mb--16">
+                    <a (click)="navigate('perfil')" class="font__size--32 font__weight--bold cursor--pointer">
+                        <fa-icon [icon]="userIcon" [classes]="['mr--16']"></fa-icon>Perfil
+                    </a>
+                </div>
+                <div class="mb--16">
+                    <a (click)="navigate('enderecos')" class="font__size--32 font__weight--bold cursor--pointer">
+                        <fa-icon [icon]="routeIcon" [classes]="['mr--16']"></fa-icon>Endereços
+                    </a>
+                </div>
+                <div class="mb--16">
+                    <a (click)="navigate('meus-pedidos')" class="font__size--32 font__weight--bold cursor--pointer">
+                        <fa-icon [icon]="envelopeIcon" [classes]="['mr--16']"></fa-icon>Meus Pedidos
+                    </a>
+                </div>
+                <div class="mb--16">
+                    <a (click)="navigate('lista-desejos')" class="font__size--32 font__weight--bold cursor--pointer">
+                        <fa-icon [icon]="heartIcon" [classes]="['mr--16']"></fa-icon>Wishlist
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="col-md-10 col-lg-10">
             <router-outlet></router-outlet>
         </div>

@@ -1,5 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ShirtsService } from 'src/app/core/services/shirts.service';
+import { ISku } from 'src/app/models/sku.model';
+import { Store, ActionsSubject } from '@ngrx/store';
+import { IAppState } from 'src/app/core/store/state/app.state';
+import { SubSink } from 'subsink';
+import { ofType } from '@ngrx/effects';
+import { ECartActions, GetCurrentCartSuccess, GetCurrentCart, AddCartItem, RemoveCartItem } from 'src/app/core/store/actions/cart.action';
+import ArrayUtils from 'src/app/core/utils/array.utils';
+
+type CartProductWrapper = {
+	product: ISku,
+	quantity: number
+}
 
 @Component({
 	selector: 'app-cart',
@@ -7,85 +19,93 @@ import { ShirtsService } from 'src/app/core/services/shirts.service';
 	styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-	constructor(private shirtsService: ShirtsService) { }
+	constructor(
+		private store$: Store<IAppState>,
+		private actions$: ActionsSubject
+	) {
+	}
 
-	private cartLoading: boolean;
-	private isCartOpen: boolean;
-	private isCartEmpty: boolean;
-	private products: any[];
-	private cartHasError: boolean;
-	private suggestion: any;
-	private totalPrice: number;
-
-	private cartLoaded: boolean;
+	public cartLoading: boolean;
+	public isCartOpen: boolean;
+	public isCartEmpty: boolean;
+	public products: CartProductWrapper[];
+	public cartHasError: boolean;
+	public suggestion: any;
+	public totalPrice: number;
+	public subs: SubSink = new SubSink()
+	public cartLoaded: boolean;
 
 	ngOnInit() {
-		this.setLoading();
 		this.totalPrice = 0;
+		this.getCurrentProductSuccessActionSubscription();
+		this.fetchCurrentCart();
 	}
 
-	checkLoading = () => {
-		if (
-			this.cartLoaded
-		) {
-			this.cartLoading = false;
-		}
+	ngOnDestroy() {
+		this.subs.unsubscribe();
 	}
 
-	setLoading = () => {
-		this.cartLoaded = false;
-		this.cartLoading = true;
-	}
-
-	toggleCart(): void {
-		this.setLoading();
-		this.getCurrentCart();
+	public toggleCart(): void {
 		this.isCartOpen = !this.isCartOpen;
+
+		if (this.isCartOpen) {
+			this.cartLoading = true;
+			this.fetchCurrentCart();
+		}
 	}
 
-	getCurrentCart(): void {
-		this.setLoading();
+	public getCurrentProductSuccessActionSubscription = (): void => {
+		this.subs.add(
+			this.actions$.pipe(ofType<GetCurrentCartSuccess>(ECartActions.GetCurrentCartSuccess)).subscribe((action: GetCurrentCartSuccess): void => {
+				this.products = [];
+				this.totalPrice = 0;
+				this.isCartEmpty = false;
+				if (action.payload.length === 0) {
+					this.isCartEmpty = true;
+					return;
+				}
+				const groupedById = ArrayUtils.groupBy(action.payload, "id");
+				for (let key in groupedById) {
+					const intKey = parseInt(key);
+					let element = {
+						quantity: groupedById[intKey].length,
+						product: groupedById[key][0]
+					};
+					this.products.push(element)
+					if (element.product) {
+						this.totalPrice += element.product.price * element.quantity;
+					}
+				}
+				this.cartLoading = false;
+			}
+		))
+	}
 
-		const currentCart = JSON.parse(window.localStorage.getItem('DARKMOONCART'));
-
-		if (!currentCart || !currentCart.cart.length) {
-			this.isCartEmpty = true;
-			this.cartLoaded = true;
-			this.checkLoading();
-			// this.getSuggestion();
+	public setProductQuantity = (quantity: number, productId: number): void => {
+		const elem = this.products.find(elem => elem.product.id == productId);
+		if (!elem) {
 			return;
 		}
-
-		this.products = currentCart.cart;
-		this.cartLoaded = true;
-		this.checkLoading();
-	}
-
-	calculateCartPrice() {
-		if (this.totalPrice === 0) {
-			this.products.forEach((product, index, array) => {
-				this.totalPrice = this.totalPrice + Number(product.price);
-			});
-			this.totalPrice = Number((Math.round(this.totalPrice * 100) / 100).toFixed(2));
+		if (quantity > 0) {
+			this.store$.dispatch(new AddCartItem(elem.product));
+		} else {
+			this.store$.dispatch(new RemoveCartItem(elem.product));
 		}
+		this.fetchCurrentCart();
 	}
 
-	removeFromCart = (index: number): void => {
-		this.setLoading();
+	private fetchCurrentCart = (): void => {
+		this.store$.dispatch(new GetCurrentCart());
+	}
 
-		const currentCart: any = JSON.parse(window.localStorage.getItem('DARKMOONCART'));
-		currentCart.cart.splice(index, 1);
-		this.products = currentCart.cart;
-		window.localStorage.removeItem('DARKMOONCART');
-
-		if (!this.products) {
-			this.isCartEmpty = true;
-			this.cartLoaded = true;
-			this.checkLoading();
+	public removeFromCart(product: ISku): void {
+		const elem = this.products.find(elem => elem.product.id == product.id);
+		if (!elem) {
 			return;
 		}
-
-		window.localStorage.setItem('DARKMOONCART', JSON.stringify({ cart: this.products }));
-		this.getCurrentCart();
+		for (let i = 0; i < elem.quantity; i++) {
+			this.store$.dispatch(new RemoveCartItem(elem.product));
+		}
+		this.fetchCurrentCart();
 	}
 }

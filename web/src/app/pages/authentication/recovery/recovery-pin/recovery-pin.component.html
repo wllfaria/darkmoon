@@ -7,23 +7,18 @@
 		</div>
 		<div>
 			<div>
-				<div class="float__label mb--8 mb--sm--8 font__weight--bold">
-					<input id="pin" name="pin" placeholder="pin" formControlName="pin" type="text"
-						class="border__radius--4">
-					<label for="pin">Pin</label>
-				</div>
-				<div *ngIf="formControls.pin.errors">
-					<div *ngIf="
-					(formControls.pin.touched || formControls.pin.dirty)
-					&& formControls.pin.errors.required">
-						<p class="color--red font__size--12 my--8 my--sm--8">Por favor, digite seu pin.</p>
-					</div>
-					<div *ngIf="
-					(formControls.pin.touched || formControls.pin.dirty)
-					&& formControls.pin.errors.pattern">
-						<p class="color--red font__size--12 my--8 my--sm--8">O pin deve conter somente números.</p>
-					</div>
-				</div>
+                <app-generic-input
+                    [inputName]="'pin'"
+                    [inputId]="'pin'"
+                    [inputPlaceholder]="'pin'"
+                    [form]="recoveryPinForm"
+                    [inputControlName]="'pin'"
+                    [inputDisplayText]="'pin'"
+                    [inputType]="'text'"
+                    [requiredErrorMessage]="'Por favor, digite seu pin.'"
+                    [patternErrorMessage]="'O pin deve conter somente números.'"
+                    [isPassword]="false"
+                ></app-generic-input>
 			</div>
 			<div>
 				<div class="mb--16 mb--sm--16">
@@ -35,7 +30,7 @@
 				</div>
 			</div>
 			<div class="d--flex justify__content--center">
-				<button 
+				<button
 				[ngClass]="{
 					'btn--outline': true,
 					'border__radius--24': true,

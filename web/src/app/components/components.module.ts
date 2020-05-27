@@ -11,6 +11,9 @@ import { CartComponent } from "./cart/cart.component";
 import { CartLoaderComponent } from "./loaders/cart-loader/cart-loader.component";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RequestErrorComponent } from './errors/request-error/request-error.component';
+import { GenericInputComponent } from './generic-input/generic-input.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
 	declarations: [
@@ -21,19 +24,24 @@ import { RequestErrorComponent } from './errors/request-error/request-error.comp
 		ProductLoaderComponent,
 		CartComponent,
 		CartLoaderComponent,
-		RequestErrorComponent
+		RequestErrorComponent,
+		GenericInputComponent
 	],
 	imports: [
-		CommonModule, 
-		PipesModule, 
-		RouterModule, 
-		FontAwesomeModule
+		CommonModule,
+		PipesModule,
+		RouterModule,
+        FontAwesomeModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxMaskModule
 	],
 	exports: [
 		FooterComponent,
 		HeaderComponent,
 		NavbarComponent,
-		ProductCardComponent
+        ProductCardComponent,
+        GenericInputComponent,
 	],
 	entryComponents: [
 		ProductLoaderComponent,
