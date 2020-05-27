@@ -28,11 +28,8 @@ export default class EmailSender {
 	}
 
 	public static sendMail = (email: string, template: any, links: string[]) => {
-		console.log('sending mail')
-		const transporter: Transporter = EmailSender.createTransporter()
-		console.log('transporter')
+		const transporter: Transporter = EmailSender.createTransporter();
 		const replacedTemplate: any = EmailSender.replaceLinks(template, links);
-		console.log('replaced')
 		const mailOptions: MailOptions = {
 			from: `${replacedTemplate.sender} <${replacedTemplate.email}>`,
 			to: email,
