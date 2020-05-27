@@ -21,7 +21,7 @@ jobs:
     
     # Checking integrity of front end application
     - name: setting up frontend
-      run: cd ./web && npm install && npm run test
+      run: cd ./web && npm install && npm run build-prod
     
     # Checking integrity of backe end application
     - name: setting up backend
