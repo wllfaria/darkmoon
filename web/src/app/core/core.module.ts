@@ -8,12 +8,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PersonEffect } from './store/effects/person.effect';
 import { appReducer } from './store/app.reducer';
 import { ProductEffect } from './store/effects/product.effect';
+import { CartEffect } from './store/effects/cart.effect';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		StoreModule.forRoot(appReducer),
-		EffectsModule.forRoot([PersonEffect, ProductEffect]),
+		EffectsModule.forRoot([PersonEffect, ProductEffect, CartEffect]),
 		StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : []
 	]

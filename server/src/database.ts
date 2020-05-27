@@ -45,19 +45,20 @@ export class Database {
   }
 
   private initialize = async () => {
-    this.repository = new Sequelize(config.database, config.username, config.password, {
-      dialect: "mysql",
-      host: config.host,
-      pool: {
-        max: 10,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-      }
-    });
+    // this.repository = new Sequelize(config.database, config.username, config.password, {
+    //   dialect: "mysql",
+    //   host: config.host,
+    //   pool: {
+    //     max: 10,
+    //     min: 0,
+    //     acquire: 30000,
+    //     idle: 10000
+    //   }
+    // });
+    this.repository = new Sequelize({ dialect: "sqlite", storage: "../database/Darkmoon.sqlite" })
     this.addModels();
-    // await this.repository.sync({ force: true });
-    // await DatabaseSetup.setupTables(); 
+    await this.repository.sync({ force: true });
+    await DatabaseSetup.setupTables(); 
   }
 
   public getTransaction = async () => {
