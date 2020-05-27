@@ -12,6 +12,9 @@ import ProductModel from "./models/v1/productModel.model";
 import Shirt from "./models/v1/shirt.model";
 import ProductImage from "./models/v1/productImage.model";
 import ProductSize from "./models/v1/productSize.model";
+import Roles from "./models/v1/roles.model";
+import Permissions from "./models/v1/permissions.model";
+import RolesPermissions from "./models/v1/rolesPermissions.model";
 
 export default class DatabaseSetup {
     public static setupTables = async () => {
@@ -26,6 +29,9 @@ export default class DatabaseSetup {
         await DatabaseSetup.createSkus();
         await DatabaseSetup.createShirts();
         await DatabaseSetup.createProductsImages();
+        await DatabaseSetup.createRoles();
+        await DatabaseSetup.createPermissions();
+        await DatabaseSetup.createRolesPermissions();
     }
 
     private static createEmailsTypes = async () => {
@@ -91,4 +97,35 @@ export default class DatabaseSetup {
         await ProductImage.create({ url: 'https://cdn.shopify.com/s/files/1/0228/2373/products/WARLOCK-HOODIE-C_1024x1024.jpg', sku_id: 1, alt: 'Woman wearing Warlock Oversized Hoodie' });
         await ProductImage.create({ url: 'https://cdn.shopify.com/s/files/1/0228/2373/products/WARLOCK-HOODIE-E_1024x1024.jpg', sku_id: 1, alt: 'Woman wearing Warlock Oversized Hoodie' });
     }
+
+    private static createRoles = async () => {
+        await Roles.create({ name: 'person' });
+        await Roles.create({ name: 'admin' });
+    }
+
+    private static createPermissions = async () => {
+        await Permissions.create({ name: 'view_admin_panel' });
+        await Permissions.create({ name: 'create_products' });
+        await Permissions.create({ name: 'edit_products' });
+        await Permissions.create({ name: 'delete_products' });
+        await Permissions.create({ name: 'view_profile' });
+        await Permissions.create({ name: 'wishlist_products' });
+        await Permissions.create({ name: 'view_addresses' });
+        await Permissions.create({ name: 'view_orders' });
+        await Permissions.create({ name: 'view_profile_panel' });
+    }
+
+    private static createRolesPermissions = async () => {
+        await RolesPermissions.create({ role_id: 2, permission_id: 1 });
+        await RolesPermissions.create({ role_id: 2, permission_id: 2 });
+        await RolesPermissions.create({ role_id: 2, permission_id: 3 });
+        await RolesPermissions.create({ role_id: 2, permission_id: 4 });
+        await RolesPermissions.create({ role_id: 1, permission_id: 5 });
+        await RolesPermissions.create({ role_id: 1, permission_id: 6 });
+        await RolesPermissions.create({ role_id: 1, permission_id: 7 });
+        await RolesPermissions.create({ role_id: 1, permission_id: 8 });
+        await RolesPermissions.create({ role_id: 1, permission_id: 9 });
+    }
 }
+
+

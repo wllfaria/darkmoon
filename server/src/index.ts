@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser'
 import './env';
 import { Database } from "./database";
 import * as swaggerDoc from '../swagger.json'
+import { RolesPermissionsMap } from './rolesPermissionsMap';
 
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express');
@@ -11,6 +12,7 @@ const server = express();
 const router = new Router(server);
 const port = process.env.PORT || 3333;
 const database = new Database();
+const rolesPermissionsMap = new RolesPermissionsMap();
 server.use('/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
