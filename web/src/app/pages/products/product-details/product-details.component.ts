@@ -13,26 +13,29 @@ import { IProductImage } from 'src/app/models/productImage.model';
 import { IconDefinition, faCircle, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { ProductService } from 'src/app/core/services/product.service';
 import { ISizeMap } from 'src/app/models/custom/sizeMap.model';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { LocalCartService } from 'src/app/core/services/localcart.service';
+import { ICartState } from 'src/app/core/store/state/cart.state';
+import { AddCartItem, GetCurrentCart, GetCurrentCartSuccess, ECartActions } from 'src/app/core/store/actions/cart.action';
+import { selectCurrentCart } from 'src/app/core/store/selectors/cart.selector';
 
 @Component({
-	selector: 'app-product-details',
-	templateUrl: './product-details.component.html',
+    selector: 'app-product-details',
+    templateUrl: './product-details.component.html',
     styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-	constructor(
+    constructor(
         private router: Router,
         private route: ActivatedRoute,
         private productService: ProductService,
         private store$: Store<IAppState>,
         private actions$: ActionsSubject
-	) {
-		this.product$ = this.store$.select(selectCurrentProduct);
-	}
+    ) {
+        this.product$ = this.store$.select(selectCurrentProduct);
+    }
 
-	// ! Ngrx definitions
-	private product$: Observable<ISku>;
+    // ! Ngrx definitions
+    private product$: Observable<ISku>;
 
     private subs: SubSink = new SubSink
 
@@ -59,29 +62,29 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     public plusIcon: IconDefinition = faPlus;
     public minusIcon: IconDefinition = faMinus;
 
-	ngOnInit() {
+    ngOnInit() {
         this.setupPage();
         this.checkCurrentProduct();
         this.getCurrentProductSuccessActionSubscription();
         this.getCurrentProductFailedActionSubscription();
-	}
+    }
 
-	private setupPage = (): void => {
+    private setupPage = (): void => {
         this.loading = true;
         this.productQuantity = 1;
-	}
+    }
 
-	private checkLoading = (): void => {
-		if (this.productLoaded) {
-			this.loading = false;
-		}
+    private checkLoading = (): void => {
+        if (this.productLoaded) {
+            this.loading = false;
+        }
     }
 
     private checkCurrentProduct = (): void => {
         this.subs.add(this.product$.subscribe((product: ISku): void => {
             this.getProductUrl();
             this.getProductType();
-            if(!product) {
+            if (!product) {
                 this.fetchCurrentProduct();
                 return;
             }
@@ -91,7 +94,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                 return;
             }
             this.setupProduct(product);
-        }))
+        }));
     }
 
     private setupProduct = (product: ISku): void => {
@@ -128,7 +131,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             ofType<GetCurrentProductFailed>(EProductActions.GetCurrentProductFailed)).subscribe((action: GetCurrentProductFailed): void => {
                 this.requestError = true;
             }
-        ))
+            ))
     }
 
     private fetchCurrentProduct = (): void => {
@@ -158,8 +161,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.productQuantity = this.productQuantity - 1;
     }
 
+    /**
+     * Adds the product to the cart with the desired quantity
+     */
     public addToCart = (): void => {
-        this.showCart = true;
+        for (let i = 0; i < this.productQuantity; i++) {
+            this.store$.dispatch(new AddCartItem(this.product));
+        }
+        this.productQuantity = 0;
+        // ToDo - Change this to a beautiful message
+        alert("Adicionado com sucesso")
     }
 
     ngOnDestroy() {

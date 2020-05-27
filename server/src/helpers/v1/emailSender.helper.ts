@@ -1,8 +1,7 @@
-import nodemailer, { Transport, Transporter } from 'nodemailer';
+import nodemailer, { Transporter } from 'nodemailer';
 import '../../env';
 import { MailOptions } from 'nodemailer/lib/json-transport';
 import EventListener from './eventListener.helper';
-import { Transaction } from 'sequelize/types';
 
 export default class EmailSender {
 	private static createTransporter = () => {

@@ -18,6 +18,11 @@ import EventEntity from './models/v1/eventEntity.model';
 import EventType from './models/v1/eventType.model';
 import Event from './models/v1/event.model';
 import ProductSize from './models/v1/productSize.model';
+import Permissions from './models/v1/permissions.model';
+import PersonRoles from './models/v1/personRoles.model';
+import Roles from './models/v1/roles.model';
+import RolesPermissions from './models/v1/rolesPermissions.model';
+import { RolesPermissionsMap } from './rolesPermissionsMap';
 
 export class Database {
   repository: Sequelize | undefined;
@@ -40,19 +45,20 @@ export class Database {
   }
 
   private initialize = async () => {
-    this.repository = new Sequelize(config.database, config.username, config.password, {
-      dialect: "mysql",
-      host: config.host,
-      pool: {
-        max: 10,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-      }
-    });
+    // this.repository = new Sequelize(config.database, config.username, config.password, {
+    //   dialect: "mysql",
+    //   host: config.host,
+    //   pool: {
+    //     max: 10,
+    //     min: 0,
+    //     acquire: 30000,
+    //     idle: 10000
+    //   }
+    // });
+    this.repository = new Sequelize({ dialect: "sqlite", storage: "../database/Darkmoon.sqlite" })
     this.addModels();
-    // await this.repository.sync({ force: true });
-    // await DatabaseSetup.setupTables(); 
+    await this.repository.sync({ force: true });
+    await DatabaseSetup.setupTables(); 
   }
 
   public getTransaction = async () => {
@@ -71,11 +77,15 @@ export class Database {
       EventEntity,
       EventType,
       Gender,
+      Permissions,
       Person,
+      PersonRoles,
       ProductImage,
       ProductModel,
       ProductSize,
       ProductType,
+      Roles,
+      RolesPermissions,
       Shirt,
       Sku
     ]);
