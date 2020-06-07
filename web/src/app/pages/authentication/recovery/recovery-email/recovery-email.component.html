@@ -1,9 +1,12 @@
-<form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()" class="authform px--64 px--sm--24 py--24 py--sm--24">
+<form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()" [ngClass]="{
+	'authform': true,
+	'overlay': formLoading
+}">
 	<div *requestError="requestError">
-		<div class="authform--loading" *ngIf="formLoading"></div>
+		<div class="loading" *ngIf="formLoading"></div>
 		<div>
 			<p>Recupere sua</p>
-			<h1 class="font__size--48 mb--16 mb--sm--16">Conta</h1>
+			<h1 class="title">Conta</h1>
 		</div>
 		<div>
 			<div>
@@ -21,22 +24,18 @@
                 ></app-generic-input>
 			</div>
 			<div>
-				<div class="mb--16 mb--sm--16">
-					<a (click)="navigate('/auth/login')" class="font__size--12 cursor--pointer">Não perdeu sua conta? Faça seu login.</a>
+				<div class="reminder">
+					<a [routerLink]="['/a', 'login']" class="font__size--12 cursor--pointer">Não perdeu sua conta? Faça seu login.</a>
 				</div>
-				<div *ngIf="personDontExist">
-					<p (click)="navigate('/auth/registro')"
-						class="color--red cursor--pointer font__size--12 my--8 my--sm--8">Não existe nenhuma conta com este e-mail. Deseja fazer seu regsitro?</p>
+				<div *ngIf="personDontExist" class="wrong-password">
+					<a [routerLink]="['/a', 'registro']">Não existe nenhuma conta com este e-mail. Deseja fazer seu registro?</a>
 				</div>
 			</div>
-			<div class="d--flex justify__content--center">
+			<div class="d-flex justify-content-center">
 				<button
 				[ngClass]="{
-					'btn--outline': true,
-					'border__radius--24': true,
-					'text__transform--uppercase': true,
-					'font__weight--bold': true,
-					'btn--outline--fill': formComplete
+					'button': true,
+					'button-fill': formComplete
 				}" [disabled]="!formComplete && formLoading">
 					<fa-icon [icon]="arrowRightIcon"></fa-icon>
 				</button>

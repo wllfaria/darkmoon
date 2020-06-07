@@ -1,52 +1,30 @@
-@import './app/themes/variables';
-@import './app/themes/responsive';
-@import './app/themes/_bootstrap.min.css';
-@import './app/themes/reset';
+// 0 - Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// 1 - Helpers
+@import './app/themes/1-helpers/variables';
+@import './app/themes/1-helpers/functions';
+@import './app/themes/1-helpers/mixins';
+
+// 2 - Basics
+@import './app/themes/2-basics/keyframes';
+@import './app/themes/2-basics/reset';
+@import './app/themes/2-basics/buttons';
+@import './app/themes/2-basics/inputs';
+
+// 3 - Modules
+@import './app/themes/3-modules/authForm';
+
+// 4 - Pages
+@import './app/themes/4-pages/productsDetail';
+
 @import './app/themes/styles';
-@import './app/themes/spacings';
 @import './app/themes/fonts';
 @import './app/themes/positions';
 @import './app/themes/transforms';
 @import './app/themes/cursors';
 @import './app/themes/borders';
-@import './app/themes/buttons';
 @import './app/themes/displays';
-@import './app/themes/inputs';
-@import './app/themes/colors';
-
-
-.size {
-
-    &--unavailable {
-        @extend .size;
-        cursor: default;
-        border-color: $color-gray-dark;
-
-        p {
-            color: $color-gray-dark;
-        }
-
-        &::after {
-            content: '';
-            width: 50px;
-            height: 3px;
-            background: $color-gray-dark;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%) rotate(-45deg);
-        }
-    }
-
-    &--active {
-        @extend .size;
-        background: $color-text;
-
-        p {
-            color: $color-gray-default;
-        }
-    }
-}
 
 @media all and (min-width: 768px) {
 	.container {
@@ -69,63 +47,5 @@
 
 	.fullpage--illustration {
 		width: 40%;
-	}
-
-	.authform {
-		width: 400px;
-		max-width: 400px;
-		background-color: white;
-		position: relative;
-        overflow: hidden;
-
-        &.authform--overlay {
-            width: 100%;
-            height: 100%;
-
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(255, 255, 255, 0.5);
-                z-index: 1;
-            }
-        }
-
-		.authform--loading {
-			height: 5px;
-			background: $color-text;
-			width: 0;
-			position: absolute;
-			top: 0;
-			left: 0;
-			animation-name: 'loadingBar';
-			animation-duration: 1500ms;
-			animation-timing-function: cubic-bezier(0.38, 0.12, 1, 0.62);
-            animation-iteration-count: infinite;
-            z-index: 2;
-        }
-
-	}
-
-	@keyframes loadingBar {
-		0% {
-			width: 0;
-			left: 0;
-		}
-		40% {
-			width: 130px;
-			left: 0;
-		}
-		70% {
-			width: 240px;
-			left: 140%;
-		}
-		100% {
-			width: 240px;
-			left: 140%;
-		}
 	}
 }

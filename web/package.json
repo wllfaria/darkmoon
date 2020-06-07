@@ -28,6 +28,8 @@
     "@ngrx/router-store": "^8.6.0",
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
+    "bootstrap": "^4.5.0",
+    "bootstrap-scss": "^4.5.0",
     "jwt-decode": "^2.2.0",
     "ngx-mask": "^8.1.7",
     "rxjs": "~6.5.4",

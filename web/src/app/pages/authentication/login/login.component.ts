@@ -128,8 +128,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}));
 	}
 
-	public navigate = (pageUrl: string): void => {
-		this.router.navigate([pageUrl]);
+	public navigate = (route: string): void => {
+		this.router.navigate([route]);
 	}
 
 	ngOnDestroy() {
