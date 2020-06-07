@@ -84,8 +84,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
 	public get formControls() { return this.registerForm.controls; }
 
-	public navigate = (pageUrl: string): void => {
-		this.router.navigate([pageUrl]);
+	public navigate = (route: string): void => {
+		this.router.navigate([route]);
 	}
 
 	private storeSubscriptions = (): void => {
