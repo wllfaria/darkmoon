@@ -17,8 +17,12 @@ import Card from "../../models/v1/card.model";
 import RequestStatus from "../../helpers/v1/requestStatus.helper";
 import EmailTemplate from "../../models/v1/emailTemplate.model";
 import EventListener from "../../helpers/v1/eventListener.helper";
+import log4js from 'log4js';
 
 export default class PersonController {
+
+	private errorLogger = log4js.getLogger("error");
+
 	public create = async (req: Request, res: Response) => {
 		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
 		try {
@@ -56,9 +60,10 @@ export default class PersonController {
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
 
 			await transaction?.commit();
-			const type: { [key: string]: string | number } = RequestStatus.successes.OK;
+			const type = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person: person, token: jwt });
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			await transaction?.rollback();
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
@@ -85,20 +90,21 @@ export default class PersonController {
 			const authenticated: boolean = EncodingHelper.decodePassword(person?.password, password, person?.salt);
 
 			if (!authenticated) {
-				const type: { [key: string]: string | number } = RequestStatus.errors.BAD_REQUEST;
+				const type = RequestStatus.errors.BAD_REQUEST;
 				MessageFactory.buildResponse(ErrorMessage, res, type, 'Invalid password.');
 				return;
 			}
 				
-			const type: { [key: string]: string | number } = RequestStatus.successes.OK;
+			const type = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person });
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			if(err instanceof jwt.JsonWebTokenError) {
 				err = err.message;
 			} else {
 				err = 'Email Invalid.';
 			}
-			const type: { [key: string]: string | number } = RequestStatus.errors.BAD_REQUEST;
+			const type = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
 	}
@@ -136,6 +142,7 @@ export default class PersonController {
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person, token: jwt });
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			const type: any = RequestStatus.errors.BAD_REQUEST;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
@@ -173,6 +180,7 @@ export default class PersonController {
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person });
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			await transaction?.rollback();
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
@@ -229,6 +237,7 @@ export default class PersonController {
 			const type: any = RequestStatus.successes.ACCEPTED;
 			MessageFactory.buildResponse(SuccessMessage, res, type, {})
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			await transaction?.rollback();
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
@@ -265,6 +274,7 @@ export default class PersonController {
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, {});
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			await transaction?.rollback();
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
@@ -329,6 +339,7 @@ export default class PersonController {
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person, token: jwt })
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			await transaction?.rollback();
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
@@ -352,6 +363,7 @@ export default class PersonController {
 			const type: any = RequestStatus.successes.OK;
 			MessageFactory.buildResponse(SuccessMessage, res, type, { person })
 		} catch (err) {
+			this.errorLogger.error(err.toString());
 			const type: any = RequestStatus.errors.INTERNAL;
 			MessageFactory.buildResponse(ErrorMessage, res, type, err);
 		}
