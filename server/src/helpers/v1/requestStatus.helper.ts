@@ -1,5 +1,13 @@
+type DefaultStatusType = {
+    [key: string]: {
+        status: number,
+        code?: number,
+        name?: string
+    }
+}
+
 export default class RequestStatus {
-    public static readonly errors = {
+    public static readonly errors: DefaultStatusType = {
         BAD_REQUEST: {
             status: 400,
             code: 2001,
@@ -12,7 +20,7 @@ export default class RequestStatus {
         }
     }
 
-    public static readonly successes = {
+    public static readonly successes: DefaultStatusType = {
         OK: {
             status: 200
         },
