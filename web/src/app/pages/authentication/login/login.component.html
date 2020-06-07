@@ -2,17 +2,13 @@
     [formGroup]="loginForm"
     [ngClass]="{
         'authform': true,
-        'px--64': true,
-        'px--sm--24': true,
-        'py--24': true,
-        'py--sm--24': true,
-        'authform--overlay': formLoading
+        'overlay': formLoading
     }" (ngSubmit)="onSubmit()">
     <div *requestError="requestError">
-        <div class="authform--loading" *ngIf="formLoading"></div>
+        <div class="loading" *ngIf="formLoading"></div>
         <div>
             <p>Faça seu</p>
-            <h1 class="font__size--48 mb--16 mb--sm--16">Login</h1>
+            <h1 class="title">Login</h1>
         </div>
         <div>
             <app-generic-input
@@ -42,30 +38,21 @@
                 [isPassword]="true"
             ></app-generic-input>
         </div>
-        <div class="mb--16 mb--sm--16">
-            <a
-                (click)="navigate('/a/registro')"
-                class="font__size--12 cursor--pointer"
-            >
+        <div class="reminder">
+            <a [routerLink]="['/a', 'registro']">
                 Não faz parte do culto? Faça seu registro.
             </a>
         </div>
-        <div *ngIf="wrongEmailOrPassword">
-            <p
-                (click)="navigate('/a/recuperar-conta')"
-                class="color--red cursor--pointer font__size--12 my--8 my--sm--8"
-            >
+        <div *ngIf="wrongEmailOrPassword" class="wrong-password">
+            <a [routerLink]="['/a', 'recuperar-conta']">
                 Email ou senha errados. Deseja recuperar sua conta?
-            </p>
+			</a>
         </div>
-        <div class="d--flex justify__content--center">
+        <div class="d-flex justify-content-center">
             <button
                 [ngClass]="{
-                    'btn--outline': true,
-                    'border__radius--24': true,
-                    'text__transform--uppercase': true,
-                    'font__weight--bold': true,
-                    'btn--outline--fill': formComplete
+                    'button': true,
+                    'button-fill': formComplete
                 }"
                 [disabled]="!formComplete || formLoading"
             >

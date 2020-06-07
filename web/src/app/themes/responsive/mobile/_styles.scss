@@ -1,49 +1,6 @@
 @media (max-width: 767px) {
-    .container {
-        width: 100%;
-        padding: 0 12px;
-    }
 
     .fullpage--illustration {
         width: 70%;
-    }
-
-    .authform {
-        width: 100%;
-        background-color: white;
-        position: relative;
-        overflow: hidden;
-
-        .authform--loading {
-            height: 5px;
-            background: $color-text;
-            width: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation-name: 'loadingBar';
-            animation-duration: 1500ms;
-            animation-timing-function: cubic-bezier(0.38, 0.12, 1, 0.62);
-            animation-iteration-count: infinite;
-        }
-    }
-
-    @keyframes loadingBar {
-        0% {
-            width: 0;
-            left: 0;
-        }
-        40% {
-            width: 130px;
-            left: 0;
-        }
-        70% {
-            width: 240px;
-            left: 140%;
-        }
-        100% {
-            width: 240px;
-            left: 140%;
-        }
     }
 }

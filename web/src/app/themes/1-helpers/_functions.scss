@@ -1,0 +1,8 @@
+@function translate-media-condition($condition) {
+	$conditionMap: (
+		"screen": "only screen",
+		">phone": "(min-width: #{map-get($breakpoints, "phone") + 1})",
+		"<phone": "(max-width: #{map-get($breakpoints, "phone")})",
+	);
+	@return map-get($conditionMap, $condition);
+}

@@ -1,0 +1,23 @@
+//! Colors
+$color-gray-default: #fafafa;
+$color-gray-medium: #f5f5f5;
+$color-gray-dark: #a1a1a1;
+$color-text: #333333;
+$color-black: #000000;
+$color-white: #ffffff;
+$color-success: green;
+$color-error: #d50000;
+$color-warning: yellow;
+
+$breakpoints: (
+	phone: 767px,
+);
+
+$spacings: (
+	small: 8px,
+	default: 16px,
+	big: 24px,
+	bigger: 32px,
+	biggest: 48px,
+	max: 64px
+);

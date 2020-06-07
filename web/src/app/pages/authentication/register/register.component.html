@@ -1,13 +1,16 @@
 <form
-	class="authform px--64 px--sm--24 py--24 py--sm--24"
+	[ngClass]="{
+		'authform': true,
+		'overlay': formLoading
+	}"
 	[formGroup]="registerForm"
 	(ngSubmit)="onSubmit()"
 >
 	<div *requestError="requestError">
-		<div class="authform--loading" *ngIf="formLoading"></div>
+		<div class="loading" *ngIf="formLoading"></div>
 		<div>
 			<p>Faça seu</p>
-			<h1 class="font__size--48 mb--16 mb--sm--16">Registro</h1>
+			<h1 class="title">Registro</h1>
 		</div>
 		<div>
             <app-generic-input
@@ -80,20 +83,17 @@
                 [isPassword]="true"
             ></app-generic-input>
 		</div>
-		<div class="mb--16 mb--sm--16">
-			<a (click)="navigate('/u/login')" class="font__size--12 cursor--pointer">Já faz parte do culto? Faça seu login.</a>
+		<div class="reminder">
+			<a [routerLink]="['/a', 'login']">Já faz parte do culto? Faça seu login.</a>
 		</div>
-		<div *ngIf="userAlreadyExists">
-			<p (click)="navigate('/u/recuperar-conta')" class="color--red cursor--pointer font__size--12 my--8 my--sm--8">Já existe uma conta com esse e-mail. Esqueceu sua senha?</p>
+		<div *ngIf="userAlreadyExists" class="wrong-password">
+			<a [routerLink]="['/a', 'recuperar-conta']">Já existe uma conta com esse e-mail. Esqueceu sua senha?</a>
 		</div>
-		<div class="d--flex justify__content--center">
+		<div class="d-flex justify-content-center">
 			<button
 				[ngClass]="{
-					'btn--outline': true,
-					'border__radius--24': true,
-					'text__transform--uppercase': true,
-					'font__weight--bold': true,
-					'btn--outline--fill': formComplete
+					'button': true,
+					'button-fill': formComplete
 				}"
 				[disabled]="!formComplete || formLoading"
 			>

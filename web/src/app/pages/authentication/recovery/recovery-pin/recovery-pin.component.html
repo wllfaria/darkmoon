@@ -1,9 +1,12 @@
-<form [formGroup]="recoveryPinForm" (ngSubmit)="onSubmit()" class="authform px--64 px--sm--24 py--24 py--sm--24">
+<form [formGroup]="recoveryPinForm" (ngSubmit)="onSubmit()" [ngClass]="{
+	'authform': true,
+	'overlay': formLoading
+}">
 	<div *requestError="requestError">
-		<div class="authform--loading" *ngIf="formLoading"></div>
+		<div class="loading" *ngIf="formLoading"></div>
 		<div>
 			<p>Confirme seu</p>
-			<h1 class="font__size--48 mb--16 mb--sm--16">Pin</h1>
+			<h1 class="title">Pin</h1>
 		</div>
 		<div>
 			<div>
@@ -21,22 +24,18 @@
                 ></app-generic-input>
 			</div>
 			<div>
-				<div class="mb--16 mb--sm--16">
-					<a (click)="navigate('/auth/login')" class="font__size--12 cursor--pointer">Não perdeu sua conta? Faça seu login.</a>
+				<div class="reminder">
+					<a (click)="navigate('/auth/login')">Não perdeu sua conta? Faça seu login.</a>
 				</div>
-				<div *ngIf="incorrectPin">
-					<p
-						class="color--red cursor--pointer font__size--12 my--8 my--sm--8">Este pin não é válido, verifique o pin recebido por e-mail.</p>
+				<div *ngIf="incorrectPin" class="wong-password">
+					<a>Este pin não é válido, verifique o pin recebido por e-mail.</a>
 				</div>
 			</div>
-			<div class="d--flex justify__content--center">
+			<div class="d-flex justify-content-center">
 				<button
 				[ngClass]="{
-					'btn--outline': true,
-					'border__radius--24': true,
-					'text__transform--uppercase': true,
-					'font__weight--bold': true,
-					'btn--outline--fill': formComplete
+					'button': true,
+					'button-fill': formComplete
 				}" [disabled]="!formComplete && formLoading">
 					<fa-icon [icon]="arrowRightIcon"></fa-icon>
 				</button>
