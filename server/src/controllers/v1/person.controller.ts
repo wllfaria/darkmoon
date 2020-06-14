@@ -18,6 +18,7 @@ import RequestStatus from "../../helpers/v1/requestStatus.helper";
 import EmailTemplate from "../../models/v1/emailTemplate.model";
 import EventListener from "../../helpers/v1/eventListener.helper";
 import log4js from 'log4js';
+import PersonBLO from "../../blo/v1/person.blo";
 
 export default class PersonController {
 
@@ -34,27 +35,48 @@ export default class PersonController {
 				MessageFactory.buildResponse(ErrorMessage, res, type, { error: errors});
 				return;
 			}
+			const blo = new PersonBLO();
 
 			const { name, email, cpf, password }: any = req.body;
-			let newCpf = cpf.replace(/\./g, '');
-			newCpf = cpf.replace(/\-/g, '');
-			const personFirstName = name.split(' ')[0];
 			const { salt, encodedPassword }: { [key: string]: string } = EncodingHelper.encodePassword(password);
 			const guid: string = EncodingHelper.generateGuid();
 			
-			const existentPerson = await Person.findOne({ where: { email }, transaction });
+			const existentPerson = await blo.getByEmail(email);
+			if (existentPerson && existentPerson.password) {
+				return MessageFactory.buildResponse(
+					ErrorMessage,
+					res,
+					RequestStatus.errors.BAD_REQUEST,
+					`User with id ${existentPerson.id} already exists`
+				);
+			}
 			if(existentPerson && !existentPerson.password) {
-				this.finishCreate(req, res, existentPerson);
-				return;
-			} else if (existentPerson && existentPerson.password) {
-				const type: any = RequestStatus.errors.BAD_REQUEST
-				MessageFactory.buildResponse(ErrorMessage, res, type, `User with email: ${existentPerson.email} already exists.`);
+				const result = await this.finishCreate(name, cpf, password, existentPerson);
+				if (result) {
+					return MessageFactory.buildResponse(
+						SuccessMessage,
+						res,
+						RequestStatus.successes.OK,
+						result
+					);
+				} else {
+					return MessageFactory.buildResponse(
+						ErrorMessage,
+						res,
+						RequestStatus.errors.INTERNAL,
+						null
+					);
+				}
+			}
+			
+			const person = await blo.create(name, email, cpf, encodedPassword, salt, transaction);
+			if (!person) {
+				MessageFactory.buildResponse(ErrorMessage, res, RequestStatus.errors.INTERNAL, "Failed to create person");
 				return;
 			}
 			
-			const person: Person = await Person.create({ name, email, cpf, password: encodedPassword, salt }, { transaction });
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
-			const mailTemplate: EmailTemplate | null = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
+			// const mailTemplate: EmailTemplate | null = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
 			// await EmailSender.sendMail(person.email, mailTemplate, [personFirstName, guid]);
 			await EventListener.registerEvent('user', 'register', `User ${person.name} has successfully registered.`);
 			const jwt = EncodingHelper.signJWT({ id: person.id, name: person.name });
@@ -187,17 +209,21 @@ export default class PersonController {
 		}
 	}
 
-	public finishCreate = async (req: Request, res: Response, person: any) => {
+	public finishCreate = async (name: string, cpf: string, password: string, person: Person) => {
 		const transaction: Transaction | undefined = await Database.getInstance().getTransaction();
 		try {
-			const { name, email, cpf, password }: any = req.body;
 			const personFirstName: string = name.split(' ')[0];
 			const guid = EncodingHelper.generateGuid();
+			const blo = new PersonBLO();
 
 			const { salt, encodedPassword }: any = EncodingHelper.encodePassword(password);
-			await Person.update({ name, password: encodedPassword, salt }, { where: { email, cpf }, transaction });
+			await blo.updateNameAndPassword(cpf, name, encodedPassword, salt, transaction);
 			await EmailConfirmation.create({ person_id: person.id, guid }, { transaction });
-			const updatedPerson: any = await Person.findOne({ where: { id: person.id }}) 
+			const updatedPerson = await blo.getById(person.id);
+			if (!updatedPerson) {
+				// intentionally throwing error here
+				throw new Error("Tried to generate email for an invalid person id");
+			}
 			const mailTemplate: any = await EmailTemplate.findOne({ where: { name: "email-confirmation" }, transaction });
 			await EmailSender.sendMail(updatedPerson.email, mailTemplate, [personFirstName, guid]);
 			await EventListener.registerEvent('user', 'finish-register', `User ${name} has successfully finished his lazy registration.`);
@@ -205,11 +231,10 @@ export default class PersonController {
 
 			await transaction?.commit();
 			const type: any = RequestStatus.successes.OK;
-			MessageFactory.buildResponse(SuccessMessage, res, type, { person: updatedPerson, token: jwt })
+			return { person: updatedPerson, token: jwt }
 		} catch (err) {
 			await transaction?.rollback();
-			const type: any = RequestStatus.errors.INTERNAL;
-			MessageFactory.buildResponse(ErrorMessage, res, type, err);
+			return null;
 		}
 	}
 
