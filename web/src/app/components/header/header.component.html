@@ -1,23 +1,23 @@
 <header>
 	<div class="header">
-		<div class="header__left">
-			<div class="header__left__hamburger">
-				<div class="header__left__hamburger__line"></div>
-				<div class="header__left__hamburger__line"></div>
-				<div class="header__left__hamburger__line"></div>
-			</div>
-			<div class="header__left__logo d--fled">
-                <h2 routerLink="/">DarkMoon</h2>
-                <!-- <img src="../../../assets/icons/" alt=""> -->
-			</div>
-		</div>
-		<div class="header__right">
-			<div>
-				<fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
-			</div>
-			<div class="header__user" *ngIf="!loggedUser">
-				<fa-icon routerLink="u/login" [icon]="faUser" [classes]="['header__right__icon']">
-				</fa-icon>
+		<div class="container-fluid px-5">
+			<div class="row">
+				<div class="col-2 d-md-none">
+					<div class="menu">
+						<div class="menu-circle-left"></div>
+						<div class="menu-circle-right"></div>
+					</div>
+				</div>
+				<div class="col-8 col-md-4">
+					<div class="d-flex">
+						<div class="menu mr-3">
+							<div class="menu-circle-left"></div>
+							<div class="menu-circle-right"></div>
+						</div>
+						<h1>Darkmoon</h1>
+					</div>
+				</div>
+				<div class="col-2 col-md-4"></div>
 			</div>
 		</div>
 	</div>

@@ -14,30 +14,7 @@
 
 // 3 - Modules
 @import './app/themes/3-modules/authForm';
+@import './app/themes/3-modules/header';
 
 // 4 - Pages
 @import './app/themes/4-pages/productsDetail';
-
-@media all and (min-width: 768px) {
-	.container {
-		width: 95%;
-		margin: 0 auto;
-
-		&--small {
-			width: 75%;
-			margin: 0 auto;
-		}
-
-		&--fluid {
-			$containerPadding: 16px;
-
-			width: 100%;
-			padding-left: $containerPadding;
-			padding-right: $containerPadding;
-		}
-	}
-
-	.fullpage--illustration {
-		width: 40%;
-	}
-}

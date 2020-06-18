@@ -1,0 +1,51 @@
+.header {
+	.menu {
+		position: relative;
+		height: 28px;
+		width: 28px;
+
+		.menu-circle {
+			&-left {
+				top: 0;
+				left: 0;
+				width: 10px;
+				height: 10px;
+				position: absolute;
+				border-radius: 50%;
+				background: $color-text;
+
+				&::after {
+					content: '';
+					left: 0;
+					bottom: -18px;
+					width: 10px;
+					height: 10px;
+					position: absolute;
+					border-radius: 50%;
+					background: $color-text;
+				}
+			}
+
+			&-right {
+				top: 0;
+				right: 0;
+				width: 10px;
+				height: 10px;
+				position: absolute;
+				border-radius: 50%;
+				background: $color-text;
+
+				&::after {
+					content: '';
+					right: 0;
+					bottom: -18px;
+					width: 10px;
+					height: 10px;
+					position: absolute;
+					border-radius: 50%;
+					background: $color-text;
+				}
+			}
+		}
+	}
+}
