@@ -18,14 +18,6 @@
 // 4 - Pages
 @import './app/themes/4-pages/productsDetail';
 
-@import './app/themes/styles';
-@import './app/themes/fonts';
-@import './app/themes/positions';
-@import './app/themes/transforms';
-@import './app/themes/cursors';
-@import './app/themes/borders';
-@import './app/themes/displays';
-
 @media all and (min-width: 768px) {
 	.container {
 		width: 95%;

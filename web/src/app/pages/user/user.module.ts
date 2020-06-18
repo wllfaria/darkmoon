@@ -17,43 +17,43 @@ export const ROUTES: Routes = [
 			{
 				path: '',
 				redirectTo: 'painel'
-            },
-            {
-                path: 'painel',
-                component: PanelComponent
-            },
+			},
+			{
+				path: 'painel',
+				component: PanelComponent
+			},
 			{
 				path: 'perfil',
 				component: ProfileComponent
-            },
-            {
-                path: 'enderecos',
-                component: AddressComponent
-            },
-            {
-                path: 'meus-pedidos',
-                component: MyOrdersComponent
-            },
-            {
-                path: 'lista-desejos',
-                component: WishlistComponent
-            }
+			},
+			{
+				path: 'enderecos',
+				component: AddressComponent
+			},
+			{
+				path: 'meus-pedidos',
+				component: MyOrdersComponent
+			},
+			{
+				path: 'lista-desejos',
+				component: WishlistComponent
+			}
 		]
 	}
 ];
 
 @NgModule({
-  declarations: [
-      ProfileComponent,
-      PanelComponent,
-      AddressComponent,
-      MyOrdersComponent,
-      WishlistComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(ROUTES),
-    NgxMaskModule.forChild()
-  ]
+	declarations: [
+		ProfileComponent,
+		PanelComponent,
+		AddressComponent,
+		MyOrdersComponent,
+		WishlistComponent
+	],
+	imports: [
+		CommonModule,
+		RouterModule.forChild(ROUTES),
+		NgxMaskModule.forChild()
+	]
 })
 export class UserModule { }
