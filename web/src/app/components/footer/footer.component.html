@@ -1,43 +1,30 @@
-<footer>
-  <div class="footer">
-    <div class="footer__left">
-      <h2 class="footer__left__title">Darkmoon</h2>
-      <p class="footer__left__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium
-        quos expedita sed. Cum aspernatur modi, eaque, quasi, cumque aliquid
-        veritatis non optio nobis quae officia tempore. Dolorum atque libero
-        sed!
-      </p>
-    </div>
-    <div class="footer__middle">
-      <h2 class="footer__middle__title">Menu</h2>
-      <ul class="footer__middle__menu">
-        <li [routerLink]="['/', 'compras-pagamentos']">Compras e pagamentos</li>
-        <li [routerLink]="['/', 'trocas-devolucoes']">Trocas e devoluções</li>
-        <li [routerLink]="['/', 'rastreie-seu-pedido']">Rastreie seu pedido</li>
-        <li [routerLink]="['/', 'fale-conosco']">Fale conosco</li>
-        <li [routerLink]="['/', 'faq']">FAQ</li>
-        <li [routerLink]="['/', 'politica-privacidade']">
-          Política de privacidade
-        </li>
-        <li [routerLink]="['/', 'politica-cookies']">Política de cookies</li>
-      </ul>
-    </div>
-    <div class="footer__right">
-      <h2 class="footer__right__title">Participe do culto</h2>
-      <p class="footer__right__description">E receba as últimas novidades</p>
-      <div class="footer__right__newsletter">
-        <input
-          type="text"
-          class="footer__right__newsletter__input"
-          placeholder="Digite seu melhor e-mail"
-        />
-        <button class="footer__right__newsletter__button">Entrar</button>
-      </div>
-      <div class="footer__right__social">
-        <p class="footer__right__social__title">Persiga-nos</p>
-        <div class="footer__right__social__icons"></div>
-      </div>
-    </div>
-  </div>
-</footer>
+<div class="overflow-hidden pt-5" (mouseenter)="toggleFooter()" (mouseleave)="toggleFooter()">
+	<div [@footerHeight]="footerState" class="hidden" #hidden>
+		<div class="container-fluid px-5 py-3 text-container">
+			<h1 [@slideItems]="footerState">teste</h1>
+			<h1 [@slideItems]="footerState">teste</h1>
+			<h1 [@slideItems]="footerState">teste</h1>
+		</div>
+		<div class="expand">
+			<fa-icon [@flipArrow]="footerState" [icon]="chevronUpIcon"></fa-icon>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="container-fluid px-5">
+			<div class="row">
+				<div class="col-md-4">
+					<h1 class="text">Darkmoon</h1>
+				</div>
+				<div class="col-12 col-md-4">
+					<div class="social-icons">
+						<fa-icon [icon]="instagramIcon"></fa-icon>
+						<fa-icon [icon]="facebookIcon"></fa-icon>
+						<fa-icon [icon]="twitterIcon"></fa-icon>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</footer>
+
+</div>

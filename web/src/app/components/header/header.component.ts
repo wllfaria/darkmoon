@@ -4,6 +4,7 @@ import { faShoppingCart, faUser, IconDefinition } from '@fortawesome/free-solid-
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { PersonService } from 'src/app/core/services/person.service';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-header',
@@ -14,7 +15,7 @@ export class HeaderComponent implements OnInit {
 
 	constructor(
 		private router: Router,
-		private personService: PersonService,
+		private personService: PersonService
 	) { }
 
 	@ViewChild(CartComponent) cart: CartComponent;
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
 	public loggedUser: any;
 	private parsedToken: any;
 
+	public showNavbar: boolean = false;
 
 	// Everything that need to be fetched;
 	private userLoaded: boolean;
@@ -39,6 +41,10 @@ export class HeaderComponent implements OnInit {
 
 	private setLoading = (): void => {
 		this.loading = true;
+	}
+
+	public toggleNavbar(): void {
+		this.showNavbar = !this.showNavbar;
 	}
 
 	private checkLoading = (): void => {
@@ -83,8 +89,6 @@ export class HeaderComponent implements OnInit {
 			return;
 		}
 	}
-
-
 
 	toggleCart(): void {
 		this.cart.toggleCart();

@@ -6,3 +6,7 @@
 	);
 	@return map-get($conditionMap, $condition);
 }
+
+@function multiply-font-size($multiplier) {
+	@return $font-size * $multiplier;
+}

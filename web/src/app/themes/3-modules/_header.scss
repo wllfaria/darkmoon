@@ -1,8 +1,12 @@
 .header {
+	padding: map-get($spacings, "small") 0;
+
 	.menu {
 		position: relative;
 		height: 28px;
+		min-height: 28px;
 		width: 28px;
+		min-width: 28px;
 
 		.menu-circle {
 			&-left {
@@ -45,6 +49,30 @@
 					border-radius: 50%;
 					background: $color-text;
 				}
+			}
+		}
+	}
+
+	.logo {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+
+		.text {
+			margin-bottom: 0;
+			font-size: multiply-font-size(map-get($font-multipliers, "h3"));
+			margin-right: map-get($spacings, "default");
+
+			@include on-mobile("<phone") {
+				font-size: multiply-font-size(map-get($font-multipliers, "h4"));
+			}
+		}
+
+		.icon {
+			height: 45px;
+
+			@include on-mobile("<phone") {
+				height: 34px;
 			}
 		}
 	}

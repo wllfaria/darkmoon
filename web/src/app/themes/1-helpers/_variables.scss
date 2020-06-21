@@ -1,5 +1,5 @@
 //! Colors
-$color-gray-default: #fafafa;
+$color-gray-default: #f1f1f1;
 $color-gray-medium: #f5f5f5;
 $color-gray-dark: #a1a1a1;
 $color-text: #333333;
@@ -21,3 +21,13 @@ $spacings: (
 	biggest: 48px,
 	max: 64px
 );
+
+$font-size: 16px;
+
+$font-multipliers: (
+	h1: 4.209,
+	h2: 3.157,
+	h3: 2.369,
+	h4: 1.777,
+	h5: 1.333
+)

@@ -1,0 +1,67 @@
+.navbar {
+	position: fixed;
+	width: 50vw;
+	height: 100vh;
+	background: white;
+	top: 0;
+	left: 0;
+	padding: 0 map-get($spacings, "bigger");
+	z-index: 10;
+
+	@include on-mobile("<phone") {
+		width: 70vw;
+		padding: 0 map-get($spacings, "small");
+	}
+
+	ul {
+		list-style-type: none;
+		padding: none;
+		margin: none;
+		font-size: multiply-font-size(map-get($font-multipliers, "h2"));
+
+		@include on-mobile("<phone") {
+			font-size: multiply-font-size(map-get($font-multipliers, "h4"));
+		}
+
+		li {
+			padding: map-get($spacings, "small");
+
+			.index {
+				font-size: multiply-font-size(map-get($font-multipliers, "h4"));
+				margin-right: map-get($spacings, "default");
+				color: $color-gray-dark;
+
+				@include on-mobile("<phone") {
+					font-size: $font-size;
+				}
+			}
+
+			a {
+
+				&.active {
+					font-weight: bold;
+				}
+
+				&:hover {
+					color: $color-text;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+.screenfilter {
+	position: fixed;
+	height: 100vh;
+	width: 50vw;
+	background: rgba(0, 0, 0, 0.6);
+	top: 0;
+	right: 0;
+	backdrop-filter: blur(4px);
+	z-index: 10;
+
+	@include on-mobile("<phone") {
+		width: 30vw;
+	}
+}
