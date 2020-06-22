@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CartLoaderComponent } from './cart-loader.component';
+import { SkeletonLoaderComponent } from './skeleton-loader.component';
 
-describe('CartLoaderComponent', () => {
-  let component: CartLoaderComponent;
-  let fixture: ComponentFixture<CartLoaderComponent>;
+describe('SkeletonLoaderComponent', () => {
+  let component: SkeletonLoaderComponent;
+  let fixture: ComponentFixture<SkeletonLoaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CartLoaderComponent ]
+      declarations: [ SkeletonLoaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CartLoaderComponent);
+    fixture = TestBed.createComponent(SkeletonLoaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

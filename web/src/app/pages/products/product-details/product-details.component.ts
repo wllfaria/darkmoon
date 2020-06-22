@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IAppState } from 'src/app/core/store/state/app.state';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,10 +13,8 @@ import { IProductImage } from 'src/app/models/productImage.model';
 import { IconDefinition, faCircle, faPlus, faMinus, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { ProductService } from 'src/app/core/services/product.service';
 import { ISizeMap } from 'src/app/models/custom/sizeMap.model';
-import { LocalCartService } from 'src/app/core/services/localcart.service';
-import { ICartState } from 'src/app/core/store/state/cart.state';
 import { AddCartItem, GetCurrentCart, GetCurrentCartSuccess, ECartActions } from 'src/app/core/store/actions/cart.action';
-import { selectCurrentCart } from 'src/app/core/store/selectors/cart.selector';
+import { Title } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-product-details',
@@ -26,10 +24,11 @@ import { selectCurrentCart } from 'src/app/core/store/selectors/cart.selector';
 export class ProductDetailsComponent implements OnInit, OnDestroy {
 	constructor(
 		private router: Router,
+		private titleService: Title,
 		private route: ActivatedRoute,
-		private productService: ProductService,
 		private store$: Store<IAppState>,
-		private actions$: ActionsSubject
+		private actions$: ActionsSubject,
+		private productService: ProductService,
 	) {
 		this.product$ = this.store$.select(selectCurrentProduct);
 	}
@@ -55,8 +54,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 	// ! Error definitions
 	public requestError: boolean;
 
-	public loading: boolean;
-	private productLoaded: boolean;
+
+	// ! Load
+	public loadingProduct: boolean;
 
 	// ! Icon definitions
 	public circleIcon: IconDefinition = faCircle;
@@ -73,14 +73,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	private setupPage = (): void => {
-		this.loading = true;
+		this.loadingProduct = true;
 		this.productQuantity = 1;
-	}
-
-	private checkLoading = (): void => {
-		if (this.productLoaded) {
-			this.loading = false;
-		}
 	}
 
 	private checkCurrentProduct = (): void => {
@@ -102,11 +96,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
 	private setupProduct = (product: ISku): void => {
 		this.product = product;
+		this.titleService.setTitle(`Darkmoon - ${product.product_name}`);
 		this.sizeCount = this.productService.calculateSizeCount(this.product, this.productType);
-		this.sizeKeys = Object.keys
+		this.sizeKeys = Object.keys;
 		this.setProductPreview();
-		this.productLoaded = true;
-		this.checkLoading();
+		this.loadingProduct = false;
 	}
 
 	private getProductUrl = (): void => {
@@ -126,7 +120,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 				this.store$.dispatch(new UpdateCurrentProduct(action.payload.body));
 				this.setupProduct(action.payload.body);
 			}
-			))
+		));
 	}
 
 	private getCurrentProductFailedActionSubscription = (): void => {

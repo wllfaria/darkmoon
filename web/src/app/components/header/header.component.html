@@ -1,25 +1,33 @@
 <header>
 	<div class="header">
-		<div class="header__left">
-			<div class="header__left__hamburger">
-				<div class="header__left__hamburger__line"></div>
-				<div class="header__left__hamburger__line"></div>
-				<div class="header__left__hamburger__line"></div>
-			</div>
-			<div class="header__left__logo d--fled">
-                <h2 routerLink="/">DarkMoon</h2>
-                <!-- <img src="../../../assets/icons/" alt=""> -->
-			</div>
-		</div>
-		<div class="header__right">
-			<div>
-				<fa-icon [icon]="faShoppingCart" (click)="toggleCart()" [classes]="['header__right__icon']"></fa-icon>
-			</div>
-			<div class="header__user" *ngIf="!loggedUser">
-				<fa-icon routerLink="u/login" [icon]="faUser" [classes]="['header__right__icon']">
-				</fa-icon>
+		<div class="container-fluid px-md-5">
+			<div class="row">
+				<div class="col-2 d-md-none d-flex align-items-center">
+					<div (click)="toggleNavbar()" class="menu">
+						<div class="menu-circle-left"></div>
+						<div class="menu-circle-right"></div>
+					</div>
+				</div>
+				<div class="col-8 col-md-4">
+					<div class="d-flex align-items-center justify-content-center">
+						<div (click)="toggleNavbar()" class="menu mr-3 d-none d-md-block">
+							<div class="menu-circle-left"></div>
+							<div class="menu-circle-right"></div>
+						</div>
+						<div class="logo">
+							<h1 class="text">Darkmoon</h1>
+							<img src="../../../assets/img/logo-icon.png" class="icon" alt="Darkmoon Logo">
+						</div>
+					</div>
+				</div>
+				<div class="col-2 col-md-8">
+					<div class="d-flex h-100 align-items-center justify-content-end">
+						<app-cart-icon></app-cart-icon>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<app-navbar *ngIf="showNavbar" (closeEmitter)="toggleNavbar()"></app-navbar>
 </header>
 <app-cart></app-cart>
