@@ -1,9 +1,23 @@
-<div class="overflow-hidden pt-5" (mouseenter)="toggleFooter()" (mouseleave)="toggleFooter()">
+<div class="overflow-hidden pt-5" (click)="toggleFooter($event)" (mouseenter)="toggleFooter($event)" (mouseleave)="toggleFooter($event)"  id="footer">
 	<div [@footerHeight]="footerState" class="hidden" #hidden>
 		<div class="container-fluid px-5 py-3 text-container">
-			<h1 [@slideItems]="footerState">teste</h1>
-			<h1 [@slideItems]="footerState">teste</h1>
-			<h1 [@slideItems]="footerState">teste</h1>
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<h1 [@slideItems]="footerState">teste</h1>
+					<h1 [@slideItems]="footerState">teste</h1>
+					<h1 [@slideItems]="footerState">teste</h1>
+				</div>
+				<div class="col-12 col-md-4">
+					<h1 [@slideItems]="footerState">teste</h1>
+					<h1 [@slideItems]="footerState">teste</h1>
+					<h1 [@slideItems]="footerState">teste</h1>
+				</div>
+				<div class="col-12 col-md-4">
+					<h1 [@slideItems]="footerState">teste</h1>
+					<h1 [@slideItems]="footerState">teste</h1>
+					<h1 [@slideItems]="footerState">teste</h1>
+				</div>
+			</div>
 		</div>
 		<div class="expand">
 			<fa-icon [@flipArrow]="footerState" [icon]="chevronUpIcon"></fa-icon>
