@@ -54,7 +54,7 @@ export class FooterComponent implements OnInit {
 	public twitterIcon: brandIconDefinition = faTwitter;
 	public chevronUpIcon: IconDefinition = faChevronUp;
 
-	private footerState: string;
+	public footerState: string;
 	private isMobile: boolean;
 
 	constructor(
