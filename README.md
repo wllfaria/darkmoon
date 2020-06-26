@@ -1,5 +1,4 @@
-# darkmoon.com.br
-This is the main Darkmoon website repository.
+![Darkmoon](./web/src/assets/img/readme-logo.png)
 
 ### To run the frontend...
 
