@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { TemplateComponent } from './template/template.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentsModule } from './components/components.module';
@@ -36,11 +37,12 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
 		ComponentsModule,
 		HttpClientModule,
 		CoreModule,
-        PipesModule,
+		PipesModule,
 		DirectivesModule,
 		FontAwesomeModule,
 		ReactiveFormsModule,
 		BrowserModule,
+		DeviceDetectorModule,
 		BrowserAnimationsModule,
 		RouterModule.forRoot(ROUTER, { useHash: false }),
 		NgxMaskModule.forRoot(options),

@@ -1,8 +1,9 @@
-import { Component, OnInit, ElementRef, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, HostBinding, ViewChild, AfterViewInit, getPlatform } from '@angular/core';
 import { IconDefinition as brandIconDefinition, faInstagram, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { IconDefinition, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { trigger, state, style, transition, useAnimation, animate, query, animateChild, stagger } from '@angular/animations';
 import { defaultAnimate } from 'src/app/animations/basics.animation';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
 	selector: 'app-footer',
@@ -16,8 +17,8 @@ import { defaultAnimate } from 'src/app/animations/basics.animation';
 				query('@flipArrow', stagger(30, animateChild())),
 			]),
 			transition('show => *', [
-				query('@flipArrow', stagger(30, animateChild())),
 				query('@slideItems', stagger(-30, animateChild())),
+				query('@flipArrow', stagger(30, animateChild())),
 				animate('300ms cubic-bezier(.8,0,1,1)'),
 			])
 		]),
@@ -45,7 +46,7 @@ import { defaultAnimate } from 'src/app/animations/basics.animation';
 	templateUrl: './footer.component.html',
 	styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit, AfterViewInit {
+export class FooterComponent implements OnInit {
 
 	// ! Icons
 	public instagramIcon: brandIconDefinition = faInstagram;
@@ -53,23 +54,20 @@ export class FooterComponent implements OnInit, AfterViewInit {
 	public twitterIcon: brandIconDefinition = faTwitter;
 	public chevronUpIcon: IconDefinition = faChevronUp;
 
-	public showFooter: boolean = false;
+	public footerState: string;
+	private isMobile: boolean;
 
-	@ViewChild('hidden', { static: false }) private hidden: ElementRef;
-
-	footerState;
-
-	constructor() { }
+	constructor(
+		private deviceService: DeviceDetectorService
+	) { }
 
 	ngOnInit(): void {
-
+		this.isMobile = this.deviceService.isMobile();
 	}
 
-	ngAfterViewInit() {
-		console.log(this.hidden.nativeElement.clientHeight);
-	}
-
-	public toggleFooter() {
+	public toggleFooter(event) {
+		if (this.isMobile && (event.type === 'mouseenter' || event.type === 'mouseleave')) { return; }
+		if (!this.isMobile && event.type === 'click') { return; }
 		this.footerState === 'show' ? this.footerState = '*' : this.footerState = 'show';
 	}
 
