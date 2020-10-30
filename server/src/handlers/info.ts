@@ -1,10 +1,8 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
-import { buildOKResponse } from '../utils/lambdaWrapper';
+import infoHandler from '../controllers/info'
 
-export const getInfo: APIGatewayProxyHandler = async (_event, _context) => {
-  return buildOKResponse({
-    ok: true,
-    serviceName: "Darkmoon Cloud"
-  })
+
+export const getInfo: APIGatewayProxyHandler = async (event, context) => {
+  return infoHandler.getInfo(event, context)
 }
