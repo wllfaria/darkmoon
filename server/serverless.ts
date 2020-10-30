@@ -33,7 +33,7 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             method: 'get',
-            path: 'info',
+            path: 'info'
           }
         }
       ]
