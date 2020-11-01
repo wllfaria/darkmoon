@@ -29,7 +29,7 @@ module.exports = {
 		'@typescript-eslint/no-use-before-define': ['error'],
 		'react/prop-types': 'off',
 		'no-tabs': 'off',
-		indent: ['error', 'tab', { SwitchCase: 1 }],
+		indent: ['error', 'tab'],
 		'no-new': 'off',
 		'@typescript-eslint/no-unused-vars': [
 			'error',
