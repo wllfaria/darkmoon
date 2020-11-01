@@ -1,10 +1,24 @@
 import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import AppThemeState from './states/appThemeState'
 
-function App(): JSX.Element {
+import HomePage from './pages/HomePage'
+
+const Routes = () => {
 	return (
-		<div>
-			<p>Hello World!</p>
-		</div>
+		<BrowserRouter>
+			<Switch>
+				<Route path="/" component={HomePage} exact />
+			</Switch>
+		</BrowserRouter>
+	)
+}
+
+const App: React.FC = () => {
+	return (
+		<AppThemeState>
+			<Routes />
+		</AppThemeState>
 	)
 }
 
