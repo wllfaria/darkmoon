@@ -1,26 +1,32 @@
-![Darkmoon](./web/src/assets/img/readme-logo.png)
+# Darkmoon
 
-# Table of contents
-* [Setting Up](#setting-up)
+<p align="center">
+	Darkmoon is a online alternative clothing store currently being built by:
+</p>
 
-___
+<p align="center">
+	<a href="https://github.com/artptrapp">
+		<img src="https://github.com/artptrapp.png?size=50" alt="Artur Trapp" title="Artur Trapp" />
+	</a>
+	<a href="https://github.com/wllfaria">
+		<img src="https://github.com/wllfaria.png?size=50" alt="Willians Faria" title="Willians Faria" />
+	</a>
+</p>
 
-# Setting up
 
-#### Frontend
+## Overview
 
-On the root of the directory, execute the following:
+The project is built on top of the following technologies:
 
+* [React](https://reactjs.org/)
+* [Serverless Framework](https://www.serverless.com/)
+* [Typescript](https://www.typescriptlang.org/)
+
+## Getting Started
+
+**Setting up the web**
+```shell
+cd web
+yarn # Install dependencies
+yarn start # Starts react
 ```
-	cd web && npm i && npm start
-```
-
-#### Backend
-
-On the root of the directory, execute the following:
-
-```
-	cd server && npm i && npm run dev
-```
-
-The backend will automatically create and use a Sqlite instance under the ./database directory for ease of development setups.
