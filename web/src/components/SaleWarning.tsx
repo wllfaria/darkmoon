@@ -1,19 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useGetRequest } from '../hooks/useGetRequest'
 
 interface SaleWarningProps {
 	className?: string
+	backgroundColor?: string
+	saleWarningText: string
 }
 
-interface SaleWarningData {
-	saleText: string
-}
-
-const SaleWarning: React.FC<SaleWarningProps> = ({ className }) => {
-	const { data } = useGetRequest<SaleWarningData>('PLACEHOLDER')
-
-	return <div className={className}>{data?.saleText}</div>
+const SaleWarning: React.FC<SaleWarningProps> = ({ className, saleWarningText }) => {
+	return <div className={className}>{saleWarningText}</div>
 }
 
 export default styled(SaleWarning)`
@@ -21,9 +16,10 @@ export default styled(SaleWarning)`
 	height: 20px;
 	display: flex;
 	justify-content: center;
-	background: ${props => props.theme.colors.primary[500]};
+	background: ${props => (props.backgroundColor ? props.backgroundColor : props.theme.colors.primary[500])};
 
 	p {
 		margin: 0;
+		color: ${props => props.theme.colors.text[100]};
 	}
 `

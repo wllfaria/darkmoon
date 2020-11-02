@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+
+import SaleWarning from './SaleWarning'
+
+<Meta title="Components/SaleWarning" component={SaleWarning} />
+
+export const Template = args => <SaleWarning {...args} />
+
+# SaleWarning
+
+This component is used when a sale is currently active on the store, it is always displayed on top of the header and is also sticked to the screen.
+
+<Canvas>
+	<Story
+		name="Default"
+		argTypes={{ backgroundColor: { control: 'color' } }}
+		args={{
+			saleWarningText: '50% Off Sitewide'
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>

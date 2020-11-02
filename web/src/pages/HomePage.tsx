@@ -5,7 +5,7 @@ import SaleWarning from '../components/SaleWarning'
 const HomePage: React.FC = () => {
 	return (
 		<>
-			<SaleWarning />
+			<SaleWarning saleWarningText="50% Off Sitewide" />
 		</>
 	)
 }
