@@ -25,3 +25,7 @@ export const Unauthorized = (reason: string): APIGatewayProxyResult => {
 export const InternalServerError = (body?: any, headers?: any): APIGatewayProxyResult => {
   return buildResponse(500, body, headers)
 }
+
+export const BadRequest = (body?: any, headers?: any): APIGatewayProxyResult => {
+  return buildResponse(400, body, headers)
+}

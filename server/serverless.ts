@@ -37,6 +37,28 @@ const serverlessConfiguration: Serverless = {
           }
         }
       ]
+    },
+    verifyToken: {
+      handler: 'src/handlers/auth.checkAuthentication',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'auth/verify'
+          }
+        }
+      ]
+    },
+    authenticate: {
+      handler: 'src/handlers/auth.authenticate',
+      events: [
+        {
+          http: {
+            method: 'post',
+            path: 'auth/verify'
+          }
+        }
+      ]
     }
   }
 }
