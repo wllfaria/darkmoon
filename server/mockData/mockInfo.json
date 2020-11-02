@@ -6,7 +6,7 @@
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
       "Accept-Encoding": "gzip, deflate, br",
       "Accept-Language": "en-GB,en-US;q=0.8,en;q=0.6,zh-CN;q=0.4",
-      "Authorization": "JWT teste",
+      "Authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJwYXNzd29yZCI6InRlc3QiLCJpYXQiOjE2MDQzMTQxNjIsImV4cCI6MTYwNTE3ODE2Mn0.p8C8YBYjRxbVqWaf6WFXOKaRTQQtZGb3u-5a4C27M9s",
       "cache-control": "max-age=0",
       "CloudFront-Forwarded-Proto": "https",
       "CloudFront-Is-Desktop-Viewer": "true",
@@ -55,15 +55,8 @@
       "apiId": "j3azlsj0c4"
     },
     "body": { 
-        "countryCode": "GBR",
-        "name": "Netflix 20% off subscription",
-        "publisherId": "4be33e07-69c2-42ac-83b9-96cbb28a47c3",
-        "brandId": "86a568ff-4d6b-4559-8c0e-a4a0586b8e85",
-        "startDate": "2020-04-25T00:00:00",
-        "type": {
-          "name": "discount",
-          "value": 20
-        }
+        "username": "test",
+        "password": "test"
     },
     "isBase64Encoded": false
   }
