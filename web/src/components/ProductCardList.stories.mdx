@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+
+import ProductCardList from './ProductCardList.tsx'
+import MOCK_PRODUCTS from '../mocks/data/products.json'
+
+<Meta title="Components/ProductCardList" component={ProductCardList} />
+
+export const Template = args => <ProductCardList {...args} />
+
+# ProductCardList
+
+This is the component responsible for rendering a list of product cards. It should
+be used whenever you want to render more than one product card on the screen.
+
+<Canvas>
+	<Story
+		name="Default"
+		args={{
+			products: MOCK_PRODUCTS
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
