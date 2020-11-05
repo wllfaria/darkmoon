@@ -1,35 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-type ButtonVariants = 'default' | 'text' | 'outlined'
-
-type ButtonColors = 'default' | 'primary' | 'danger' | 'success'
-
-type ButtonSizes = 'small' | 'medium' | 'large'
-
-type ButtonTextColors = 'default' | 'light' | 'dark'
-
-interface ButtonProps {
-	className?: string
-	variant?: ButtonVariants
-	color?: ButtonColors
-	disabled?: boolean
-	size?: ButtonSizes
-	textColor?: ButtonTextColors
-}
-
-const Button: React.FC<ButtonProps> = ({
-	className,
-	variant = 'default',
-	size = 'medium',
-	color = 'default',
-	textColor = 'default',
-	children
-}) => {
-	return <button className={`${variant} ${size} ${color} ${textColor} ${className}`}>{children}</button>
-}
-
-export default styled(Button)`
+export const SButton = styled.button`
 	border: none;
 	outline: none;
 	text-transform: uppercase;

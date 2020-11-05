@@ -1,29 +1,6 @@
-import React from 'react'
-import { Container } from 'src/styles/GlobalComponents'
-import { Product } from 'src/types/models/Product'
 import styled from 'styled-components'
-import ProductCard from './ProductCard'
 
-interface ProductCardListProps {
-	className?: string
-	products: Product[]
-}
-
-const ProductCardList: React.FC<ProductCardListProps> = ({ className, products }) => {
-	return (
-		<div className={className}>
-			<Container>
-				<div className="product-card__grid">
-					{products.map(product => (
-						<ProductCard key={product.id} product={product} />
-					))}
-				</div>
-			</Container>
-		</div>
-	)
-}
-
-export default styled(ProductCardList)`
+export const SProductCardList = styled.div`
 	.product-card__grid {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
