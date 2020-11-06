@@ -14,7 +14,6 @@ class Auth {
         return BadRequest({ message: 'Invalid or missing token' })
       }
       return OK({
-        appName: 'Darkmoon Cloud',
         token: decoded
       })
     } catch (e) {
