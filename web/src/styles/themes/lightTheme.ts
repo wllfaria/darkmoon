@@ -26,6 +26,9 @@ const lightTheme: DefaultTheme = {
 		},
 		danger: {
 			...FixedStyles.colors.danger
+		},
+		success: {
+			...FixedStyles.colors.success
 		}
 	},
 

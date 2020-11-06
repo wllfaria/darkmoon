@@ -39,7 +39,8 @@ module.exports = {
 		],
 		'@typescript-eslint/no-empty-interface': 'off',
 		'no-useless-constructor': 'off',
-		'import/prefer-default-export': 'off'
+		'import/prefer-default-export': 'off',
+		'@typescript-eslint/no-non-null-assertion': 'off'
 	},
 	settings: {
 		'import/resolver': {
