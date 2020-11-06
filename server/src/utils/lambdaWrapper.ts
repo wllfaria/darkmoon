@@ -32,8 +32,7 @@ export const InternalServerError = (body?: any, headers?: any): APIGatewayProxyR
 
 export const BadRequest = (body?: any, headers?: any): APIGatewayProxyResult => {
   return buildResponse(400, body, headers)
-}
-
+  
 export const ResourceUpdated = (body?: any, headers?: any): APIGatewayProxyResult => {
   return buildResponse(204, body, headers)
 }
