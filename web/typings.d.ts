@@ -80,6 +80,22 @@ declare module 'styled-components' {
 				400: string
 				500: string
 			}
+
+			/**
+			 * @description Each Property number changes the tint of the danger color to a lighter or darker color
+			 * @property {string} 100 - The Default app success color
+			 * @property {string} 200 - The first accent color for success
+			 * @property {string} 300 - The second accent color for success
+			 * @property {string} 400 - The third accent color for success
+			 * @property {string} 500 - The fourth accent color for success
+			 */
+			success: {
+				100: string
+				200: string
+				300: string
+				400: string
+				500: string
+			}
 		}
 
 		/**
