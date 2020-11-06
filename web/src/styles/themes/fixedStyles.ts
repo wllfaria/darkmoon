@@ -26,6 +26,13 @@ const fixedStyles: PartialTheme<DefaultTheme> = {
 			300: '#FD2727',
 			400: '#FE7A7A',
 			500: '#FEBDBD'
+		},
+		success: {
+			100: '#5D872D',
+			200: '#70A236',
+			300: '#8BC34A',
+			400: '#A2Cf6E',
+			500: '#B2D786'
 		}
 	},
 

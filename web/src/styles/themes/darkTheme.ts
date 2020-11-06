@@ -26,6 +26,9 @@ const darkTheme: DefaultTheme = {
 		},
 		danger: {
 			...FixedStyles.colors.danger
+		},
+		success: {
+			...FixedStyles.colors.success
 		}
 	},
 

@@ -1,0 +1,361 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+
+import Button from './index.tsx'
+
+<Meta title="Components/Button" component={Button} />
+
+export const Template = args => <Button {...args}>{args.label}</Button>
+
+# Button
+
+This is the button used across the site, it has as many variations as shown below. Make sure to play with the controls
+in the canvas page to check what you can do with the button
+
+<Canvas>
+	<Story
+		name="Default"
+		args={{
+			variant: "default",
+			color: "default",
+			size: "medium",
+			label: "Default Button",
+			textColor: 'default'
+		}}
+		argTypes={{
+			variant: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'outlined',
+						'text'
+					]
+				}
+			},
+			color: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'primary',
+						'danger',
+						'success'
+					]
+				}
+			},
+			size: {
+				control: {
+					type: 'select',
+					options: [
+						'small',
+						'medium',
+						'large'
+					]
+				}
+			},
+			textColor: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'light',
+						'dark'
+					]
+				}
+			}
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
+
+
+<Canvas>
+	<Story
+		name="Primary"
+		args={{
+			variant: "default",
+			color: "primary",
+			size: "medium",
+			label: "Primary Button",
+			textColor: 'default'
+		}}
+		argTypes={{
+			variant: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'outlined',
+						'text'
+					]
+				}
+			},
+			color: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'primary',
+						'danger',
+						'success'
+					]
+				}
+			},
+			size: {
+				control: {
+					type: 'select',
+					options: [
+						'small',
+						'medium',
+						'large'
+					]
+				}
+			},
+			textColor: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'light',
+						'dark'
+					]
+				}
+			}
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
+
+<Canvas>
+	<Story
+		name="Danger"
+		args={{
+			variant: "default",
+			color: "danger",
+			size: "medium",
+			label: "Danger Button",
+			textColor: 'default'
+		}}
+		argTypes={{
+			variant: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'outlined',
+						'text'
+					]
+				}
+			},
+			color: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'primary',
+						'danger',
+						'success'
+					]
+				}
+			},
+			size: {
+				control: {
+					type: 'select',
+					options: [
+						'small',
+						'medium',
+						'large'
+					]
+				}
+			},
+			textColor: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'light',
+						'dark'
+					]
+				}
+			}
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
+
+<Canvas>
+	<Story
+		name="Success"
+		args={{
+			variant: "default",
+			color: "success",
+			size: "medium",
+			label: "Success Button",
+			textColor: 'default'
+		}}
+		argTypes={{
+			variant: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'outlined',
+						'text'
+					]
+				}
+			},
+			color: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'primary',
+						'danger',
+						'success'
+					]
+				}
+			},
+			size: {
+				control: {
+					type: 'select',
+					options: [
+						'small',
+						'medium',
+						'large'
+					]
+				}
+			},
+			textColor: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'light',
+						'dark'
+					]
+				}
+			}
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
+
+<Canvas>
+	<Story
+		name="Outlined"
+		args={{
+			variant: "outlined",
+			color: "default",
+			size: "medium",
+			label: "Outlined Button",
+			textColor: 'default'
+		}}
+		argTypes={{
+			variant: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'outlined',
+						'text'
+					]
+				}
+			},
+			color: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'primary',
+						'danger',
+						'success'
+					]
+				}
+			},
+			size: {
+				control: {
+					type: 'select',
+					options: [
+						'small',
+						'medium',
+						'large'
+					]
+				}
+			},
+			textColor: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'light',
+						'dark'
+					]
+				}
+			}
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
+
+<Canvas>
+	<Story
+		name="Text"
+		args={{
+			variant: "text",
+			color: "default",
+			size: "medium",
+			label: "Text Button",
+			textColor: 'default'
+		}}
+		argTypes={{
+			variant: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'outlined',
+						'text'
+					]
+				}
+			},
+			color: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'primary',
+						'danger',
+						'success'
+					]
+				}
+			},
+			size: {
+				control: {
+					type: 'select',
+					options: [
+						'small',
+						'medium',
+						'large'
+					]
+				}
+			},
+			textColor: {
+				control: {
+					type: 'select',
+					options: [
+						'default',
+						'light',
+						'dark'
+					]
+				}
+			}
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>

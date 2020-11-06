@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+import LinkTo from '@storybook/addon-links/react'
+
+import ProductCard from './index.tsx'
+import MOCK_PRODUCTS from '../../mocks/data/products.json'
+
+<Meta title="Components/ProductCard" component={ProductCard} />
+
+export const Template = args => <ProductCard {...args} />
+
+# ProductCardList
+
+This is the card that render a product. It is mainly used by <LinkTo kind="Components/ProductCardList">ProductCardList</LinkTo>
+
+<Canvas>
+	<Story
+		name="Default"
+		args={{
+			product: MOCK_PRODUCTS[0]
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
