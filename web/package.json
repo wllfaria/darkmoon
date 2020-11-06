@@ -27,7 +27,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"storybook": "start-storybook -p 6006 --no-dll",
-		"build-storybook": "build-storybook --no-dll",
+		"build-storybook": "build-storybook -s public --no-dll",
 		"lint": "eslint --ext .ts,.tsx src --color",
 		"lint:fix": "eslint --fix --ext .ts,.tsx src --color",
 		"format": "prettier 'src/**/*.{ts,tsx,json}'",
