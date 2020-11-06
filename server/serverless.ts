@@ -1,4 +1,6 @@
 import type { Serverless } from 'serverless/aws';
+import functions from './serverless/functions';
+import resources from './serverless/resources';
 
 const serverlessConfiguration: Serverless = {
   service: {
@@ -25,42 +27,22 @@ const serverlessConfiguration: Serverless = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: [
+          'dynamodb:Query',
+          'dynamodb:Scan',
+          'dynamodb:GetItem',
+          'dynamodb:PutItem',
+          'dynamodb:UpdateItem'
+        ],
+        Resource: '*'
+      }
+    ]
   },
-  functions: {
-    info: {
-      handler: 'src/handlers/info.getInfo',
-      events: [
-        {
-          http: {
-            method: 'get',
-            path: 'info'
-          }
-        }
-      ]
-    },
-    verifyToken: {
-      handler: 'src/handlers/auth.checkAuthentication',
-      events: [
-        {
-          http: {
-            method: 'get',
-            path: 'auth/verify'
-          }
-        }
-      ]
-    },
-    authenticate: {
-      handler: 'src/handlers/auth.authenticate',
-      events: [
-        {
-          http: {
-            method: 'post',
-            path: 'auth/verify'
-          }
-        }
-      ]
-    }
-  }
+  resources,
+  functions
 }
 
 module.exports = serverlessConfiguration;
