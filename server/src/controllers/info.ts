@@ -1,10 +1,9 @@
 import { APIGatewayProxyEvent, Context } from "aws-lambda";
-import { PrivateLambda } from "../handlers/auth";
 import { InternalServerError, OK } from "../utils/lambdaWrapper";
 
 class Info {
 
-  public getInfo(event: APIGatewayProxyEvent, context: Context) {
+  public getInfo(_event: APIGatewayProxyEvent, _context: Context) {
     try {
       return OK({
         appName: 'Darkmoon Cloud'
