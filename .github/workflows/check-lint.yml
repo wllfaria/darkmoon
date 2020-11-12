@@ -23,10 +23,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install Dependencies
-      run: cd ./web && npm install
+      run: cd ./packages/web && npm install
 
     - name: Frontend Eslint
-      run: cd ./web && npm run lint
-    
+      run: cd ./packages/web && npm run lint
+
     - name: Frontend Prettier
-      run: cd ./web && npm run format:fix
+      run: cd ./packages/web && npm run format:fix
+
+    - name: Server Eslint
+      run: cd ./packages/server && npm run lint
+
+    - name: Server Prettier
+      run: cd ./packages/server && npm run format:fix

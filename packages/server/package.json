@@ -1,0 +1,29 @@
+{
+	"name": "@darkmoon/server",
+	"version": "1.0.0",
+	"description": "Darkmoon Serverless API",
+	"main": "handler.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint --ext .ts . --color",
+		"lint:fix": "eslint --fix --ext .ts,.tsx src --color",
+		"format": "prettier .",
+		"format:fix": "prettier --write ."
+	},
+	"dependencies": {
+		"jsonwebtoken": "^8.5.1",
+		"source-map-support": "^0.5.10"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.17",
+		"@types/jsonwebtoken": "^8.5.0",
+		"@types/serverless": "^1.72.5",
+		"aws-sdk": "^2.786.0",
+		"fork-ts-checker-webpack-plugin": "^3.0.1",
+		"serverless": "^2.10.0",
+		"serverless-webpack": "^5.2.0",
+		"webpack": "^4.29.0",
+		"webpack-node-externals": "^1.7.2"
+	},
+	"license": "MIT"
+}
