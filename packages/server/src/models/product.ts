@@ -1,4 +1,4 @@
-import { Product, ProductCreateResponse } from '../typings/product'
+import { Product, ProductCreateResponse } from '../typings/productTypes'
 import { DynamoDB } from 'aws-sdk'
 import { uuidv4 } from '../utils/lambdaUtils'
 

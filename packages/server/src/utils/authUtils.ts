@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken'
+import { AuthUser } from '../typings/authTypes'
 import { Unauthorized } from './lambdaWrapper'
 
 const privateKey = '1c617b94-5929-42d5-a423-e0e812141162'
@@ -26,10 +27,10 @@ const extractToken = args => {
 	return extractTokenFromHeaders(functionArgs)
 }
 
-export const checkToken = (token: string) => {
+export const checkToken = (token: string): AuthUser | null => {
 	try {
 		const decodedToken = jwt.verify(token, privateKey)
-		return decodedToken
+		return decodedToken as AuthUser
 	} catch (e) {
 		console.error(`Failed to verify token: ${e.message}`)
 		return null

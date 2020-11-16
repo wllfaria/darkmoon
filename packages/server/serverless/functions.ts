@@ -13,7 +13,7 @@ const functions: Aws.Functions = {
 		]
 	},
 	verifyToken: {
-		handler: 'src/handlers/auth.checkAuthentication',
+		handler: 'src/handlers/authHandler.checkAuthentication',
 		events: [
 			{
 				http: {
@@ -24,7 +24,7 @@ const functions: Aws.Functions = {
 		]
 	},
 	authenticate: {
-		handler: 'src/handlers/auth.authenticate',
+		handler: 'src/handlers/authHandler.authenticate',
 		events: [
 			{
 				http: {
@@ -35,7 +35,7 @@ const functions: Aws.Functions = {
 		]
 	},
 	createProduct: {
-		handler: 'src/handlers/product.create',
+		handler: 'src/handlers/productHandler.create',
 		events: [
 			{
 				http: {
@@ -46,7 +46,7 @@ const functions: Aws.Functions = {
 		]
 	},
 	getProduct: {
-		handler: 'src/handlers/product.getOne',
+		handler: 'src/handlers/productHandler.getOne',
 		events: [
 			{
 				http: {
@@ -57,7 +57,7 @@ const functions: Aws.Functions = {
 		]
 	},
 	deleteProduct: {
-		handler: 'src/handlers/product.deleteOne',
+		handler: 'src/handlers/productHandler.deleteOne',
 		events: [
 			{
 				http: {
