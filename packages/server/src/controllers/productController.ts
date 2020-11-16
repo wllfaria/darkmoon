@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { createProduct, deleteProduct, getProduct } from '../models/product'
-import { productCreateSchema, productGetSchema } from '../typings/product'
-import { PrivateLambda } from '../utils/auth'
+import { productCreateSchema, productGetSchema } from '../typings/productTypes'
+import { PrivateLambda } from '../utils/authUtils'
 import { parseBody } from '../utils/lambdaUtils'
 import { BadRequest, Created, InternalServerError, NotFound, OK, ResourceUpdated } from '../utils/lambdaWrapper'
 

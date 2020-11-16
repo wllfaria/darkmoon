@@ -1,7 +1,8 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { Context } from 'vm'
-import { authenticate } from '../models/auth'
-import { checkToken, extractTokenFromHeaders } from '../utils/auth'
+import { authenticate } from '../models/authModel'
+import { LoginSchema } from '../typings/authTypes'
+import { checkToken, extractTokenFromHeaders } from '../utils/authUtils'
 import { parseBody } from '../utils/lambdaUtils'
 import { BadRequest, InternalServerError, OK } from '../utils/lambdaWrapper'
 
@@ -24,11 +25,13 @@ class Auth {
 	public async authenticate(event: APIGatewayProxyEvent, _context: Context) {
 		try {
 			const body = parseBody(event.body)
-			const { username, password } = body
-			if (!username || !password) {
-				return BadRequest({ message: 'Missing credentials' })
+			const isValid = await LoginSchema.validate(body)
+			if (!isValid) {
+				return BadRequest({ message: 'Missing or badly shaped credentials' })
 			}
-			const signed = await authenticate(username, password)
+
+			const shaped = await LoginSchema.cast(body)
+			const signed = await authenticate(shaped.username, shaped.password)
 			return OK(signed)
 		} catch (e) {
 			return InternalServerError({ message: e })

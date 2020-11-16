@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
-import productHandler from '../controllers/product'
+import productHandler from '../controllers/productController'
 
 export const create: APIGatewayProxyHandler = (event, context) => {
 	return productHandler.create(event, context)
