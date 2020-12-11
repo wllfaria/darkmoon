@@ -1,9 +1,7 @@
 {
 	"compilerOptions": {
 		"experimentalDecorators": true,
-		"lib": [
-			"es2017"
-		],
+		"lib": ["ESNext"],
 		"removeComments": true,
 		"moduleResolution": "node",
 		"noUnusedLocals": true,
@@ -13,9 +11,7 @@
 		"outDir": "lib",
 		"rootDir": "/server"
 	},
-	"include": [
-		"src/**/*.ts"
-	],
+	"include": ["src/**/*.ts"],
 	"exclude": [
 		"node_modules/**",
 		"node_modules/**/*",
@@ -25,3 +21,4 @@
 		".vscode/**/*"
 	]
 }
+
