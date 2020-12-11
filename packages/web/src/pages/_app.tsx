@@ -6,11 +6,11 @@ import AuthState from '../states/authState'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 	return (
-		<AuthState>
-			<AppThemeState>
+		<AppThemeState>
+			<AuthState>
 				<Component {...pageProps} key={router.route} />
-			</AppThemeState>
-		</AuthState>
+			</AuthState>
+		</AppThemeState>
 	)
 }
 
