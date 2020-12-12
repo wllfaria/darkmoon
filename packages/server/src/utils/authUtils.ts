@@ -1,10 +1,11 @@
 import * as jwt from 'jsonwebtoken'
 import { AuthUser } from '@darkmoon/typings/Auth'
 import { Unauthorized } from './lambdaWrapper'
+import { APIGatewayProxyEvent } from 'aws-lambda'
 
 const privateKey = '1c617b94-5929-42d5-a423-e0e812141162'
 
-export const extractTokenFromHeaders = (event: any) => {
+export const extractTokenFromHeaders = (event: APIGatewayProxyEvent): string => {
 	const headers = event && event.headers
 	if (!headers) {
 		return null
@@ -37,7 +38,7 @@ export const checkToken = (token: string): AuthUser | null => {
 	}
 }
 
-export const encodePayload = (payload: any) => {
+export const encodePayload = (payload: string | Record<string, unknown> | Buffer): string => {
 	return jwt.sign(payload, privateKey, { expiresIn: '10d' })
 }
 
