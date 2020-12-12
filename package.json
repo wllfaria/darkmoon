@@ -10,14 +10,15 @@
   },
   "repository": "https://github.com/wllfaria/darkmoon",
   "author": "Willians Faria <dev.willians.faria@gmail.com>; Artur Trapp",
-	"license": "MIT",
-	"scripts": {
-		"lint": "eslint packages --ext ts,tsx",
-		"lint:fix": "eslint packages --fix --ext ts,tsx",
-		"format": "prettier packages",
-		"format:fix": "prettier --write packages"
-	},
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint packages --ext ts,tsx",
+    "lint:fix": "eslint packages --fix --ext ts,tsx",
+    "format": "prettier packages",
+    "format:fix": "prettier --write packages"
+  },
   "dependencies": {
+    "eslint": "7.15",
     "react": "^17.0.1",
     "styled-components": "^5.2.1",
     "swr": "^0.3.8",
