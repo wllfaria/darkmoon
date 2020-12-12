@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppProps } from 'next/app'
+import { appWithTranslation } from '../../i18n'
 
 import AppThemeState from '../states/appThemeState'
 import AuthState from '../states/authState'
@@ -14,4 +15,4 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 	)
 }
 
-export default MyApp
+export default appWithTranslation(MyApp)

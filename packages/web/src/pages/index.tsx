@@ -1,17 +1,29 @@
 import React from 'react'
+import SaleWarning from '../components/SaleWarning'
+import { NextPage } from 'next'
 import ProductCardList from '../components/ProductCardList'
-
+import { useTranslation } from '../../i18n'
 import MOCK_PRODUCTS from '../mocks/data/products.json'
 
-import SaleWarning from '../components/SaleWarning'
+interface HomePageProps {
+	namespacesRequired: string[]
+}
 
-const HomePage: React.FC = () => {
+const HomePage: NextPage<HomePageProps> = () => {
+	const { t } = useTranslation()
+
 	return (
 		<>
-			<SaleWarning saleWarningText="50% off em todo o site PROMOÇÃO DE LANÇAMENTO" />
+			<SaleWarning saleWarningText={t('50% off sitewide - drop sale')} />
 			<ProductCardList products={MOCK_PRODUCTS} />
 		</>
 	)
+}
+
+HomePage.getInitialProps = async (): Promise<HomePageProps> => {
+	return {
+		namespacesRequired: ['common']
+	}
 }
 
 export default HomePage
