@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { Context } from 'vm'
 import { authenticate } from '../models/authModel'
-import { LoginSchema } from '../typings/authTypes'
+import { LoginSchema } from '@darkmoon/typings/Auth'
 import { checkToken, extractTokenFromHeaders } from '../utils/authUtils'
 import { parseBody } from '../utils/lambdaUtils'
 import { BadRequest, InternalServerError, OK } from '../utils/lambdaWrapper'
