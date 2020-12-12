@@ -1,6 +1,6 @@
 [
 	{
-		"id": 1,
+		"id": "1",
 		"images": [
 			{
 				"id": 1,
@@ -22,10 +22,11 @@
 			}
 		],
 		"name": "Spell Hoodie",
-		"price": "58.99"
+		"price": 58.99,
+		"description": "Description exampe 1"
 	},
 	{
-		"id": 2,
+		"id": "2",
 		"images": [
 			{
 				"id": 1,
@@ -47,10 +48,11 @@
 			}
 		],
 		"name": "Spell Hoodie",
-		"price": "58.99"
+		"price": 58.99,
+		"description":"Description exampe 2"
 	},
 	{
-		"id": 3,
+		"id": "3",
 		"images": [
 			{
 				"id": 1,
@@ -72,10 +74,11 @@
 			}
 		],
 		"name": "Spell Hoodie",
-		"price": "58.99"
+		"price": 58.99,
+		"description":"Description exampe 3"
 	},
 	{
-		"id": 4,
+		"id": "4",
 		"images": [
 			{
 				"id": 1,
@@ -97,10 +100,11 @@
 			}
 		],
 		"name": "Spell Hoodie",
-		"price": "58.99"
+		"price": 58.99,
+		"description":"Description exampe 4"
 	},
 	{
-		"id": 5,
+		"id": "5",
 		"images": [
 			{
 				"id": 1,
@@ -122,10 +126,11 @@
 			}
 		],
 		"name": "Spell Hoodie",
-		"price": "58.99"
+		"price": 58.99,
+		"description":"Description exampe 5"
 	},
 	{
-		"id": 6,
+		"id": "6",
 		"images": [
 			{
 				"id": 1,
@@ -147,6 +152,7 @@
 			}
 		],
 		"name": "Spell Hoodie",
-		"price": "58.99"
+		"price": 58.99,
+		"description": "Description exampe 6"
 	}
 ]

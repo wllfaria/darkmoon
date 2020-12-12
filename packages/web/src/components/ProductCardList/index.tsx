@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from '../../styles/GlobalComponents'
-import { Product } from '../../types/models/Product'
+import { Product } from '@darkmoon/typings/Product'
 import ProductCard from '../ProductCard'
 
 import { SProductCardList } from './styles'

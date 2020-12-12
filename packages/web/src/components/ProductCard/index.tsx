@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Product } from '../../types/models/Product'
+import { Product } from '@darkmoon/typings/Product'
 import Button from '../Button'
 
 import { SProductCard } from './styles'
