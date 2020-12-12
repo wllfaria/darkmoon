@@ -1,5 +1,5 @@
-import { Product, ProductCreateResponse } from '../typings/productTypes'
 import { DynamoDB } from 'aws-sdk'
+import { Product, ProductCreatePayload } from '@darkmoon/typings/Product'
 import { uuidv4 } from '../utils/lambdaUtils'
 
 const dynamoInstance = new DynamoDB.DocumentClient()
@@ -9,7 +9,7 @@ export const createProduct = async (
 	name: string,
 	description: string,
 	price: number
-): Promise<ProductCreateResponse> => {
+): Promise<ProductCreatePayload> => {
 	const id = uuidv4()
 
 	const shapedObject = {

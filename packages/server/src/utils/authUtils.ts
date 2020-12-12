@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import { AuthUser } from '../typings/authTypes'
+import { AuthUser } from '@darkmoon/typings/Auth'
 import { Unauthorized } from './lambdaWrapper'
 
 const privateKey = '1c617b94-5929-42d5-a423-e0e812141162'

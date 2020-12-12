@@ -13,3 +13,6 @@ credentials
 
 # Vscode launch folder
 vscode
+
+# Serverless offline build
+.build

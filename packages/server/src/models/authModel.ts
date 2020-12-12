@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk'
-import { AuthPayload } from '../typings/authTypes'
 import { encodePayload } from '../utils/authUtils'
+import { AuthPayload } from '@darkmoon/typings/Auth'
 
 const dynamoInstance = new DynamoDB.DocumentClient()
 const UsersTable = 'Users'

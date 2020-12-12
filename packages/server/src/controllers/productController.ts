@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { createProduct, deleteProduct, getProduct } from '../models/product'
-import { productCreateSchema, productGetSchema } from '../typings/productTypes'
+import { productCreateSchema, productGetSchema } from '@darkmoon/typings/Product'
 import { PrivateLambda } from '../utils/authUtils'
 import { parseBody } from '../utils/lambdaUtils'
 import { BadRequest, Created, InternalServerError, NotFound, OK, ResourceUpdated } from '../utils/lambdaWrapper'
@@ -61,7 +61,6 @@ class Product {
 			const shaped = productGetSchema.cast(parameters)
 			await deleteProduct(shaped.productId)
 			return ResourceUpdated()
-			return
 		} catch (e) {
 			return InternalServerError({ message: e })
 		}
