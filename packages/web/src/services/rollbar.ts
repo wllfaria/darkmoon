@@ -9,9 +9,6 @@ export const RollbarErrorLogger = (() => {
 		return typeof value === 'string' ? !!+value : !!value
 	}
 
-	console.log(__ROLLBAR_ACCESS_TOKEN__)
-	console.log(process.env.NEXT_PUBLIC_ROLLBAR_ACCESS_TOKEN)
-
 	const rollbar = new Rollbar({
 		accessToken: __ROLLBAR_ACCESS_TOKEN__,
 		environment: __ROLLBAR_ENV__,

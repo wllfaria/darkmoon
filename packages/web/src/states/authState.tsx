@@ -1,8 +1,10 @@
 import React, { createContext, useEffect, useReducer } from 'react'
+import { AuthPayload } from '../typings/Auth'
+import { User } from '../typings/User'
 
 export interface IAuthState {
-	// ToDo - change from only token to full user
-	user: string
+	user: User
+	token: string
 	isAuthenticating: boolean
 	isAuthenticated: boolean
 	loginErrorReason: string
@@ -14,7 +16,7 @@ type TAuthActionTypes = 'LOGIN' | 'LOGIN_SUCCESS' | 'LOGIN_ERROR' | 'LOGOUT'
 
 type TAuthActions = {
 	type: TAuthActionTypes
-	payload: IAuthState
+	payload: Partial<IAuthState>
 }
 
 type TReduceHandler = {
@@ -23,6 +25,7 @@ type TReduceHandler = {
 
 const initialState: IAuthState = {
 	user: null,
+	token: null,
 	isAuthenticated: false,
 	login: () => Promise.resolve(false),
 	logout: () => Promise.resolve(),
@@ -55,11 +58,13 @@ const AuthState: React.FC = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
 	useEffect(() => {
-		const user = localStorage.getItem('darkmoonuser')
-		if (user) {
-			dispatch({ type: 'LOGIN_SUCCESS', payload: { ...state, isAuthenticated: true, user } })
-		}
-	})
+		const authPayload: AuthPayload = JSON.parse(localStorage.getItem('darkmoonuser'))
+		authPayload &&
+			dispatch({
+				type: 'LOGIN_SUCCESS',
+				payload: { isAuthenticated: true, user: authPayload.user, token: authPayload.token }
+			})
+	}, [])
 
 	const login = (_username: string, _password: string): Promise<boolean> => {
 		return new Promise(resolve => {
@@ -73,6 +78,7 @@ const AuthState: React.FC = ({ children }) => {
 
 	const contextValue: IAuthState = {
 		user: state.user,
+		token: state.token,
 		isAuthenticated: state.isAuthenticated,
 		isAuthenticating: state.isAuthenticating,
 		loginErrorReason: state.loginErrorReason,

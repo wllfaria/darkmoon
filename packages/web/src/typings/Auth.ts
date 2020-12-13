@@ -3,7 +3,7 @@ import { User } from './User'
 
 export type AuthPayload = {
 	token: string
-	user: Partial<User>
+	user: User
 }
 
 export const LoginSchema = yup
