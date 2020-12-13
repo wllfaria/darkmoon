@@ -1,6 +1,7 @@
 import React from 'react'
 import { AppProps } from 'next/app'
 import { appWithTranslation } from '../../i18n'
+import '../services/rollbar'
 
 import AppThemeState from '../states/appThemeState'
 import AuthState from '../states/authState'
