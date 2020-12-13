@@ -20,10 +20,8 @@ const HomePage: NextPage<HomePageProps> = () => {
 	)
 }
 
-HomePage.getInitialProps = async (): Promise<HomePageProps> => {
-	return {
-		namespacesRequired: ['common']
-	}
-}
+HomePage.getInitialProps = async (): Promise<HomePageProps> => ({
+	namespacesRequired: ['common']
+})
 
 export default HomePage

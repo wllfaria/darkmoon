@@ -2,3 +2,9 @@ node_modules
 debug.log
 .vscode
 storybook-static
+
+# envs
+.env
+.env.test
+.env.local
+.env.example

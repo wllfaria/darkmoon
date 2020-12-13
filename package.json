@@ -18,6 +18,9 @@
     "format:fix": "prettier --write packages"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.13",
     "eslint": "7.15",
     "react": "^17.0.1",
     "styled-components": "^5.2.1",

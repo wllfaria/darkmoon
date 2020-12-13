@@ -22,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 		<SProductCard>
 			<div className="product-card__preview-image-container">
 				<div className="product-card__preview-image-container__add-to-cart" onClick={() => addProductToCart(product)}>
-					<Button variant="outlined" color="primary" textColor="light">
+					<Button type="button" variant="outlined" color="primary" textColor="light">
 						Add to cart
 					</Button>
 				</div>

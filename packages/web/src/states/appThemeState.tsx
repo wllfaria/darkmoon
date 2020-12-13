@@ -19,7 +19,7 @@ type TReduceHandler = {
 }
 
 const initialState: IAppThemeState = {
-	theme: LightTheme,
+	theme: DarkTheme,
 	toggleTheme: () => null
 }
 
