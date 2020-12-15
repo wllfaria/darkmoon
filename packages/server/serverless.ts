@@ -5,19 +5,18 @@ import resources from './serverless/resources'
 const serverlessConfiguration: Serverless = {
 	service: {
 		name: 'DarkmoonCloud'
-		// app and org for use with dashboard.serverless.com
-		// app: your-app-name,
-		// org: your-org-name,
 	},
 	frameworkVersion: '>=1.72.0',
-	custom: {
-		webpack: {
-			webpackConfig: './webpack.config.js',
-			includeModules: true
-		}
+	custom: {},
+	package: {
+		excludeDevDependencies: false
 	},
-	// Add the serverless-webpack plugin
-	plugins: ['serverless-plugin-typescript', 'serverless-offline'],
+	plugins: [
+		'serverless-plugin-typescript',
+		'serverless-offline',
+		'serverless-plugin-monorepo',
+		'serverless-plugin-include-dependencies'
+	],
 	provider: {
 		name: 'aws',
 		runtime: 'nodejs12.x',

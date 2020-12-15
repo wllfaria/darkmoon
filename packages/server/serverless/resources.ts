@@ -6,25 +6,10 @@ const resources: Aws.Resources = {
 			Type: 'AWS::DynamoDB::Table',
 			DeletionPolicy: 'Retain',
 			Properties: {
-				KeySchema: [
-					{
-						AttributeName: 'id',
-						KeyType: 'HASH'
-					}
-				],
-				AttributeDefinitions: [
-					{
-						AttributeName: 'id',
-						AttributeType: 'S'
-					}
-				],
-				ProvisionedThroughput: {
-					ReadCapacityUnits: 1,
-					WriteCapacityUnits: 1
-				},
-				StreamSpecification: {
-					StreamViewType: 'NEW_AND_OLD_IMAGES'
-				},
+				KeySchema: [{ AttributeName: 'id', KeyType: 'HASH' }],
+				AttributeDefinitions: [{ AttributeName: 'id', AttributeType: 'S' }],
+				ProvisionedThroughput: { ReadCapacityUnits: 1, WriteCapacityUnits: 1 },
+				StreamSpecification: { StreamViewType: 'NEW_AND_OLD_IMAGES' },
 				TableName: 'Products'
 			}
 		},
@@ -32,25 +17,10 @@ const resources: Aws.Resources = {
 			Type: 'AWS::DynamoDB::Table',
 			DeletionPolicy: 'Retain',
 			Properties: {
-				KeySchema: [
-					{
-						AttributeName: 'username',
-						KeyType: 'HASH'
-					}
-				],
-				AttributeDefinitions: [
-					{
-						AttributeName: 'username',
-						AttributeType: 'S'
-					}
-				],
-				ProvisionedThroughput: {
-					ReadCapacityUnits: 1,
-					WriteCapacityUnits: 1
-				},
-				StreamSpecification: {
-					StreamViewType: 'NEW_AND_OLD_IMAGES'
-				},
+				KeySchema: [{ AttributeName: 'email', KeyType: 'HASH' }],
+				AttributeDefinitions: [{ AttributeName: 'email', AttributeType: 'S' }],
+				ProvisionedThroughput: { ReadCapacityUnits: 1, WriteCapacityUnits: 1 },
+				StreamSpecification: { StreamViewType: 'NEW_AND_OLD_IMAGES' },
 				TableName: 'Users'
 			}
 		},
@@ -58,25 +28,10 @@ const resources: Aws.Resources = {
 			Type: 'AWS::DynamoDB::Table',
 			DeletionPolicy: 'Retain',
 			Properties: {
-				KeySchema: [
-					{
-						AttributeName: 'user_id',
-						KeyType: 'HASH'
-					}
-				],
-				AttributeDefinitions: [
-					{
-						AttributeName: 'user_id',
-						AttributeType: 'S'
-					}
-				],
-				ProvisionedThroughput: {
-					ReadCapacityUnits: 1,
-					WriteCapacityUnits: 1
-				},
-				StreamSpecification: {
-					StreamViewType: 'NEW_AND_OLD_IMAGES'
-				},
+				KeySchema: [{ AttributeName: 'user_id', KeyType: 'HASH' }],
+				AttributeDefinitions: [{ AttributeName: 'user_id', AttributeType: 'S' }],
+				ProvisionedThroughput: { ReadCapacityUnits: 1, WriteCapacityUnits: 1 },
+				StreamSpecification: { StreamViewType: 'NEW_AND_OLD_IMAGES' },
 				TableName: 'Tokens'
 			}
 		}

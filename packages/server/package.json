@@ -7,6 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
+		"argon2": "^0.27.1",
 		"jsonwebtoken": "^8.5.1",
 		"source-map-support": "^0.5.10"
 	},
@@ -17,9 +18,9 @@
 		"aws-sdk": "^2.786.0",
 		"serverless": "^2.10.0",
 		"serverless-offline": "^6.8.0",
-		"serverless-plugin-monorepo": "^0.9.0",
-		"serverless-plugin-typescript": "^1.1.9",
-		"@darkmoon/typings": "*"
+		"serverless-plugin-include-dependencies": "^4.1.0",
+		"serverless-plugin-monorepo": "^0.10.0",
+		"serverless-plugin-typescript": "^1.1.9"
 	},
 	"license": "MIT"
 }

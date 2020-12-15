@@ -1,11 +1,11 @@
-export const parseBody = (body: unknown): unknown => {
+export const parseBody = <T>(body: string | unknown): T => {
 	return typeof body === 'string' ? JSON.parse(body) : body
 }
 
 export const uuidv4 = (): string => {
-	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-		const r = (Math.random() * 16) | 0
-		const v = c === 'x' ? r : (r & 0x3) | 0x8
-		return v.toString(16)
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (char) {
+		const random = (Math.random() * 16) | 0
+		const convertedChar = char === 'x' ? random : (random & 0x3) | 0x8
+		return convertedChar.toString(16)
 	})
 }

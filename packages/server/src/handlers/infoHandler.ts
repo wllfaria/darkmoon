@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
-import infoHandler from '../controllers/info'
+import InfoController from '../controllers/infoController'
 
 export const getInfo: APIGatewayProxyHandler = async (event, context) => {
-	return infoHandler.getInfo(event, context)
+	return InfoController.getInfo(event, context)
 }
