@@ -1,16 +1,16 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "lib": ["esnext"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "lib",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"lib": ["esnext"],
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"outDir": "lib",
 		"sourceMap": true,
 		"experimentalDecorators": true,
-    "target": "esnext"
-  },
-  "exclude": ["node_modules"]
+		"target": "esnext"
+	},
+	"exclude": ["node_modules"]
 }

@@ -1,43 +1,55 @@
-import { APIGatewayProxyEvent } from 'aws-lambda'
-import { Context } from 'vm'
-import { authenticate } from '../models/authModel'
-import { LoginSchema } from '@darkmoon/typings/Auth'
+import { APIGatewayProxyEvent, Context } from 'aws-lambda'
+import authModel from '../models/authModel'
+import { LoginSchema, RegisterSchema } from '../typings/Auth'
+import mapYupErrors from '../utils/yupUtils'
 import { checkToken, extractTokenFromHeaders } from '../utils/authUtils'
 import { parseBody } from '../utils/lambdaUtils'
-import { BadRequest, InternalServerError, OK } from '../utils/lambdaWrapper'
+import { BadRequest, Created, InternalServerError, OK } from '../utils/lambdaWrapper'
+import { ValidationError } from 'yup'
 
-class Auth {
+class AuthController {
 	public verify(event: APIGatewayProxyEvent, _context: Context) {
 		try {
 			const token = extractTokenFromHeaders(event)
 			const decoded = checkToken(token)
-			if (!decoded || !token) {
-				return BadRequest({ message: 'Invalid or missing token' })
-			}
-			return OK({
-				token: decoded
-			})
-		} catch (e) {
-			return InternalServerError({ message: e })
+
+			if (!decoded || !token) return BadRequest({ message: 'Invalid or missing token' })
+
+			return OK({ token: decoded })
+		} catch (err) {
+			return InternalServerError({ message: err.message })
 		}
 	}
 
 	public async authenticate(event: APIGatewayProxyEvent, _context: Context) {
 		try {
 			const body = parseBody(event.body)
-			const isValid = await LoginSchema.validate(body)
-			if (!isValid) {
-				return BadRequest({ message: 'Missing or badly shaped credentials' })
-			}
+			await LoginSchema.validate(body, { abortEarly: false })
 
-			const shaped = await LoginSchema.cast(body)
-			const signed = await authenticate(shaped.username, shaped.password)
-			return OK(signed)
-		} catch (e) {
-			return InternalServerError({ message: e })
+			const shapedBody = LoginSchema.cast(body)
+			const payload = await authModel.authenticate(shapedBody)
+
+			return OK(payload)
+		} catch (err) {
+			if (err instanceof ValidationError) return BadRequest(mapYupErrors(err.inner))
+			return InternalServerError({ message: err.message })
+		}
+	}
+
+	public async register(event: APIGatewayProxyEvent, _context: Context) {
+		try {
+			const body = parseBody(event.body)
+			await RegisterSchema.validate(body, { abortEarly: false })
+
+			const shapedBody = RegisterSchema.cast(body)
+
+			const payload = await authModel.register(shapedBody)
+			return Created(payload)
+		} catch (err) {
+			if (err instanceof ValidationError) return BadRequest(mapYupErrors(err.inner))
+			return InternalServerError({ message: err.message })
 		}
 	}
 }
 
-const handler = new Auth()
-export default handler
+export default new AuthController()

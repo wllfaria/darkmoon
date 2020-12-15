@@ -1,37 +1,32 @@
 import * as jwt from 'jsonwebtoken'
-import { AuthUser } from '@darkmoon/typings/Auth'
+import { User } from '../typings/User'
 import { Unauthorized } from './lambdaWrapper'
 import { APIGatewayProxyEvent } from 'aws-lambda'
 
+// TODO: Replace hard coded string to environment variable
 const privateKey = '1c617b94-5929-42d5-a423-e0e812141162'
 
 export const extractTokenFromHeaders = (event: APIGatewayProxyEvent): string => {
 	const headers = event && event.headers
-	if (!headers) {
-		return null
-	}
+	if (!headers) return null
 
 	const authorization = headers && (headers.Authorization || headers.authorization)
-	if (!authorization) {
-		return null
-	}
+	if (!authorization) return null
 
 	return authorization.replace('JWT', '').replace(' ', '')
 }
 
 const extractToken = args => {
 	const functionArgs = args && args[0]
-	if (!functionArgs) {
-		return null
-	}
+	if (!functionArgs) return null
 
 	return extractTokenFromHeaders(functionArgs)
 }
 
-export const checkToken = (token: string): AuthUser | null => {
+export const checkToken = (token: string): User | null => {
 	try {
 		const decodedToken = jwt.verify(token, privateKey)
-		return decodedToken as AuthUser
+		return decodedToken as User
 	} catch (e) {
 		console.error(`Failed to verify token: ${e.message}`)
 		return null
