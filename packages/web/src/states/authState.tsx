@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useReducer } from 'react'
 import { AuthPayload } from '../typings/Auth'
 import { User } from '../typings/User'
 
-export interface IAuthState {
+export interface AuthState {
 	user: User
 	token: string
 	isAuthenticating: boolean
@@ -12,18 +12,18 @@ export interface IAuthState {
 	logout: () => Promise<void>
 }
 
-type TAuthActionTypes = 'LOGIN' | 'LOGIN_SUCCESS' | 'LOGIN_ERROR' | 'LOGOUT'
+type AuthActionTypes = 'LOGIN' | 'LOGIN_SUCCESS' | 'LOGIN_ERROR' | 'LOGOUT'
 
-type TAuthActions = {
-	type: TAuthActionTypes
-	payload: Partial<IAuthState>
+type AuthActions = {
+	type: AuthActionTypes
+	payload: Partial<AuthState>
 }
 
-type TReduceHandler = {
-	[key in TAuthActionTypes]: (action: TAuthActions) => IAuthState
+type ReducerHandler = {
+	[key in AuthActionTypes]: (action: AuthActions) => AuthState
 }
 
-const initialState: IAuthState = {
+const initialState: AuthState = {
 	user: null,
 	token: null,
 	isAuthenticated: false,
@@ -33,10 +33,10 @@ const initialState: IAuthState = {
 	loginErrorReason: null
 }
 
-export const AuthContext = createContext<IAuthState>(initialState)
+export const AuthContext = createContext<AuthState>(initialState)
 
-const reducer = (state: IAuthState, action: TAuthActions) => {
-	const reducerHandler: TReduceHandler = {
+const reducer = (state: AuthState, action: AuthActions) => {
+	const reducerHandler: ReducerHandler = {
 		LOGIN: () => {
 			return { ...state, isAuthenticating: true, isAuthenticated: false }
 		},
@@ -76,7 +76,7 @@ const AuthState: React.FC = ({ children }) => {
 		return Promise.resolve()
 	}
 
-	const contextValue: IAuthState = {
+	const contextValue: AuthState = {
 		user: state.user,
 		token: state.token,
 		isAuthenticated: state.isAuthenticated,

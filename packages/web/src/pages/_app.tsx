@@ -1,23 +1,23 @@
 import React from 'react'
 import App, { AppProps, AppContext } from 'next/app'
 import { appWithTranslation } from '../../i18n'
-import { AnimatePresence } from 'framer-motion'
 import '../services/rollbar'
 import '../utils/faIcons'
 
 import AppThemeState from '../states/appThemeState'
 import AuthState from '../states/authState'
 import Header from '../components/Header'
+import RouterState from '../states/routerState'
 
 const MyApp = ({ Component, pageProps, router }: AppProps) => {
 	return (
 		<AppThemeState>
-			<AuthState>
-				<AnimatePresence>
+			<RouterState>
+				<AuthState>
 					<Header />
 					<Component {...pageProps} key={router.route} />
-				</AnimatePresence>
-			</AuthState>
+				</AuthState>
+			</RouterState>
 		</AppThemeState>
 	)
 }
