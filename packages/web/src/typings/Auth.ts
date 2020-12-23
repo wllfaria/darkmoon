@@ -22,10 +22,14 @@ export const RegisterSchema = yup
 	.object()
 	.shape({
 		password: yup.string().min(8).max(1000).required(),
+		confirmation: yup
+			.string()
+			.oneOf([yup.ref('password'), null], 'passwords must match')
+			.required(),
 		email: yup.string().email().required()
 	})
 	.strict(true)
 	.required()
 	.noUnknown()
 
-export type RegisterPayload = yup.InferType<typeof LoginSchema>
+export type RegisterPayload = yup.InferType<typeof RegisterSchema>

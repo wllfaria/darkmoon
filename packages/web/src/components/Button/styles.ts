@@ -33,6 +33,10 @@ export const SButton = styled.button<StyleButtonProps>`
 		padding-top: ${props => props.theme.paddings[0]};
 		padding-bottom: ${props => props.theme.paddings[0]};
 		font-size: ${props => props.theme.fontSizes[5]};
+
+		@media (min-width: ${props => props.theme.breakpoints.lg}) {
+			font-size: ${props => props.theme.fontSizes[4]};
+		}
 	}
 	&.default {
 		background: ${props => props.theme.colors.background[500]};

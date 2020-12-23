@@ -6,11 +6,11 @@
 	"scripts": {
 		"dev": "next dev",
 		"start": "next start",
-		"build": "next build",
-		"storybook": "start-storybook -p 6006 ./packages/web --no-dll",
-		"storybook:build": "build-storybook -s public packages/web --no-dll"
+		"build": "next build"
 	},
 	"dependencies": {
+		"@unform/core": "^2.1.3",
+		"@unform/web": "^2.1.3",
 		"framer-motion": "^2.9.5",
 		"next": "^10.0.1",
 		"next-i18next": "^7.0.1",

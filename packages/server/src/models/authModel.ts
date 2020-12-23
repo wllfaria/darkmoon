@@ -27,6 +27,7 @@ class AuthModel {
 
 		const hashedPassword = await new Argon().hash(registerPayload.password)
 		const shapedUser = { id, ...registerPayload, password: hashedPassword }
+		delete shapedUser.confirmation
 
 		await this.dynamoInstance
 			.put({
