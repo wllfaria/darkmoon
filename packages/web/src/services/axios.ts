@@ -1,5 +1,6 @@
 import axios from 'axios'
-
-const api = axios.create({ baseURL: 'future_api_link' })
+import { __API_URL__ } from '../utils/consts'
+console.log(__API_URL__)
+const api = axios.create({ baseURL: __API_URL__ })
 
 export default api

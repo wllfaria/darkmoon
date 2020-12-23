@@ -7,6 +7,7 @@ export const SHeader = styled.header`
 	height: 5rem;
 	align-items: center;
 	padding: 0 ${props => props.theme.paddings[3]};
+	background: ${props => props.theme.colors.background.accent};
 `
 
 export const LogoWrapper = styled.div`
@@ -49,7 +50,7 @@ export const SlideMenu = styled(motion.div)`
 	z-index: 5;
 	padding: ${props => props.theme.paddings[1]};
 
-	@media (min-width: ${props => props.theme.breakpoints.md}) {
+	@media (min-width: ${props => props.theme.breakpoints.sm}) {
 		padding: ${props => props.theme.paddings[2]};
 		width: 50vw;
 	}

@@ -2,9 +2,9 @@ name: Lint
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 jobs:
   lint:
@@ -27,6 +27,3 @@ jobs:
 
     - name: Check Eslint
       run: yarn lint
-
-    - name: Check Prettier
-      run: yarn format:fix

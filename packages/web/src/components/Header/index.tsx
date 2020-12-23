@@ -18,7 +18,7 @@ const Header: React.FC = () => {
 
 	useEffect(() => {
 		addSubscriber(routeChangeObserver)
-	}, [])
+	}, [routeChangeObserver])
 
 	return (
 		<SHeader>
