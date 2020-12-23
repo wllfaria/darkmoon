@@ -45,10 +45,34 @@ export default createGlobalStyle`
 		min-height: 100vh;
 	}
 
+	h1 {
+		font-size: ${props => props.theme.fontSizes[1]};
+	}
+
+	h2 {
+		font-size: ${props => props.theme.fontSizes[2]};
+	}
+
+	h3 {
+		font-size: ${props => props.theme.fontSizes[3]};
+	}
+
+	h4 {
+		font-size: ${props => props.theme.fontSizes[4]};
+	}
+
+	h5 {
+		font-size: ${props => props.theme.fontSizes[5]};
+	}
+
+	h6 {
+		font-size: ${props => props.theme.fontSizes[6]};
+	}
+
 	body,
 	textarea,
 	input {
-		font-family: 'Regular';
+		font-family: 'Red Hat Text';
 		line-height: 1.7555555555555556;
 		-moz-osx-font-smoothing: grayscale;
 		-webkit-font-smoothing: antialiased;
