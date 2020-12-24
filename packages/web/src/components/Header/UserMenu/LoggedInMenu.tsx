@@ -6,15 +6,8 @@ import { AuthContext } from '../../../states/authState'
 import Button from '../../Button'
 import CircularMonogram from '../../CircularMonogram'
 import { BackIcon, BackIconWrapper } from '../styles'
-import {
-	LinkWrapper,
-	MenuLink,
-	MenuUserContent,
-	MenuUserGreeting,
-	MenuUserImage,
-	MenuUserInfo,
-	MenuUserName
-} from './styles'
+import { MenuUserContent, MenuUserGreeting, MenuUserInfo, MenuUserName } from './styles'
+import { LinkWrapper, MenuLink, MenuUserImage } from '../../../styles/GlobalComponents'
 
 interface LoggedInMenuProps {
 	closeMenu: () => void
@@ -40,11 +33,17 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ closeMenu }) => {
 				</Button>
 			</BackIconWrapper>
 			<div>
-				{user.name && (
+				{user?.name && (
 					<MenuUserInfo>
 						<div>
-							{user.image && <MenuUserImage src={user.image} alt={user.name} title={user.name} />}
-							{!user.image && <CircularMonogram fullString={user.name} />}
+							{user?.image && (
+								<MenuUserImage
+									src={user.image}
+									alt={user.name || t('Profile picture')}
+									title={user.name || t('Profile picture')}
+								/>
+							)}
+							{!user?.image && <CircularMonogram fullString={user.name} />}
 						</div>
 						<MenuUserContent>
 							<MenuUserGreeting>{t(getRandomGreeting())},</MenuUserGreeting>
@@ -55,33 +54,41 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ closeMenu }) => {
 				<LinkWrapper>
 					<MenuLink>
 						<Link href={`/${i18n.language}/profile`}>
-							<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'user']} />
+							<div>
+								<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'user']} />
+							</div>
 						</Link>
-						<Link href={`/${i18n.language}/profile`}>Profile</Link>
+						<Link href={`/${i18n.language}/profile`}>{t('Profile')}</Link>
 					</MenuLink>
 				</LinkWrapper>
 				<LinkWrapper>
 					<MenuLink>
-						<Link href={`/${i18n.language}/profile`}>
-							<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'receipt']} />
+						<Link href={`/${i18n.language}/profile/orders`}>
+							<div>
+								<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'receipt']} />
+							</div>
 						</Link>
-						<Link href={`/${i18n.language}/profile/orders`}>My orders</Link>
+						<Link href={`/${i18n.language}/profile/orders`}>{t('My orders')}</Link>
 					</MenuLink>
 				</LinkWrapper>
 				<LinkWrapper>
 					<MenuLink>
-						<Link href={`/${i18n.language}/profile`}>
-							<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'heart']} />
+						<Link href={`/${i18n.language}/profile/wishlist`}>
+							<div>
+								<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'heart']} />
+							</div>
 						</Link>
-						<Link href={`/${i18n.language}/profile/wishlist`}>Wishlist</Link>
+						<Link href={`/${i18n.language}/profile/wishlist`}>{t('Wishlist')}</Link>
 					</MenuLink>
 				</LinkWrapper>
 				<LinkWrapper>
 					<MenuLink>
-						<Link href={`/${i18n.language}/profile`}>
-							<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'map-marker']} />
+						<Link href={`/${i18n.language}/profile/addresses`}>
+							<div>
+								<FontAwesomeIcon onClick={closeMenu} icon={['fas', 'map-marker']} />
+							</div>
 						</Link>
-						<Link href={`/${i18n.language}/profile/addresses`}>Addresses</Link>
+						<Link href={`/${i18n.language}/profile/addresses`}>{t('Addresses')}</Link>
 					</MenuLink>
 				</LinkWrapper>
 			</div>

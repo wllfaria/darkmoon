@@ -12,7 +12,7 @@ type ButtonTextColors = 'default' | 'light' | 'dark'
 
 type TButtonTypes = 'button' | 'submit' | 'reset'
 
-interface ButtonProps {
+export interface ButtonProps {
 	variant?: ButtonVariants
 	color?: ButtonColors
 	disabled?: boolean
