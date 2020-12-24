@@ -5,7 +5,7 @@ import React from 'react'
 import { useTranslation } from '../../../../i18n'
 import Button from '../../Button'
 import { BackIcon, BackIconWrapper } from '../styles'
-import { LinkWrapper } from './styles'
+import { LinkWrapper } from '../../../styles/GlobalComponents'
 
 interface LoggedOutMenuProps {
 	closeMenu: () => void

@@ -33,3 +33,14 @@ export const RegisterSchema = yup
 	.noUnknown()
 
 export type RegisterPayload = yup.InferType<typeof RegisterSchema>
+
+export const ChangePasswordSchema = yup.object().shape({
+	oldPassword: yup.string().min(8).max(1000).required(),
+	newPassword: yup.string().min(8).max(1000).required(),
+	confirmation: yup
+		.string()
+		.oneOf([yup.ref('newPassword'), null], 'passwords must match')
+		.required()
+})
+
+export type ChangePasswordPayload = yup.InferType<typeof ChangePasswordSchema>

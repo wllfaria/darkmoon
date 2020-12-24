@@ -45,6 +45,18 @@ export default createGlobalStyle`
 		min-height: 100vh;
 	}
 
+	p {
+		font-size: ${props => props.theme.fontSizes[0]};
+
+		@media (min-width: ${props => props.theme.breakpoints.md}) {
+			font-size: ${props => props.theme.fontSizes[6]};
+		}
+
+		@media (min-width: ${props => props.theme.breakpoints.lg}) {
+			font-size: ${props => props.theme.fontSizes[5]};
+		}
+	}
+
 	h1 {
 		font-size: ${props => props.theme.fontSizes[1]};
 	}

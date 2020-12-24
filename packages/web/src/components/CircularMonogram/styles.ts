@@ -15,5 +15,13 @@ export const SCircularMonogram = styled.div`
 		font-size: ${props => props.theme.fontSizes[4]};
 		width: 6rem;
 		height: 6rem;
+		border-radius: ${props => props.theme.borderRadius[6]};
+	}
+
+	@media (min-width: ${props => props.theme.breakpoints.lg}) {
+		font-size: ${props => props.theme.fontSizes[3]};
+		width: 10rem;
+		height: 10rem;
+		border-radius: ${props => props.theme.borderRadius[10]};
 	}
 `
