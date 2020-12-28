@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 import { SButton } from './styles'
@@ -13,25 +14,27 @@ type ButtonTextColors = 'default' | 'light' | 'dark'
 type TButtonTypes = 'button' | 'submit' | 'reset'
 
 export interface ButtonProps {
+	textColor?: ButtonTextColors
 	variant?: ButtonVariants
 	color?: ButtonColors
+	onClick?: () => void
+	fullWidth?: boolean
 	disabled?: boolean
 	size?: ButtonSizes
-	textColor?: ButtonTextColors
-	fullWidth?: boolean
 	type: TButtonTypes
-	onClick?: () => void
+	loading?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
-	variant = 'default',
-	size = 'medium',
-	color = 'default',
 	textColor = 'default',
+	variant = 'default',
+	color = 'default',
 	fullWidth = false,
+	size = 'medium',
 	type = 'button',
+	children,
 	onClick,
-	children
+	loading
 }) => {
 	return (
 		<SButton
@@ -40,7 +43,8 @@ const Button: React.FC<ButtonProps> = ({
 			isFullWidth={fullWidth}
 			className={`${variant} ${size} ${color} ${textColor}`}
 		>
-			{children}
+			{!loading && children}
+			{loading && <FontAwesomeIcon icon={['fas', 'spinner']} spin />}
 		</SButton>
 	)
 }

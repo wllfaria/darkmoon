@@ -44,3 +44,10 @@ export const ChangePasswordSchema = yup.object().shape({
 })
 
 export type ChangePasswordPayload = yup.InferType<typeof ChangePasswordSchema>
+
+export const UpdateUserInformationSchema = yup.object().shape({
+	username: yup.string().min(1).max(150),
+	cpf: yup.string().length(11)
+})
+
+export type UpdateUserInformationPayload = yup.InferType<typeof UpdateUserInformationSchema>

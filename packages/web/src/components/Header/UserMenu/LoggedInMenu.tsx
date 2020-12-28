@@ -14,13 +14,18 @@ interface LoggedInMenuProps {
 }
 
 const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ closeMenu }) => {
-	const { user } = useContext(AuthContext)
+	const { user, logout } = useContext(AuthContext)
 	const { t, i18n } = useTranslation()
 
 	const getRandomGreeting = () => {
 		const greetings = ['Welcome back', 'Hello', 'Howdy', 'Nice to see you again']
 		const randomGreetingIndex = Math.floor(Math.random() * greetings.length)
 		return greetings[randomGreetingIndex]
+	}
+
+	const handleLogout = () => {
+		logout()
+		closeMenu()
 	}
 
 	return (
@@ -33,21 +38,21 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ closeMenu }) => {
 				</Button>
 			</BackIconWrapper>
 			<div>
-				{user?.name && (
+				{user?.username && (
 					<MenuUserInfo>
 						<div>
 							{user?.image && (
 								<MenuUserImage
 									src={user.image}
-									alt={user.name || t('Profile picture')}
-									title={user.name || t('Profile picture')}
+									alt={user.username || t('Profile picture')}
+									title={user.username || t('Profile picture')}
 								/>
 							)}
-							{!user?.image && <CircularMonogram fullString={user.name} />}
+							{!user?.image && <CircularMonogram fullString={user.username} />}
 						</div>
 						<MenuUserContent>
 							<MenuUserGreeting>{t(getRandomGreeting())},</MenuUserGreeting>
-							<MenuUserName>{user.name}</MenuUserName>
+							<MenuUserName>{user.username}</MenuUserName>
 						</MenuUserContent>
 					</MenuUserInfo>
 				)}
@@ -89,6 +94,14 @@ const LoggedInMenu: React.FC<LoggedInMenuProps> = ({ closeMenu }) => {
 							</div>
 						</Link>
 						<Link href={`/${i18n.language}/profile/addresses`}>{t('Addresses')}</Link>
+					</MenuLink>
+				</LinkWrapper>
+				<LinkWrapper>
+					<MenuLink>
+						<div onClick={handleLogout}>
+							<FontAwesomeIcon onClick={handleLogout} icon={['fas', 'sign-out-alt']} />
+						</div>
+						<div onClick={handleLogout}>{t('Sign out')}</div>
 					</MenuLink>
 				</LinkWrapper>
 			</div>

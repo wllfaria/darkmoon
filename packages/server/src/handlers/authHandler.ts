@@ -12,3 +12,7 @@ export const authenticate: APIGatewayProxyHandler = async (event, context) => {
 export const register: APIGatewayProxyHandler = async (event, context) => {
 	return authController.register(event, context)
 }
+
+export const changePassword: APIGatewayProxyHandler = async (event, context) => {
+	return authController.changePassword(event, context)
+}

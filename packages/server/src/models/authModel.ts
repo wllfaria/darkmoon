@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk'
 import { encodePayload } from '../utils/authUtils'
-import { AuthPayload, LoginPayload, RegisterPayload } from '../typings/Auth'
+import { AuthPayload, ChangePasswordPayload, LoginPayload, RegisterPayload } from '../typings/Auth'
 import { uuidv4 } from '../utils/lambdaUtils'
 import { User } from '../typings/User'
 import Argon from '../services/argon'
@@ -49,6 +49,33 @@ class AuthModel {
 	public async getUserByEmail(email: string): Promise<User> {
 		const { Item } = await this.dynamoInstance.get({ TableName: this.usersTable, Key: { email } }).promise()
 		return Item as User
+	}
+
+	public async changePassword(changePasswordPayload: ChangePasswordPayload) {
+		const user = await this.getUserByEmail(changePasswordPayload.email)
+		if (!user) throw new Error('No user registered with provided email')
+
+		const isSame = await new Argon().verify(user.password, changePasswordPayload.oldPassword)
+		if (!isSame) throw new Error('Invalid password')
+
+		const hashedPassword = await new Argon().hash(changePasswordPayload.newPassword)
+
+		await this.dynamoInstance
+			.update({
+				TableName: this.usersTable,
+				Key: {
+					email: user.email
+				},
+				UpdateExpression: 'set password = :password',
+				ExpressionAttributeValues: {
+					':password': hashedPassword
+				},
+				ReturnValues: 'UPDATED_NEW'
+			})
+			.promise()
+
+		delete user.password
+		return user
 	}
 }
 

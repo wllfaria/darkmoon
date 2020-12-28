@@ -2,10 +2,10 @@ import styled from 'styled-components'
 import { Form } from '@unform/web'
 
 export const Container = styled.main`
-	padding: 0 1rem;
+	padding: 0 1rem 1rem 1rem;
 
 	@media (min-width: ${props => props.theme.breakpoints.md}) {
-		padding: 0 3rem;
+		padding: 0 3rem 3rem 3rem;
 	}
 
 	@media (min-width: ${props => props.theme.breakpoints.xl}) {
@@ -70,11 +70,13 @@ export const MenuLink = styled.div<MenuLinkProps>`
 		min-width: 2rem;
 	}
 
-	a {
+	a,
+	div {
 		margin-left: ${props => props.theme.margins[1]};
 		text-decoration: none;
 		color: ${props => (props.active ? props.theme.colors.primary[500] : props.theme.colors.text[100])};
 		font-weight: ${props => (props.active ? 'bold' : 'normal')};
+		cursor: pointer;
 	}
 `
 

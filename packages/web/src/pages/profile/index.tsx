@@ -1,31 +1,23 @@
 import { NextPage } from 'next'
-import Link from 'next/link'
 import React from 'react'
-import { useTranslation } from '../../../i18n'
+import withPrivateRoute from '../../components/PrivateRoute'
+import ProfileUserAddress from '../../components/ProfileUserAddress'
 import ProfileLayout from '../../components/ProfileLayout'
 import ProfileUserInformation from '../../components/ProfileUserInformation'
-import TitleWithButton from '../../components/TitleWithButton'
-import { ProfileSectionWrapper } from '../../styles/GlobalComponents'
+import { useTranslation } from '../../../i18n'
 
 interface ProfilePageProps {
 	namespacesRequired: string[]
 }
 
-const ProfilePage: NextPage = () => {
-	const { t, i18n } = useTranslation()
+const ProfilePage: NextPage<ProfilePageProps> = () => {
+	const { t } = useTranslation()
 
 	return (
 		<ProfileLayout>
 			<div>
 				<ProfileUserInformation />
-				<ProfileSectionWrapper>
-					<TitleWithButton
-						title={t('Addresses')}
-						buttonStyling={{ type: 'button', variant: 'outlined', size: 'small' }}
-					>
-						<Link href={`/${i18n.language}/profile/addresses/edit`}>{t('Edit')}</Link>
-					</TitleWithButton>
-				</ProfileSectionWrapper>
+				<ProfileUserAddress pageLink="profile/addresses" buttonText={t('Edit')} />
 			</div>
 		</ProfileLayout>
 	)
@@ -35,4 +27,4 @@ ProfilePage.getInitialProps = async (): Promise<ProfilePageProps> => ({
 	namespacesRequired: ['common']
 })
 
-export default ProfilePage
+export default withPrivateRoute(ProfilePage)
