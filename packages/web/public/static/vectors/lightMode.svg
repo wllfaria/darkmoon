@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="228" height="120" viewBox="0 0 228 120">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="37" height="7" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_2" data-name="Grupo 2" transform="translate(-7306 600)">
+    <rect id="Retângulo_28" data-name="Retângulo 28" width="228" height="120" transform="translate(7306 -600)" fill="#f6f6f7"/>
+    <rect id="Retângulo_29" data-name="Retângulo 29" width="228" height="15" transform="translate(7306 -600)" fill="#fff"/>
+    <rect id="Retângulo_30" data-name="Retângulo 30" width="35" height="7" rx="3.5" transform="translate(7316 -596)" fill="#e6e6e6"/>
+    <rect id="Retângulo_31" data-name="Retângulo 31" width="7" height="7" rx="3.5" transform="translate(7517 -596)" fill="#e6e6e6"/>
+    <rect id="Retângulo_32" data-name="Retângulo 32" width="7" height="7" rx="3.5" transform="translate(7505 -596)" fill="#e6e6e6"/>
+    <rect id="Retângulo_33" data-name="Retângulo 33" width="62.667" height="20" rx="7" transform="translate(7461 -574)" fill="#e6e6e6"/>
+    <rect id="Retângulo_34" data-name="Retângulo 34" width="62.667" height="13" rx="6.5" transform="translate(7316 -574)" fill="#e6e6e6"/>
+    <rect id="Retângulo_35" data-name="Retângulo 35" width="31.667" height="13" rx="6.5" transform="translate(7316 -503)" fill="#e6e6e6"/>
+    <rect id="Retângulo_36" data-name="Retângulo 36" width="62.667" height="84" rx="7" transform="translate(7389 -574)" fill="#e6e6e6"/>
+    <rect id="Retângulo_37" data-name="Retângulo 37" width="62.667" height="7" rx="3.5" transform="translate(7461 -531)" fill="#e6e6e6"/>
+    <rect id="Retângulo_38" data-name="Retângulo 38" width="62.667" height="7" rx="3.5" transform="translate(7461 -519)" fill="#e6e6e6"/>
+    <g id="Repetição_de_grade_1" data-name="Repetição de grade 1" transform="translate(7461 -546)" clip-path="url(#clip-path)">
+      <g transform="translate(-7461 544)">
+        <rect id="Retângulo_50" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#e6e6e6"/>
+      </g>
+      <g transform="translate(-7451 544)">
+        <rect id="Retângulo_50-2" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#e6e6e6"/>
+      </g>
+      <g transform="translate(-7441 544)">
+        <rect id="Retângulo_50-3" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#e6e6e6"/>
+      </g>
+      <g transform="translate(-7431 544)">
+        <rect id="Retângulo_50-4" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#e6e6e6"/>
+      </g>
+    </g>
+  </g>
+</svg>

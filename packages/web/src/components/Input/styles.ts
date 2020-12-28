@@ -39,14 +39,27 @@ export const AppInput = styled.input<IStyleInputProps>`
 		padding: ${props => props.theme.paddings[0]} ${props => props.theme.paddings[2]};
 	}
 
-	&:hover {
+	&:not(:read-only):hover,
+	&:not(:disabled):hover {
 		border-color: ${props => props.theme.colors.primary[700]};
 	}
 
-	&:focus {
+	&:not(:read-only):focus {
 		outline: none;
 		background: ${props => props.theme.colors.background[100]};
 		border-color: ${props => props.theme.colors.primary[500]};
+	}
+
+	&:read-only:focus {
+		outline: unset;
+	}
+
+	&:read-only:hover {
+		cursor: not-allowed;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
 	}
 `
 
@@ -54,4 +67,10 @@ export const InvalidFeedback = styled.span`
 	color: ${props => props.theme.colors.danger[300]};
 	font-size: ${props => props.theme.fontSizes[5]};
 	line-height: 1;
+`
+
+export const LabelDescription = styled.p`
+	font-size: ${props => props.theme.fontSizes[7]};
+	font-weight: bold;
+	color: ${props => props.theme.colors.primary[700]};
 `

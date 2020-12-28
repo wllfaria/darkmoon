@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from '../../../i18n'
+import { AuthContext } from '../../states/authState'
 import { Container, LinkWrapper, MenuLink } from '../../styles/GlobalComponents'
 import { SProfileLayout } from './styles'
 
 const ProfileLayout: React.FC = ({ children }) => {
 	const [currentRoute, setCurrentRoute] = useState('')
+	const { logout } = useContext(AuthContext)
 	const { t, i18n } = useTranslation()
 	const router = useRouter()
 
@@ -45,6 +47,16 @@ const ProfileLayout: React.FC = ({ children }) => {
 						</MenuLink>
 					</LinkWrapper>
 					<LinkWrapper>
+						<MenuLink active={isActive('/profile/appearance')}>
+							<Link href={`/${i18n.language}/profile/appearance`}>
+								<div>
+									<FontAwesomeIcon icon={['fas', 'paint-brush']} />
+								</div>
+							</Link>
+							<Link href={`/${i18n.language}/profile/appearance`}>{t('Appearance')}</Link>
+						</MenuLink>
+					</LinkWrapper>
+					<LinkWrapper>
 						<MenuLink active={isActive('/profile/orders')}>
 							<Link href={`/${i18n.language}/profile/orders`}>
 								<div>
@@ -72,6 +84,14 @@ const ProfileLayout: React.FC = ({ children }) => {
 								</div>
 							</Link>
 							<Link href={`/${i18n.language}/profile/addresses`}>{t('Addresses')}</Link>
+						</MenuLink>
+					</LinkWrapper>
+					<LinkWrapper>
+						<MenuLink>
+							<div onClick={logout}>
+								<FontAwesomeIcon onClick={logout} icon={['fas', 'sign-out-alt']} />
+							</div>
+							<div onClick={logout}>{t('Sign out')}</div>
 						</MenuLink>
 					</LinkWrapper>
 				</div>

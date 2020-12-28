@@ -6,7 +6,25 @@ import {
 	faReceipt,
 	faHeart,
 	faMapMarker,
-	faBars
+	faBars,
+	faSpinner,
+	faStar,
+	faBookmark,
+	faSignOutAlt,
+	faPaintBrush
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUser, faShoppingCart, faArrowLeft, faReceipt, faHeart, faMapMarker, faBars)
+library.add(
+	faUser,
+	faShoppingCart,
+	faArrowLeft,
+	faReceipt,
+	faHeart,
+	faMapMarker,
+	faBars,
+	faSpinner,
+	faStar,
+	faBookmark,
+	faSignOutAlt,
+	faPaintBrush
+)

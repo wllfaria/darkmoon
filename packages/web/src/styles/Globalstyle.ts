@@ -95,4 +95,8 @@ export default createGlobalStyle`
 			line-height: 2;
 		}
 	}
+
+	fieldset {
+		border: none;
+	}
 `

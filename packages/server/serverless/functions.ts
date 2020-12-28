@@ -25,6 +25,30 @@ const functions: Aws.Functions = {
 		handler: 'src/handlers/authHandler.register',
 		events: [{ http: { method: HttpMethods.POST, path: 'users/register' } }]
 	},
+	changePassword: {
+		handler: 'src/handlers/authHandler.changePassword',
+		events: [{ http: { method: HttpMethods.PATCH, path: 'users/password' } }]
+	},
+	updateInformation: {
+		handler: 'src/handlers/userHandler.updateInformation',
+		events: [{ http: { method: HttpMethods.PATCH, path: 'users/info' } }]
+	},
+	updateThemePreference: {
+		handler: 'src/handlers/userHandler.updateThemePreference',
+		events: [{ http: { method: HttpMethods.PATCH, path: 'users/preference' } }]
+	},
+	createAddress: {
+		handler: 'src/handlers/userHandler.createAddress',
+		events: [{ http: { method: HttpMethods.PATCH, path: 'users/address/create' } }]
+	},
+	updateAddresses: {
+		handler: 'src/handlers/userHandler.updateAddresses',
+		events: [{ http: { method: HttpMethods.PATCH, path: 'users/address' } }]
+	},
+	deleteAddress: {
+		handler: 'src/handlers/userHandler.deleteAddress',
+		events: [{ http: { method: HttpMethods.PATCH, path: 'users/address/{addressName}' } }]
+	},
 	createProduct: {
 		handler: 'src/handlers/productHandler.create',
 		events: [{ http: { method: HttpMethods.POST, path: 'products' } }]

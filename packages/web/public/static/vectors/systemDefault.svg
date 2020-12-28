@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="228" height="120" viewBox="0 0 228 120">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="37" height="7" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_4" data-name="Grupo 4" transform="translate(-7780 600)">
+    <rect id="Retângulo_62" data-name="Retângulo 62" width="114" height="120" transform="translate(7894 -600)" fill="#0e0e0e"/>
+    <rect id="Retângulo_63" data-name="Retângulo 63" width="114" height="15" transform="translate(7894 -600)" fill="#242424"/>
+    <rect id="Retângulo_65" data-name="Retângulo 65" width="7" height="7" rx="3.5" transform="translate(7991 -596)" fill="#e6e6e6"/>
+    <rect id="Retângulo_66" data-name="Retângulo 66" width="7" height="7" rx="3.5" transform="translate(7979 -596)" fill="#e6e6e6"/>
+    <rect id="Retângulo_67" data-name="Retângulo 67" width="62.667" height="20" rx="7" transform="translate(7935 -574)" fill="#5e5e5e"/>
+    <path id="Retângulo_70" data-name="Retângulo 70" d="M0,0H24.667a7,7,0,0,1,7,7V77a7,7,0,0,1-7,7H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(7894 -574)" fill="#5e5e5e"/>
+    <rect id="Retângulo_71" data-name="Retângulo 71" width="62.667" height="7" rx="3.5" transform="translate(7935 -531)" fill="#5e5e5e"/>
+    <rect id="Retângulo_72" data-name="Retângulo 72" width="62.667" height="7" rx="3.5" transform="translate(7935 -519)" fill="#5e5e5e"/>
+    <g id="Repetição_de_grade_3" data-name="Repetição de grade 3" transform="translate(7935 -546)" clip-path="url(#clip-path)">
+      <g transform="translate(-7461 544)">
+        <rect id="Retângulo_50" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#5e5e5e"/>
+      </g>
+      <g transform="translate(-7451 544)">
+        <rect id="Retângulo_50-2" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#5e5e5e"/>
+      </g>
+      <g transform="translate(-7441 544)">
+        <rect id="Retângulo_50-3" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#5e5e5e"/>
+      </g>
+      <g transform="translate(-7431 544)">
+        <rect id="Retângulo_50-4" data-name="Retângulo 50" width="7" height="7" rx="3.5" transform="translate(7461 -544)" fill="#5e5e5e"/>
+      </g>
+    </g>
+    <rect id="Retângulo_73" data-name="Retângulo 73" width="114" height="120" transform="translate(7780 -600)" fill="#f6f6f7"/>
+    <rect id="Retângulo_74" data-name="Retângulo 74" width="114" height="15" transform="translate(7780 -600)" fill="#fff"/>
+    <rect id="Retângulo_75" data-name="Retângulo 75" width="35" height="7" rx="3.5" transform="translate(7790 -596)" fill="#e6e6e6"/>
+    <rect id="Retângulo_79" data-name="Retângulo 79" width="62.667" height="13" rx="6.5" transform="translate(7790 -574)" fill="#e6e6e6"/>
+    <rect id="Retângulo_80" data-name="Retângulo 80" width="31.667" height="13" rx="6.5" transform="translate(7790 -503)" fill="#e6e6e6"/>
+    <path id="Retângulo_81" data-name="Retângulo 81" d="M7,0H30a0,0,0,0,1,0,0V84a0,0,0,0,1,0,0H7a7,7,0,0,1-7-7V7A7,7,0,0,1,7,0Z" transform="translate(7864 -574)" fill="#e6e6e6"/>
+  </g>
+</svg>

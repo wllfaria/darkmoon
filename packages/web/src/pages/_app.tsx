@@ -11,14 +11,14 @@ import RouterState from '../states/routerState'
 
 const MyApp = ({ Component, pageProps, router }: AppProps) => {
 	return (
-		<AppThemeState>
-			<RouterState>
-				<AuthState>
-					<Header />
+		<RouterState>
+			<AuthState>
+				<AppThemeState>
+					{/* <Header /> */}
 					<Component {...pageProps} key={router.route} />
-				</AuthState>
-			</RouterState>
-		</AppThemeState>
+				</AppThemeState>
+			</AuthState>
+		</RouterState>
 	)
 }
 

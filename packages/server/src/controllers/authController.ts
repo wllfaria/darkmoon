@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
 import authModel from '../models/authModel'
-import { LoginSchema, RegisterSchema } from '../typings/Auth'
+import { LoginSchema, RegisterSchema, ChangePasswordSchema } from '../typings/Auth'
 import mapYupErrors from '../utils/yupUtils'
-import { checkToken, extractTokenFromHeaders } from '../utils/authUtils'
+import { checkToken, extractTokenFromHeaders, PrivateLambda } from '../utils/authUtils'
 import { parseBody } from '../utils/lambdaUtils'
 import { BadRequest, Created, InternalServerError, OK } from '../utils/lambdaWrapper'
 import { ValidationError } from 'yup'
@@ -45,6 +45,21 @@ class AuthController {
 
 			const payload = await authModel.register(shapedBody)
 			return Created(payload)
+		} catch (err) {
+			if (err instanceof ValidationError) return BadRequest(mapYupErrors(err.inner))
+			return InternalServerError({ message: err.message })
+		}
+	}
+
+	@PrivateLambda()
+	public async changePassword(event: APIGatewayProxyEvent, _context: Context) {
+		try {
+			const body = parseBody(event.body)
+			await ChangePasswordSchema.validate(body, { abortEarly: false })
+			const shapedBody = ChangePasswordSchema.cast(body)
+
+			const payload = await authModel.changePassword(shapedBody)
+			return OK(payload)
 		} catch (err) {
 			if (err instanceof ValidationError) return BadRequest(mapYupErrors(err.inner))
 			return InternalServerError({ message: err.message })

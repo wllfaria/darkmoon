@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import { useTranslation } from '../../../../i18n'
 import Button from '../../../components/Button'
+import withPrivateRoute from '../../../components/PrivateRoute'
 import ProfileLayout from '../../../components/ProfileLayout'
 import ProfileUserInformation from '../../../components/ProfileUserInformation'
 
@@ -27,4 +28,4 @@ InfoPage.getInitialProps = async (): Promise<InfoPageProps> => ({
 	namespacesRequired: ['common']
 })
 
-export default InfoPage
+export default withPrivateRoute(InfoPage)
