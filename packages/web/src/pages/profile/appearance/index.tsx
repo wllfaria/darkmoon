@@ -16,7 +16,7 @@ import {
 	AppearanceInputWrapper,
 	AppearanceName,
 	AppearanceOptionsList
-} from '../../../styles/pages/appearanceStyles'
+} from '../../../styles/pages/profile/appearance/index.styles'
 
 interface AppearancePageProps {
 	namespacesRequired: string[]
@@ -26,6 +26,7 @@ const AppearancePage: NextPage<AppearancePageProps> = () => {
 	const { config, updateUserPreference, switchToDarkMode, switchToLightMode, switchToSystemDefault } = useContext(
 		AppThemeContext
 	)
+	const [requestSuccess, setRequestSuccess] = useState('')
 	const [requestError, setRequestError] = useState('')
 	const inputRefs = useRef<HTMLInputElement[]>([])
 	const [loading, setLoading] = useState(false)
@@ -36,6 +37,7 @@ const AppearancePage: NextPage<AppearancePageProps> = () => {
 		try {
 			setLoading(true)
 			updateUserPreference(data.theme[0])
+			setRequestSuccess('Appearance configuration saved succesfully.')
 		} catch (err) {
 			setRequestError('An error ocurred while processing your request, please try again.')
 		} finally {
@@ -50,6 +52,7 @@ const AppearancePage: NextPage<AppearancePageProps> = () => {
 	return (
 		<ProfileLayout>
 			{requestError && <Alert message={requestError} variant="danger" />}
+			{requestSuccess && <Alert message={requestSuccess} variant="success" />}
 			<ProfileSectionWrapper>
 				<h3>{t('Appearance')}</h3>
 			</ProfileSectionWrapper>

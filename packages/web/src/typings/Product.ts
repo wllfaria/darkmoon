@@ -7,6 +7,9 @@ export type Product = {
 	description: string
 	price: number
 	images: ProductImage[]
+	availableSizes: string[]
+	category: string
+	gender: 'Male' | 'Female' | 'Unisex'
 }
 
 export const productCreateSchema = yup.object().shape({

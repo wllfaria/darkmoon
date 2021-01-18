@@ -9,10 +9,13 @@ export const SAlert = styled.div`
 	font-size: ${props => props.theme.fontSizes[5]};
 	margin-bottom: ${props => props.theme.margins[2]};
 	font-weight: bold;
+	color: ${props => props.theme.colors.text.black};
+
 	&.success {
 		border-color: ${props => props.theme.colors.success[300]};
 		background: ${props => props.theme.colors.success[500]};
 	}
+
 	&.danger {
 		border-color: ${props => props.theme.colors.danger[300]};
 		background: ${props => props.theme.colors.danger[500]};

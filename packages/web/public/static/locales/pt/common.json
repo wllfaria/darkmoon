@@ -38,6 +38,11 @@
 	"Default to system": "Padrão do sistema",
 	"Light mode": "Modo claro",
 	"Dark mode": "Modo escuro",
+	"Add to cart": "+ carrinho",
+	"Cart": "Carrinho",
+	"Buy now": "Comprar agora",
+	"Quantity:": "Quantidade",
+	"Price": "Preço",
 	"An error ocurred while processing your request, please try again.": "Ocorreu um erro ao processar sua solicitação, por favor tente novamente.",
 	"Invalid password, please make sure you typed your old password correctly.": "Senha inválida, por favor verifique se digitou sua senha antiga corretamente.",
 	"50% off sitewide - drop sale": "50% off em todo o site PROMOÇÃO DE LANÇAMENTO"
