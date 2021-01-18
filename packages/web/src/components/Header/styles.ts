@@ -46,9 +46,11 @@ export const SlideMenu = styled(motion.div)`
 	position: fixed;
 	right: 0;
 	top: 0;
-	background: ${props => props.theme.colors.background.accent};
+	background: ${props => props.theme.colors.background[100]};
 	z-index: 5;
 	padding: ${props => props.theme.paddings[1]};
+	max-height: 100vh;
+	overflow-y: scroll;
 
 	@media (min-width: ${props => props.theme.breakpoints.sm}) {
 		padding: ${props => props.theme.paddings[2]};

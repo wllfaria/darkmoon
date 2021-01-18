@@ -22,7 +22,8 @@ const darkTheme: DefaultTheme = {
 			300: '#8E8E9A',
 			400: '#5D5D68',
 			500: '#2E2E34',
-			white: '#FFFFFF'
+			white: '#FFFFFF',
+			black: '#242424'
 		},
 		danger: {
 			...FixedStyles.colors.danger

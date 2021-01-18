@@ -2,10 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useTranslation } from '../../../../i18n'
-import Button from '../../Button'
-import { BackIcon, BackIconWrapper } from '../styles'
-import { LinkWrapper } from '../../../styles/GlobalComponents'
+import { useTranslation } from '../../../i18n'
+import Button from '../Button'
+import { BackIcon, BackIconWrapper } from '../Header/styles'
+import { LinkWrapper } from '../../styles/GlobalComponents'
 
 interface LoggedOutMenuProps {
 	closeMenu: () => void

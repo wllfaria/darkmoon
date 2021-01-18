@@ -49,17 +49,9 @@ const functions: Aws.Functions = {
 		handler: 'src/handlers/userHandler.deleteAddress',
 		events: [{ http: { method: HttpMethods.PATCH, path: 'users/address/{addressName}' } }]
 	},
-	createProduct: {
-		handler: 'src/handlers/productHandler.create',
-		events: [{ http: { method: HttpMethods.POST, path: 'products' } }]
-	},
 	getProduct: {
-		handler: 'src/handlers/productHandler.getOne',
-		events: [{ http: { method: HttpMethods.GET, path: 'products/{productId}' } }]
-	},
-	deleteProduct: {
-		handler: 'src/handlers/productHandler.deleteOne',
-		events: [{ http: { method: HttpMethods.DELETE, path: 'products/{productId}' } }]
+		handler: 'src/handlers/productHandler.getByName',
+		events: [{ http: { method: HttpMethods.GET, path: 'products/{name}' } }]
 	}
 }
 

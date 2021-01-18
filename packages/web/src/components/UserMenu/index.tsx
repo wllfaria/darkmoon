@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { MenuOverlay, SlideMenu } from '../styles'
+import { MenuOverlay, SlideMenu } from '../Header/styles'
 import LoggedOutMenu from './LoggedOutMenu'
-import { AuthContext } from '../../../states/authState'
+import { AuthContext } from '../../states/authState'
 import LoggedInMenu from './LoggedInMenu'
 
 interface UserMenuProps {

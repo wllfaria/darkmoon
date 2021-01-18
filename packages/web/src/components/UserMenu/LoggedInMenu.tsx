@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import React, { useContext } from 'react'
-import { useTranslation } from '../../../../i18n'
-import { AuthContext } from '../../../states/authState'
-import Button from '../../Button'
-import CircularMonogram from '../../CircularMonogram'
-import { BackIcon, BackIconWrapper } from '../styles'
+import { useTranslation } from '../../../i18n'
+import { AuthContext } from '../../states/authState'
+import Button from '../Button'
+import CircularMonogram from '../CircularMonogram'
+import { BackIcon, BackIconWrapper } from '../Header/styles'
 import { MenuUserContent, MenuUserGreeting, MenuUserInfo, MenuUserName } from './styles'
-import { LinkWrapper, MenuLink, MenuUserImage } from '../../../styles/GlobalComponents'
+import { LinkWrapper, MenuLink, MenuUserImage } from '../../styles/GlobalComponents'
 
 interface LoggedInMenuProps {
 	closeMenu: () => void

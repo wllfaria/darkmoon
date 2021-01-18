@@ -22,7 +22,8 @@ const lightTheme: DefaultTheme = {
 			300: '#6E6E6E',
 			400: '#9F9F9F',
 			500: '#CFCFCF',
-			white: '#FFFFFF'
+			white: '#FFFFFF',
+			black: '#242424'
 		},
 		danger: {
 			...FixedStyles.colors.danger
