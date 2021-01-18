@@ -11,7 +11,9 @@ import {
 	faStar,
 	faBookmark,
 	faSignOutAlt,
-	faPaintBrush
+	faPaintBrush,
+	faTimes,
+	faTrash
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -26,5 +28,7 @@ library.add(
 	faStar,
 	faBookmark,
 	faSignOutAlt,
-	faPaintBrush
+	faPaintBrush,
+	faTimes,
+	faTrash
 )

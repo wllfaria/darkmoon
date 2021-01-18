@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import React, { useState } from 'react'
+import { useTranslation } from '../../../i18n'
 import { Product } from '../../typings/Product'
-import Button from '../Button'
+import { createProductUrl, getUserCurrencySymbol } from '../../utils/productUtils'
 
 import { SProductCard } from './styles'
 
@@ -8,30 +10,21 @@ interface ProductCardProps {
 	product: Product
 }
 
-/**
- * TODO: After defining how the products are gonna be stored on the backend, We need to make it redirect the user to that product
- */
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 	const [previewImage, setPreviewImage] = useState(product.images[0])
-
-	const addProductToCart = (product: Product) => {
-		console.log(product)
-	}
+	const { i18n } = useTranslation()
 
 	return (
 		<SProductCard>
 			<div className="product-card__preview-image-container">
-				<div className="product-card__preview-image-container__add-to-cart" onClick={() => addProductToCart(product)}>
-					<Button type="button" variant="outlined" color="primary" textColor="light">
-						Add to cart
-					</Button>
-				</div>
-				<img
-					className="product-card__preview-image-container__preview-image"
-					src={previewImage.url}
-					alt={previewImage.alt}
-					title={previewImage.title}
-				/>
+				<Link href={createProductUrl(product, i18n.language)}>
+					<img
+						className="product-card__preview-image-container__preview-image"
+						src={previewImage.url}
+						alt={previewImage.alt}
+						title={previewImage.title}
+					/>
+				</Link>
 			</div>
 
 			<div className="product-card__image-knobs-container">
@@ -47,8 +40,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 			</div>
 
 			<div className="product-card__product-info">
-				<p className="product-card__product-info__product-name">{product.name}</p>
-				<p className="product-card__product-info__product-price">{product.price}</p>
+				<Link href={createProductUrl(product, i18n.language)}>
+					<p className="product-card__product-info__product-name">{product.name}</p>
+				</Link>
+				<Link href={createProductUrl(product, i18n.language)}>
+					<p className="product-card__product-info__product-price">
+						{getUserCurrencySymbol(i18n.language)} {product.price}
+					</p>
+				</Link>
 			</div>
 		</SProductCard>
 	)

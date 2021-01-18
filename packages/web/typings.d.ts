@@ -63,6 +63,7 @@ declare module 'styled-components' {
 				400: string
 				500: string
 				white: string
+				black: string
 			}
 
 			/**
